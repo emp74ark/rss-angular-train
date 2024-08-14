@@ -21,8 +21,6 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
-        with:
-          node-version: '20'
 
       - name: Build
         run: |
@@ -34,4 +32,4 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           personal_token: ${{ secrets.TOKEN }}
-          publish_dir: ./dist/rss-angular-train/browser
+          publish_dir: ./dist/rss-angular-train
