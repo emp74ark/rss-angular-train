@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration=production --base-href=https://emp74ark.github.io/rss-angular-train",
     "watch": "ng build --watch --configuration development",
     "lint": "eslint ."
   },
