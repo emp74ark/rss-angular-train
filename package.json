@@ -1,7 +1,6 @@
 {
   "name": "rss-angular-train",
   "version": "0.0.0",
-  "homepage": "https://emp74ark.github.io/rss-angular-train/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
