@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthRequest, AuthResponse, AuthStatus } from '../models/auth';
-import { Subject, Subscription } from 'rxjs';
+import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,11 @@ export class AuthService implements OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  $authStatus = new Subject<AuthStatus>();
+  $authStatus = new BehaviorSubject<AuthStatus>({
+    token: null, // todo: get data from the local storage
+    success: false,
+    error: null,
+  });
 
   signUp(body: AuthRequest) {
     const signUpSubscription = this.httpClient.post<AuthResponse>('/api/signup', body).subscribe({
@@ -30,6 +34,7 @@ export class AuthService implements OnDestroy {
     const signInSubscription = this.httpClient.post<AuthResponse>('/api/signin', body).subscribe({
       next: (res) => {
         this.$authStatus.next({ token: res.token, success: true, error: null });
+      //   todo: save token to the localstorage
       },
       error: (err: HttpErrorResponse) => {
         this.$authStatus.next({ token: null, success: false, error: err.error.message });
