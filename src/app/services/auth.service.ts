@@ -12,7 +12,7 @@ export class AuthService implements OnDestroy {
   subscriptions: Subscription[] = [];
 
   $authStatus = new BehaviorSubject<AuthStatus>({
-    token: null, // todo: get data from the local storage
+    token: localStorage.getItem('rsToken') || null,
     success: false,
     error: null,
   });
@@ -34,7 +34,7 @@ export class AuthService implements OnDestroy {
     const signInSubscription = this.httpClient.post<AuthResponse>('/api/signin', body).subscribe({
       next: (res) => {
         this.$authStatus.next({ token: res.token, success: true, error: null });
-      //   todo: save token to the localstorage
+        localStorage.setItem('rsToken', res.token);
       },
       error: (err: HttpErrorResponse) => {
         this.$authStatus.next({ token: null, success: false, error: err.error.message });
