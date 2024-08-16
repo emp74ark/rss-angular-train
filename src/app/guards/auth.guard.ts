@@ -1,6 +1,6 @@
 import { CanMatchFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanMatchFn = () => {
   const authToken = inject(AuthService).$authStatus.getValue().token;
