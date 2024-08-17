@@ -27,8 +27,6 @@ export class AuthService implements OnDestroy {
         this.$authStatus.next({ token: null, success: false, error: err.error.message });
       },
     });
-
-    console.log(this.signInSubscription);
   }
 
   signIn(body: AuthRequest) {
@@ -41,8 +39,6 @@ export class AuthService implements OnDestroy {
         this.$authStatus.next({ token: null, success: false, error: err.error.message });
       },
     });
-
-    console.log(this.signInSubscription);
   }
 
   logOut() {
@@ -52,12 +48,10 @@ export class AuthService implements OnDestroy {
 
   ngOnDestroy() {
     if (this.signUpSubscription) {
-      console.log('signUpSubscription destroyed');
       this.signInSubscription.unsubscribe();
     }
 
     if (this.signInSubscription) {
-      console.log('signInSubscription destroyed');
       this.signInSubscription.unsubscribe();
     }
   }
