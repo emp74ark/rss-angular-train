@@ -44,6 +44,11 @@ export class AuthService implements OnDestroy {
     this.subscriptions.push(signInSubscription);
   }
 
+  logOut() {
+    this.$authStatus.next({ token: null, success: false, error: null });
+    localStorage.removeItem('rsToken');
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
