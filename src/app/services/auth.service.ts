@@ -1,16 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthRequest, AuthResponse, AuthStatus } from '../models/auth';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements OnDestroy {
+export class AuthService {
   constructor(private httpClient: HttpClient) {}
-
-  signUpSubscription: Subscription;
-  signInSubscription: Subscription;
 
   $authStatus = new BehaviorSubject<AuthStatus>({
     token: localStorage.getItem('rsToken') || null,
@@ -19,9 +16,9 @@ export class AuthService implements OnDestroy {
   });
 
   signUp(body: AuthRequest) {
-    this.signUpSubscription = this.httpClient.post<AuthResponse>('/api/signup', body).subscribe({
-      next: (res) => {
-        this.$authStatus.next({ token: res.token, success: true, error: null });
+    this.httpClient.post<AuthResponse>('/api/signup', body).subscribe({
+      next: () => {
+        this.signIn(body);
       },
       error: (err: HttpErrorResponse) => {
         this.$authStatus.next({ token: null, success: false, error: err.error.message });
@@ -30,7 +27,7 @@ export class AuthService implements OnDestroy {
   }
 
   signIn(body: AuthRequest) {
-    this.signInSubscription = this.httpClient.post<AuthResponse>('/api/signin', body).subscribe({
+    this.httpClient.post<AuthResponse>('/api/signin', body).subscribe({
       next: (res) => {
         this.$authStatus.next({ token: res.token, success: true, error: null });
         localStorage.setItem('rsToken', res.token);
@@ -44,15 +41,5 @@ export class AuthService implements OnDestroy {
   logOut() {
     this.$authStatus.next({ token: null, success: false, error: null });
     localStorage.removeItem('rsToken');
-  }
-
-  ngOnDestroy() {
-    if (this.signUpSubscription) {
-      this.signInSubscription.unsubscribe();
-    }
-
-    if (this.signInSubscription) {
-      this.signInSubscription.unsubscribe();
-    }
   }
 }
