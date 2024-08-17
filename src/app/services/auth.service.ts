@@ -9,7 +9,8 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 export class AuthService implements OnDestroy {
   constructor(private httpClient: HttpClient) {}
 
-  subscriptions: Subscription[] = [];
+  signUpSubscription: Subscription;
+  signInSubscription: Subscription;
 
   $authStatus = new BehaviorSubject<AuthStatus>({
     token: localStorage.getItem('rsToken') || null,
@@ -18,7 +19,7 @@ export class AuthService implements OnDestroy {
   });
 
   signUp(body: AuthRequest) {
-    const signUpSubscription = this.httpClient.post<AuthResponse>('/api/signup', body).subscribe({
+    this.signUpSubscription = this.httpClient.post<AuthResponse>('/api/signup', body).subscribe({
       next: (res) => {
         this.$authStatus.next({ token: res.token, success: true, error: null });
       },
@@ -27,11 +28,11 @@ export class AuthService implements OnDestroy {
       },
     });
 
-    this.subscriptions.push(signUpSubscription);
+    console.log(this.signInSubscription);
   }
 
   signIn(body: AuthRequest) {
-    const signInSubscription = this.httpClient.post<AuthResponse>('/api/signin', body).subscribe({
+    this.signInSubscription = this.httpClient.post<AuthResponse>('/api/signin', body).subscribe({
       next: (res) => {
         this.$authStatus.next({ token: res.token, success: true, error: null });
         localStorage.setItem('rsToken', res.token);
@@ -41,7 +42,7 @@ export class AuthService implements OnDestroy {
       },
     });
 
-    this.subscriptions.push(signInSubscription);
+    console.log(this.signInSubscription);
   }
 
   logOut() {
@@ -50,6 +51,14 @@ export class AuthService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    if (this.signUpSubscription) {
+      console.log('signUpSubscription destroyed');
+      this.signInSubscription.unsubscribe();
+    }
+
+    if (this.signInSubscription) {
+      console.log('signInSubscription destroyed');
+      this.signInSubscription.unsubscribe();
+    }
   }
 }
