@@ -1,9 +1,10 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import {environment} from '../../environments/environment';
+import { inject } from '@angular/core';
+import { LogService } from '../services/log.service';
 
 export const logInterceptor: HttpInterceptorFn = (req, next) => {
-  if (!environment.production) {
-    console.log(`METHOD: ${req.method.toUpperCase()} URL: ${req.url} AUTH_HEADERS: ${req.headers.get('Authorization')}`);
-  }
+  const logService = inject(LogService);
+  const message = `METHOD: ${req.method.toUpperCase()} URL: ${req.url} AUTH_HEADERS: ${req.headers.get('Authorization')}`;
+  logService.logMessage(message, 'info', 'log interceptor');
   return next(req);
 };
