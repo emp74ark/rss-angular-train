@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthRequest, AuthResponse, AuthStatus } from '../models/auth';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, of, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,37 +9,41 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
-  $authStatus = new BehaviorSubject<AuthStatus>({
+  private $$authStatus = new BehaviorSubject<AuthStatus>({
     token: localStorage.getItem('rsToken') || null,
     success: false,
     error: null,
   });
 
+  $authStatus = this.$$authStatus.asObservable();
+
   signUp(body: AuthRequest) {
-    this.httpClient.post<AuthResponse>('/api/signup', body).subscribe({
-      next: () => {
-        this.signIn(body);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.$authStatus.next({ token: null, success: false, error: err.error.message });
-      },
-    });
+    return this.httpClient.post<AuthResponse>('/api/signup', body).pipe(
+      switchMap(() => {
+        return this.signIn(body);
+      }),
+      catchError((err: HttpErrorResponse) => {
+        this.$$authStatus.next({ token: null, success: false, error: err.error.message });
+        return of(err);
+      }),
+    );
   }
 
   signIn(body: AuthRequest) {
-    this.httpClient.post<AuthResponse>('/api/signin', body).subscribe({
-      next: (res) => {
-        this.$authStatus.next({ token: res.token, success: true, error: null });
+    return this.httpClient.post<AuthResponse>('/api/signin', body).pipe(
+      tap((res) => {
+        this.$$authStatus.next({ token: res.token, success: true, error: null });
         localStorage.setItem('rsToken', res.token);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.$authStatus.next({ token: null, success: false, error: err.error.message });
-      },
-    });
+      }),
+      catchError((err: HttpErrorResponse) => {
+        this.$$authStatus.next({ token: null, success: false, error: err.error.message });
+        return of(err);
+      }),
+    );
   }
 
   logOut() {
-    this.$authStatus.next({ token: null, success: false, error: null });
+    this.$$authStatus.next({ token: null, success: false, error: null });
     localStorage.removeItem('rsToken');
   }
 }
