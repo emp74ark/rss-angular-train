@@ -19,19 +19,27 @@ In the project directory, you can run:
 
 Starts the development server using Angular CLI.
 
+```shell
     npm run start
+```
 
 Builds the project in production mode.
 
+```shell
     npm run build
+```
 
 Builds the project in development mode and watches for changes.
 
-    npm run watch
+```shell
+    npm run watch\
+```
 
 Lints the source code using ESLint.
 
+```shell    
     npm run lint
+```
 
 ## Installation
 
@@ -39,19 +47,27 @@ Follow these step-by-step instructions to set up and run the project locally on 
 
 1. Clone this repository.
 
+```shell        
         git clone https://github.com/emp74ark/rss-angular-train.git
+ ```       
 
 2. Move to the project folder.
 
+```shell
         cd rss-angular-train
+```
 
 3. Install the project dependencies.
 
+```shell
         npm install
+```
 
 4. Start the development server.
 
+```shell
         npm run start
+```
 
 5. Open the project in your web browser.
 
