@@ -18,41 +18,53 @@ This project is a train journey management platform developed as a final assignm
 In the project directory, you can run:
 
 Starts the development server using Angular CLI.
-
-    npm run start
+```shell
+npm run start
+```
 
 Builds the project in production mode.
-
-    npm run build
+```shell
+npm run build
+```
 
 Builds the project in development mode and watches for changes.
-
-    npm run watch
+```shell
+ npm run watch
+```
 
 Lints the source code using ESLint.
-
-    npm run lint
+```shell
+npm run lint
+```
 
 ## Installation
 
 Follow these step-by-step instructions to set up and run the project locally on your machine:
 
 1. Clone this repository.
-
-        git clone https://github.com/emp74ark/rss-angular-train.git
+```shell
+git clone https://github.com/emp74ark/rss-angular-train.git
+```
 
 2. Move to the project folder.
-
-        cd rss-angular-train
+```shell
+cd rss-angular-train 
+```
 
 3. Install the project dependencies.
-
-        npm install
+```shell
+npm install 
+```
 
 4. Start the development server.
-
-        npm run start
+```shell
+npm run start 
+```
 
 5. Open the project in your web browser.
+```shell
+open  http://localhost:4200
+```
 
-        http://localhost:4200
+## Deploy
+[GH Pages](https://emp74ark.github.io/rss-angular-train/)
