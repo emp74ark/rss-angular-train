@@ -1,27 +1,58 @@
-# RssAngularTrain
+# Train-A
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
+This project is a train journey management platform developed as a final assignment of RSSchool Angular 2024Q3. It serves as an online platform for buying, booking and selling train tickets. It aims to provide a user-friendly and intuitive interface for users to view routes and add them to a booking.
 
-## Development server
+## Technologies:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+| **Category** |       **Name**        | **Version** |
+|--------------|-----------------------|-------------|
+| Language     | TypeScript            | 5.4.2       |
+| Framework    | Angular               | 18.0.0      |
+| IDE          | VS Code               | 1.92.2      |
+| Bundler      | Angular CLI           | 18.0.6      |
+| Preprocessor | SASS                  | ???         |
+| Linters      | ESLint                | 8.57.0      |
+| Code Formatter | Prettier              | 3.3.3       |
 
-## Code scaffolding
+## Available Scripts
+In the project directory, you can run:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Starts the development server using Angular CLI.
 
-## Build
+    npm run start
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Builds the project in production mode.
 
-## Running unit tests
+    npm run build
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Builds the project in development mode and watches for changes.
 
-## Running end-to-end tests
+    npm run watch
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Lints the source code using ESLint.
 
-## Further help
+    npm run lint
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Installation
+
+Follow these step-by-step instructions to set up and run the project locally on your machine:
+
+1. Clone this repository.
+
+        git clone https://github.com/emp74ark/rss-angular-train.git
+
+2. Move to the project folder.
+
+        cd rss-angular-train
+
+3. Install the project dependencies.
+
+        npm install
+
+4. Start the development server.
+
+        npm run start
+
+5. Open the project in your web browser.
+
+        http://localhost:4200
