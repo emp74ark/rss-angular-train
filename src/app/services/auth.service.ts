@@ -22,9 +22,9 @@ export class AuthService {
       switchMap(() => {
         return this.signIn(body);
       }),
-      catchError((err: HttpErrorResponse) => {
-        this.$$authStatus.next({ token: null, success: false, error: err.error.message });
-        return of(err);
+      catchError(({ error }: HttpErrorResponse) => {
+        this.$$authStatus.next({ token: null, success: false, error: error.message });
+        return of(error);
       }),
     );
   }
@@ -35,14 +35,15 @@ export class AuthService {
         this.$$authStatus.next({ token: res.token, success: true, error: null });
         localStorage.setItem('rsToken', res.token);
       }),
-      catchError((err: HttpErrorResponse) => {
-        this.$$authStatus.next({ token: null, success: false, error: err.error.message });
-        return of(err);
+      catchError(({ error }: HttpErrorResponse) => {
+        this.$$authStatus.next({ token: null, success: false, error: error.message });
+        return of(error);
       }),
     );
   }
 
   logOut() {
+    this.httpClient.delete('/api/logout');
     this.$$authStatus.next({ token: null, success: false, error: null });
     localStorage.removeItem('rsToken');
   }
