@@ -1,0 +1,57 @@
+@import 'theme';
+@import 'palette-color';
+
+:host {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: $color-pr-99;
+}
+
+.primary-text {
+  font-size: 14rem;
+  line-height: 15rem;
+  color: $color-pr-40;
+  margin-bottom: 1rem;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 40px;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .page-image {
+    width: 100%;
+    height: 100%;
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    container-type: inline-size;
+    container-name: textcontainer;
+
+    .text1 {
+      font-size: 50cqw;
+      line-height: 51cqw;
+      margin: 0;
+    }
+    .text2 {
+      font-size: 11cqw;
+      margin: 0;
+    }
+  }
+}
