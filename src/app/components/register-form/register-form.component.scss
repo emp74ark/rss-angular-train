@@ -1,0 +1,83 @@
+@import 'theme';
+@import 'palette-color';
+
+:host {
+  box-sizing: border-box;
+  width: 350px;
+  display: block;
+  padding: 28px 20px;
+  background-color: $color-neutral-95;
+  border-radius: 5px;
+
+  .register-form {
+    display: flex;
+    flex-direction: column;
+
+    .unsubmitContainer {
+      display: flex;
+      flex-direction: column;
+      &.unsubmitted {
+        --mdc-outlined-text-field-error-outline-color: var(--mdc-outlined-text-field-outline-color);
+        --mdc-outlined-text-field-error-focus-outline-color: var(--mdc-outlined-text-field-focus-outline-color);
+        --mdc-outlined-text-field-error-label-text-color: var(--mdc-outlined-text-field-label-text-color);
+        --mdc-outlined-text-field-error-focus-label-text-color: var(--mdc-outlined-text-field-focus-label-text-color);
+        --mdc-outlined-text-field-error-hover-label-text-color: var(--mdc-outlined-text-field-hover-label-text-color);
+
+        --mdc-filled-text-field-error-outline-color: var(--mdc-filled-text-field-outline-color);
+        --mdc-filled-text-field-error-focus-outline-color: var(--mdc-filled-text-field-focus-outline-color);
+        --mdc-filled-text-field-error-label-text-color: var(--mdc-filled-text-field-label-text-color);
+        --mdc-filled-text-field-error-focus-label-text-color: var(--mdc-filled-text-field-focus-label-text-color);
+        --mdc-filled-text-field-error-hover-label-text-color: var(--mdc-filled-text-field-focus-label-text-color);
+        --mdc-filled-text-field-error-focus-active-indicator-color: var(
+          --mdc-filled-text-field-focus-active-indicator-color
+        );
+        --mdc-filled-text-field-error-active-indicator-color: var(--mdc-filled-text-field-active-indicator-color);
+      }
+    }
+
+    input::placeholder {
+      letter-spacing: -0.8px;
+    }
+
+    .unknownErrorContainer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.5s ease-in-out;
+
+      .unknownError {
+        overflow: hidden;
+        font-size: 12px;
+        margin-bottom: 0px;
+        transition: margin 0.5s ease-in-out;
+      }
+
+      &.opened {
+        grid-template-rows: 1fr;
+        .unknownError {
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .controls {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 14px;
+
+      .registerButton {
+        flex: 1 1 70%;
+        border-radius: 5px;
+      }
+
+      .loginLink {
+        flex: 1 1 30%;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
+.form-input {
+  margin-bottom: 20px;
+}
