@@ -1,0 +1,21 @@
+<mat-toolbar class="header">
+  <nav>
+    <a mat-button color="primary" href="">Train-A</a>
+    @if (isLoggedIn) {
+      <a mat-button color="primary" href="">Profile</a>
+      @if (isAdmin) {
+        <a mat-button color="primary" href="">Orders</a>
+      } @else {
+        <a mat-button color="primary" href="">My Orders</a>
+      }
+    }
+  </nav>
+  <div>
+    @if (!isLoggedIn) {
+      <button mat-button color="primary">Sign In</button>
+      <button mat-button color="primary">Sign Up</button>
+    } @else if (isAdmin) {
+      <button mat-button color="primary">Admin</button>
+    }
+  </div>
+</mat-toolbar>
