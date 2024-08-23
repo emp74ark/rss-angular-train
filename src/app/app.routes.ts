@@ -16,5 +16,9 @@ export const routes: Routes = [
   { path: 'signin', component: SigninPageComponent, canMatch: [authGuard] },
   { path: 'signup', component: SignupPageComponent, canMatch: [authGuard] },
   { path: 'search', component: SearchPageComponent },
+  {
+    path: 'search',
+    component: SearchPageComponent,
+  },
   { path: '**', component: NotFoundPageComponent },
 ];
