@@ -1,8 +1,12 @@
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function passwordValidation(): ValidatorFn {
+export function passwordValidation(data?: object, fieldName?: string): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    if (control.value && control.value.length < 8) {
+    if (data && fieldName && 'form' in data) {
+      const form: FormGroup = data.form as FormGroup;
+      form.get(fieldName)?.updateValueAndValidity();
+    }
+    if (control.value && control.value.trim?.().length < 8) {
       return { minlength: true };
     }
 
@@ -24,4 +28,12 @@ export function passwordMismatch(data: object): ValidatorFn {
 
     return null;
   };
+}
+
+export function passwordSpaces(control: AbstractControl): ValidationErrors | null {
+  if (control.value && !control.value.trim?.().length) {
+    return { required: true };
+  }
+
+  return null;
 }

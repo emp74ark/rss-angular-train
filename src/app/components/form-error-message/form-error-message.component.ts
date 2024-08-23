@@ -24,12 +24,8 @@ export class FormErrorMessageComponent implements ControlValueAccessor, OnInit {
   ngOnInit() {
     this.control.control?.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       const name = this.control.name;
-      console.log('name', name);
-      console.log('invalid', this.control.invalid);
-      console.log(this.control.errors);
       if (name && this.control.errors) {
         const errorType = Object.keys(this.control.errors)?.[0];
-        console.log(errorType);
         const message = this.errors[name][errorType] || 'Unknown error occurred';
         this.error.set(message);
       } else {
