@@ -9,6 +9,6 @@ export const customFormErrorMessages = {
   },
   confirmPassword: {
     required: 'Please repeat the password',
-    mismatch: 'Passwords do not match'
-  }
+    mismatch: 'Passwords do not match',
+  },
 };
