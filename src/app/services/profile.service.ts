@@ -7,7 +7,6 @@ import { ApiStatus } from '../models/common';
 @Injectable({
   providedIn: 'root',
 })
-
 export class ProfileService {
   constructor(private httpClient: HttpClient) {}
 
@@ -24,7 +23,7 @@ export class ProfileService {
 
   loadProfile() {
     return this.httpClient.get<Profile>('/api/profile').pipe(
-      tap((profile) => {
+      tap(profile => {
         this.$$profile.next(profile);
         this.$$apiStatus.next({ success: true, error: null });
       }),
@@ -37,7 +36,7 @@ export class ProfileService {
 
   updateProfile(body: Omit<Profile, 'role'>) {
     return this.httpClient.put<Profile>('/api/profile', body).pipe(
-      tap((profile) => {
+      tap(profile => {
         this.$$profile.next(profile);
         this.$$apiStatus.next({ success: true, error: null });
       }),

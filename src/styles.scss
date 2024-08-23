@@ -1,2 +1,12 @@
-@import "typography";
-@import "common";
+@import 'theme';
+@import 'palette-color';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: var(--mat-app-background);
+}
