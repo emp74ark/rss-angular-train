@@ -31,7 +31,7 @@ export class AuthService {
 
   signIn(body: AuthRequest) {
     return this.httpClient.post<AuthResponse>('/api/signin', body).pipe(
-      tap((res) => {
+      tap(res => {
         this.$$authStatus.next({ token: res.token, success: true, error: null });
         localStorage.setItem('rsToken', res.token);
       }),
