@@ -29,7 +29,7 @@ export class StationsService {
         this.$$apiStatus.next({ success: true, error: null });
       }),
       catchError(({ error }: HttpErrorResponse) => {
-        this.$$apiStatus.next({ success: false, error: error.message() });
+        this.$$apiStatus.next({ success: false, error: error.message });
         return of(error);
       }),
     );
@@ -44,7 +44,7 @@ export class StationsService {
         return this.getStations();
       }),
       catchError(({ error }: HttpErrorResponse) => {
-        this.$$apiStatus.next({ success: false, error: error.message() });
+        this.$$apiStatus.next({ success: false, error: error.message });
         return of(error);
       }),
     );
