@@ -1,0 +1,75 @@
+<h6>Registration</h6>
+@let submitted = isSubmitted();
+<form [ngClass]="{ 'register-form': true, unsubmitted: false }" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div [ngClass]="{ unsubmitContainer: true, unsubmitted: !submitted }">
+    <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        placeholder="Enter your email"
+        formControlName="email"
+        title="Your email must validate /^[\w\d_]+@[\w\d_]+.\w{2,7}$/" />
+      @if (submitted) {
+        <mat-error><app-form-error-message formControlName="email" /></mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+      <mat-label>Password</mat-label>
+      <input
+        title="Enter a non-empty password ≥8 chars"
+        matInput
+        [type]="hide() ? 'password' : 'text'"
+        placeholder="Enter a non-empty password ≥8 chars"
+        formControlName="password"
+        class="full-width" />
+      @if (submitted) {
+        <mat-error><app-form-error-message formControlName="password" /></mat-error>
+      }
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="toggleHide($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()">
+        <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+    <mat-label>Repeat Password</mat-label>
+    <input
+      matInput
+      [type]="hide() ? 'password' : 'text'"
+      placeholder="Repeat your password"
+      formControlName="confirmPassword"
+      class="full-width" />
+    <mat-error><app-form-error-message formControlName="confirmPassword" /></mat-error>
+    <button
+      type="button"
+      mat-icon-button
+      matSuffix
+      (click)="toggleHide($event)"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide()">
+      <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+  </mat-form-field>
+
+  @let untrackedErrorText = untrackedErrorMessage();
+  <div [ngClass]="{ unknownErrorContainer: true, opened: untrackedErrorText }">
+    <mat-error class="unknownError">{{ untrackedErrorText }}</mat-error>
+  </div>
+
+  <div class="controls">
+    <button
+      mat-flat-button
+      color="primary"
+      class="full-width registerButton"
+      type="submit"
+      [disabled]="isSubmitDisabled">
+      Register
+    </button>
+    <a mat-raised-button [routerLink]="['/signin']" class="loginLink link">SignIn</a>
+  </div>
+</form>

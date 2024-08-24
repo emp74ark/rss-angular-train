@@ -10,12 +10,19 @@ export const authGuard: CanMatchFn = (route: Route) => {
 
   return inject(AuthService).$authStatus.pipe(
     map(({ token }) => {
-      if (!token && route.path?.startsWith('auth')) {
+      console.log('route', route);
+      console.log('route', token);
+      console.log(
+        `!token && ['signup', 'signin'].includes(route.path ?? '')`,
+        !token && ['signup', 'signin'].includes(route.path ?? ''),
+      );
+      if (!token && ['signup', 'signin'].includes(route.path ?? '')) {
         logService.logMessage('auth route enabled for non-authenticated', 'info', 'auth guard');
         return true;
       }
 
-      if (token && route.path?.startsWith('auth')) {
+      console.log(`token && route.path?.startsWith('auth')`, token && route.path?.startsWith('auth'));
+      if (token && ['signup', 'signin'].includes(route.path ?? '')) {
         logService.logMessage('auth route disabled for authenticated', 'info', 'auth guard');
         return router.createUrlTree(['/']);
       }
@@ -25,7 +32,7 @@ export const authGuard: CanMatchFn = (route: Route) => {
         return true;
       }
 
-      return router.createUrlTree(['/auth']);
+      return router.createUrlTree(['/signin']);
     }),
   );
 };
