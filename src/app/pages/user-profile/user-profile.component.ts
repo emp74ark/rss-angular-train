@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PasswordModalComponent } from './password-modal/password-modal.component';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
-import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { FormErrorMessageComponent } from '../../components/form-error-message/form-error-message.component';
@@ -32,6 +32,7 @@ import { MatDivider } from '@angular/material/divider';
     MatDivider,
     MatIconButton,
     MatCardTitle,
+    MatError,
     FormErrorMessageComponent,
   ],
   templateUrl: './user-profile.component.html',
@@ -61,7 +62,6 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileService.loadProfile().subscribe((profile) => {
-      console.log(profile);
       if (profile) {
         this.profileForm.patchValue({
           name: profile.name,
@@ -92,9 +92,7 @@ export class UserProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(PasswordModalComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
-        console.log(result);
         this.profileService.updatePassword(result).subscribe();
       }
     });

@@ -5,7 +5,6 @@ import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.com
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '**', component: NotFoundPageComponent },
   {
       path: 'profile',
       title: 'Profile',

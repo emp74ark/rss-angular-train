@@ -7,7 +7,9 @@
         <mat-form-field appearance="outline">
           <mat-label>Edit Name</mat-label>
           <input matInput [value]="profileForm.value.name" formControlName="name" />
-          <app-form-error-message formControlName="name"></app-form-error-message>
+          <mat-error>
+            <app-form-error-message formControlName="name"></app-form-error-message>
+          </mat-error>
         </mat-form-field>
         <button mat-icon-button matSuffix color="primary" (click)="saveProfile()">
           <mat-icon>save</mat-icon>
@@ -15,7 +17,7 @@
       } @else {
         <div appearance="outline">
           <mat-label>Name</mat-label>
-           <p>{{ profileForm.value.name }}</p>
+          <p>{{ profileForm.value.name }}</p>
         </div>
         <button mat-icon-button matSuffix (click)="toggleEditName()">
           <mat-icon>edit</mat-icon>
@@ -28,7 +30,9 @@
         <mat-form-field appearance="outline">
           <mat-label>Edit Email</mat-label>
           <input matInput [value]="profileForm.value.email" formControlName="email" />
-          <app-form-error-message formControlName="email"></app-form-error-message>
+          <mat-error>
+            <app-form-error-message formControlName="email"></app-form-error-message>
+          </mat-error>
         </mat-form-field>
         <button mat-icon-button matSuffix color="primary" (click)="saveProfile()">
           <mat-icon>save</mat-icon>
@@ -36,17 +40,17 @@
       } @else {
         <div appearance="outline">
           <mat-label>Email</mat-label>
-           <p>{{ profileForm.value.email }}</p>
-          </div>
-          <button mat-icon-button matSuffix (click)="toggleEditEmail()">
-            <mat-icon>edit</mat-icon>
-          </button>
+          <p>{{ profileForm.value.email }}</p>
+        </div>
+        <button mat-icon-button matSuffix (click)="toggleEditEmail()">
+          <mat-icon>edit</mat-icon>
+        </button>
       }
     </div>
 
     <div class="profile-actions">
-        <button mat-raised-button color="warn" (click)="logout()">Logout</button>
-        <button mat-raised-button color="accent" (click)="changePassword()">Change Password</button>
+      <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+      <button mat-raised-button color="accent" (click)="changePassword()">Change Password</button>
     </div>
   </mat-card-content>
 </mat-card>
