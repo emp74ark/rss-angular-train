@@ -1,0 +1,16 @@
+.profile-card {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.profile-field {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
