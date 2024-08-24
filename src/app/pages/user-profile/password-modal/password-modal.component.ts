@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { passwordValidation } from '../../../components/form-error-message/password-validation';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatButton } from '@angular/material/button';
 import { FormErrorMessageComponent } from '../../../components/form-error-message/form-error-message.component';
 import { MatInput } from '@angular/material/input';
 import { CUSTOM_ERRORS } from '../../../constants/customTokens';
 import { customFormErrorMessages } from '../../../constants/customFormErrorMessages';
+import { passwordValidation } from '../../../validators/password-validation';
 
 @Component({
   selector: 'app-password-modal',
@@ -18,6 +18,7 @@ import { customFormErrorMessages } from '../../../constants/customFormErrorMessa
     MatLabel,
     MatButton,
     MatInput,
+    MatError,
     ReactiveFormsModule,
     FormErrorMessageComponent,
   ],
