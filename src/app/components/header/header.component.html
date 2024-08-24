@@ -1,21 +1,21 @@
-<mat-toolbar class="header">
-  <nav>
-    <a mat-button color="primary" href="">Train-A</a>
-    @if (isLoggedIn) {
-      <a mat-button color="primary" href="">Profile</a>
-      @if (isAdmin) {
-        <a mat-button color="primary" href="">Orders</a>
-      } @else {
-        <a mat-button color="primary" href="">My Orders</a>
-      }
+@let isSignIn = isLoggedIn();
+@let isAdmin = isManager();
+
+<mat-toolbar>
+  <nav class="header-nav">
+    <a [routerLink]="['/search']" routerLinkActive="active-link" mat-button color="primary">Train-A</a>
+    @if (isSignIn) {
+      <a [routerLink]="['/profile']" routerLinkActive="active-link" mat-button color="primary">Profile</a>
+      <a [routerLink]="['/orders']" routerLinkActive="active-link" mat-button color="primary">{{
+        isAdmin ? 'Orders' : 'My Orders'
+      }}</a>
+    }
+    <span class="spacer"></span>
+    @if (!isSignIn) {
+      <a [routerLink]="['/signin']" routerLinkActive="active-link" mat-button color="primary">Sign In</a>
+      <a [routerLink]="['/signup']" routerLinkActive="active-link" mat-button color="primary">Sign Up</a>
+    } @else if (isAdmin) {
+      <a [routerLink]="['/admin']" routerLinkActive="active-link" mat-button color="primary">Admin</a>
     }
   </nav>
-  <div>
-    @if (!isLoggedIn) {
-      <button mat-button color="primary">Sign In</button>
-      <button mat-button color="primary">Sign Up</button>
-    } @else if (isAdmin) {
-      <button mat-button color="primary">Admin</button>
-    }
-  </div>
 </mat-toolbar>
