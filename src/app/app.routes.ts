@@ -13,12 +13,8 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent),
     canMatch: [authGuard],
   },
-  { path: 'signin', component: SigninPageComponent, canMatch: [authGuard] },
-  { path: 'signup', component: SignupPageComponent, canMatch: [authGuard] },
-  { path: 'search', component: SearchPageComponent },
-  {
-    path: 'search',
-    component: SearchPageComponent,
-  },
+  { path: 'search', component: SearchPageComponent, pathMatch: 'full' },
+  { path: 'signin', component: SigninPageComponent, canMatch: [authGuard], pathMatch: 'full' },
+  { path: 'signup', component: SignupPageComponent, canMatch: [authGuard], pathMatch: 'full' },
   { path: '**', component: NotFoundPageComponent },
 ];

@@ -23,7 +23,7 @@ export class StationsService {
 
   getStations() {
     return this.httpClient.get<StationConnections[]>('/api/station').pipe(
-      tap((list) => {
+      tap(list => {
         console.log('get stations');
         this.$$stations.next(list);
         this.$$apiStatus.next({ success: true, error: null });
