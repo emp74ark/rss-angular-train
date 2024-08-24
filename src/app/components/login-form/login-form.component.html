@@ -1,0 +1,49 @@
+@let submitted = isSubmitted();
+<h6>Login</h6>
+<form [ngClass]="{ 'login-form': true, unsubmitted: !submitted }" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      placeholder="Enter your email"
+      formControlName="email"
+      (ngModelChange)="onEmailChange()"
+      title="Your email must validate /^[\w\d_]+@[\w\d_]+.\w{2,7}$/" />
+    @if (submitted) {
+      <mat-error><app-form-error-message formControlName="email" /></mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      (input)="onPasswordChange()"
+      [type]="hide() ? 'password' : 'text'"
+      placeholder="Enter your password"
+      formControlName="password"
+      class="full-width" />
+    @if (submitted) {
+      <mat-error><app-form-error-message formControlName="password" /></mat-error>
+    }
+    <button
+      type="button"
+      mat-icon-button
+      matSuffix
+      (click)="toggleHide($event)"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide()">
+      <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+  </mat-form-field>
+  @let untrackedErrorText = untrackedErrorMessage();
+  <div [ngClass]="{ unknownErrorContainer: true, opened: untrackedErrorText }">
+    <mat-error class="unknownError">{{ untrackedErrorText }}</mat-error>
+  </div>
+
+  <div class="controls">
+    <button mat-flat-button color="primary" class="full-width loginButton" type="submit" [disabled]="isSubmitDisabled">
+      Sign-In
+    </button>
+    <a mat-raised-button [routerLink]="['/signup']" class="loginLink link">Register</a>
+  </div>
+</form>
