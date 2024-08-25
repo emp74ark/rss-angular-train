@@ -82,7 +82,6 @@ export class RegisterFormComponent {
       })
       .pipe(
         tap(data => {
-          console.log('SignUp data result', data);
           this.isRegistering.set(false);
           if (data.status === AuthResponseStatus.OK) {
             this.router.navigate(['/']);

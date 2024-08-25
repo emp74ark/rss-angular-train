@@ -40,7 +40,7 @@ import { MatDivider } from '@angular/material/divider';
   providers: [
     {
       provide: CUSTOM_ERRORS,
-      useValue: customFormErrorMessages
+      useValue: customFormErrorMessages,
     },
   ],
 })
@@ -61,7 +61,7 @@ export class UserProfileComponent implements OnInit {
   isEditEmail = false;
 
   ngOnInit(): void {
-    this.profileService.loadProfile().subscribe((profile) => {
+    this.profileService.loadProfile().subscribe(profile => {
       if (profile) {
         this.profileForm.patchValue({
           name: profile.name,
@@ -91,7 +91,7 @@ export class UserProfileComponent implements OnInit {
   changePassword() {
     const dialogRef = this.dialog.open(PasswordModalComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.profileService.updatePassword(result).subscribe();
       }

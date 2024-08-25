@@ -5,7 +5,7 @@
 
 //path to palette: node_modules\@angular\material\core\theming\_palettes.scss
 //hue in palette: 0, 10, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 95, 98, 99, 100
-// 0 - the darkest? 100 - the lightest
+// 0 - the darkest, 100 - the lightest
 
 // from primary
 $color-pr-0: mat.get-theme-color($rss-angular-train-theme, primary, 0);
@@ -13,6 +13,7 @@ $color-pr-10: mat.get-theme-color($rss-angular-train-theme, primary, 10);
 $color-pr-20: mat.get-theme-color($rss-angular-train-theme, primary, 20);
 $color-pr-40: mat.get-theme-color($rss-angular-train-theme, primary, 40);
 $color-pr-60: mat.get-theme-color($rss-angular-train-theme, primary, 60);
+$color-pr-90: mat.get-theme-color($rss-angular-train-theme, primary, 90);
 $color-pr-99: mat.get-theme-color($rss-angular-train-theme, primary, 99);
 $color-pr-90: mat.get-theme-color($rss-angular-train-theme, primary, 90);
 $color-pr-100: mat.get-theme-color($rss-angular-train-theme, primary, 100);
@@ -30,7 +31,7 @@ $color-ter-90: mat.get-theme-color($rss-angular-train-theme, tertiary, 90);
 $color-ter-98: mat.get-theme-color($rss-angular-train-theme, tertiary, 98);
 $color-ter-100: mat.get-theme-color($rss-angular-train-theme, tertiary, 100);
 
-// from neutral (like accent)
+// from neutral
 $color-neutral-0: mat.get-theme-color($rss-angular-train-theme, neutral, 0);
 $color-neutral-10: mat.get-theme-color($rss-angular-train-theme, neutral, 10);
 $color-neutral-20: mat.get-theme-color($rss-angular-train-theme, neutral, 20);
