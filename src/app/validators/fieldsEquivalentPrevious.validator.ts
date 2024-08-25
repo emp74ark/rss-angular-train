@@ -17,7 +17,6 @@ export function fieldsEquivalentPreviousValidator(params: IFieldsEquivalentPrevi
 
       if (
         Object.entries(params.fields).some(([key, value]) => {
-          console.log({ key, currentValue: form.get(key)?.value, previousValue: value });
           return form.get(key)?.value !== value;
         })
       ) {
