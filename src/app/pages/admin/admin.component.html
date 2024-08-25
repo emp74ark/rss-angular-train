@@ -1,0 +1,16 @@
+<nav class="sidebar">
+  <mat-nav-list role="navigation" class="list">
+    <a mat-list-item class="link" [routerLink]="['/admin/stations']" routerLinkActive="active-link" color="primary"
+      >Stations</a
+    >
+    <a mat-list-item class="link" [routerLink]="['/admin/carriages']" routerLinkActive="active-link" color="primary"
+      >Carriages</a
+    >
+    <a mat-list-item class="link" [routerLink]="['/admin/routes']" routerLinkActive="active-link" color="primary"
+      >Routes</a
+    >
+  </mat-nav-list>
+</nav>
+<div class="page">
+  <router-outlet></router-outlet>
+</div>
