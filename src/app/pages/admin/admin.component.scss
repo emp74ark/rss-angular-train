@@ -23,6 +23,10 @@
     }
   }
 
+  .page {
+    padding: 1rem;
+  }
+
   @media (max-width: 767px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;

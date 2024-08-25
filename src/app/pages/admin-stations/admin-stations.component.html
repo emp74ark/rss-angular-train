@@ -1,1 +1,16 @@
-<p>admin-stations works!</p>
+<h2>Add new station</h2>
+<div class="container">
+  <form [formGroup]="form" class="form-wrapper">
+    <mat-form-field>
+      <mat-label>City name</mat-label>
+      <input (input)="onInputChange($event)" matInput type="text" formControlName="cityName" [matAutocomplete]="auto" />
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of $citySuggestions | async; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-button (click)="onAddStation()">Add station</button>
+  </form>
+  <div class="map-wrapper"></div>
+</div>
