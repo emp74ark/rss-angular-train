@@ -12,6 +12,7 @@ import { AsyncPipe } from '@angular/common';
 import { StationConnections } from '../../models/stations';
 import { MapComponent } from '../../components/map/map.component';
 import { GeoLocation } from '../../models/geo';
+import { StationsListComponent } from '../../components/stations-list/stations-list.component';
 
 @Component({
   selector: 'app-admin-stations',
@@ -27,6 +28,7 @@ import { GeoLocation } from '../../models/geo';
     MatOption,
     MatAutocompleteTrigger,
     MapComponent,
+    StationsListComponent,
   ],
   templateUrl: './admin-stations.component.html',
   styleUrl: './admin-stations.component.scss',
@@ -167,7 +169,6 @@ export class AdminStationsComponent implements OnInit {
       this.geoService
         .getCoordinatesByName(cityName)
         .pipe(
-          tap(res => console.log(res)),
           switchMap(({ results }) => {
             return this.stationService.createStation({
               city: cityName,
@@ -176,7 +177,6 @@ export class AdminStationsComponent implements OnInit {
               relations: relationIds,
             });
           }),
-          tap(res => console.log(res)),
           takeUntilDestroyed(this.destroyRef),
         )
         .subscribe();
