@@ -8,8 +8,8 @@ export type AuthResponse = {
 };
 
 export const enum UserRoles {
-  manager = 'manager',
-  user = 'user',
+  Manager = 'manager',
+  User = 'user',
 }
 
 export interface ProfileResponse {
@@ -21,13 +21,13 @@ export interface ProfileResponse {
 export type AuthStatus = { token: string | null; role: UserRoles | null } & ApiStatus;
 
 export enum AuthRoutes {
-  signup = '/api/signup',
-  signin = '/api/signin',
-  logout = '/api/logout',
+  Signup = '/api/signup',
+  Signin = '/api/signin',
+  Logout = '/api/logout',
 }
 
 export enum ProfileRoutes {
-  profile = '/api/profile',
+  Profile = '/api/profile',
 }
 
 export const enum AuthResponseStatus {
