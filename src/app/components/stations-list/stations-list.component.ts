@@ -45,8 +45,7 @@ export class StationsListComponent implements OnInit {
   );
 
   ngOnInit() {
-    this.stationService
-      .getStations()
+    this.stationService.$stations
       .pipe(
         tap(response => {
           this.stations.set(response);
