@@ -124,7 +124,7 @@ export class AdminStationsComponent implements OnInit {
     this.$relationName.next(value);
   }
 
-  onSuggestion(value: string) {
+  onCityNameSelection(value: string) {
     this.geoService
       .getCoordinatesByName(value)
       .pipe(
@@ -133,6 +133,23 @@ export class AdminStationsComponent implements OnInit {
             this.mapCoordinates = {
               lat: results[0].geometry.location.lat,
               lng: results[0].geometry.location.lng,
+            };
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
+  }
+
+  onRelatedSelection(value: string) {
+    this.stationService.$stations
+      .pipe(
+        tap(list => {
+          const city = list.find(el => el.city === value);
+          if (city) {
+            this.mapCoordinates = {
+              lat: city.latitude,
+              lng: city.longitude,
             };
           }
         }),
