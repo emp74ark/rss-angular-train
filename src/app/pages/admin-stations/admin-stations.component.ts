@@ -55,7 +55,6 @@ export class AdminStationsComponent implements OnInit {
       relations: this.fb.array([new FormControl(null)]),
     });
 
-    // preload stations list
     this.stationService
       .getStations()
       .pipe(
@@ -126,13 +125,11 @@ export class AdminStationsComponent implements OnInit {
   }
 
   onSuggestion(value: string) {
-    console.log(value);
     this.geoService
       .getCoordinatesByName(value)
       .pipe(
         tap(({ results }) => {
           if (results.length) {
-            console.log(results[0].geometry.location);
             this.mapCoordinates = {
               lat: results[0].geometry.location.lat,
               lng: results[0].geometry.location.lng,

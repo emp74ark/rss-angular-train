@@ -14,12 +14,13 @@ export class MapComponent implements OnInit, OnChanges {
   sanitizer = inject(DomSanitizer);
 
   coordinates = input<GeoLocation>();
+  markerName = input<string>();
 
   mapUrl: SafeResourceUrl | undefined;
 
   updateMapUrl() {
     const defaultData = '53.893009, 27.567444';
-    const center = this.coordinates()?.lat ? `${this.coordinates()?.lng}, ${this.coordinates()?.lat}` : defaultData;
+    const center = this.coordinates()?.lat ? `${this.coordinates()?.lat}, ${this.coordinates()?.lng}` : defaultData;
     const baseUrl = 'https://www.google.com/maps/embed/v1/view';
     const url = `${baseUrl}?key=${environment.geo_api_key}&center=${center}&zoom=10`;
     this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
@@ -30,7 +31,6 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('INPUT VALUES', this.coordinates());
     if (changes['coordinates']) {
       this.updateMapUrl();
     }
