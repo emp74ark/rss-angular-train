@@ -3,13 +3,40 @@
   <form [formGroup]="form" class="form-wrapper">
     <mat-form-field>
       <mat-label>City name</mat-label>
-      <input (input)="onInputChange($event)" matInput type="text" formControlName="cityName" [matAutocomplete]="auto" />
+      <input
+        (input)="onCityNameChange($event)"
+        matInput
+        type="text"
+        formControlName="cityName"
+        [matAutocomplete]="auto" />
       <mat-autocomplete #auto="matAutocomplete">
         @for (option of $citySuggestions | async; track option) {
           <mat-option [value]="option">{{ option }}</mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
+    <div formArrayName="relations" class="relations">
+      @for (control of relationsGroup.controls; let i = $index; track i) {
+        <mat-form-field>
+          <mat-label>Relations {{ i + 1 }}</mat-label>
+          <input
+            matInput
+            type="text"
+            [formControlName]="i"
+            (input)="onRelationChange($event)"
+            [matAutocomplete]="relation" />
+          <mat-autocomplete #relation="matAutocomplete">
+            @for (option of $relationSuggestions | async; track option.id) {
+              <mat-option [value]="option.city">{{ option.city }}</mat-option>
+            }
+          </mat-autocomplete>
+          @if (relationsGroup.controls.length > 1) {
+            <button mat-button (click)="removeRelation(i)">Remove relation</button>
+          }
+        </mat-form-field>
+      }
+      <button mat-button (click)="addRelation()">Add relation</button>
+    </div>
     <button mat-button (click)="onAddStation()">Add station</button>
   </form>
   <div class="map-wrapper"></div>
