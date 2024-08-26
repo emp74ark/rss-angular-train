@@ -40,6 +40,6 @@
     <button mat-button (click)="onAddStation()">Add station</button>
   </form>
   <div class="map-wrapper">
-    <app-map [coordinates]="mapCoordinates" />
+    <app-map [coordinates]="mapCoordinates" [markerName]="$cityName.value" />
   </div>
 </div>
