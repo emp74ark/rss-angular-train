@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  min-width: 20rem;
+}
+
+.map-wrapper {
+}
+
+.relations {
+  display: flex;
+  flex-direction: column;
+  background: #eae9e9;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
