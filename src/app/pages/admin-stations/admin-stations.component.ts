@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { StationsService } from '../../services/stations.service';
@@ -47,12 +47,12 @@ export class AdminStationsComponent implements OnInit {
   $relationName = new BehaviorSubject<string>('');
   $relationSuggestions = new BehaviorSubject<StationConnections[]>([]);
 
-  mapCoordinates: GeoLocation;
+  origin: GeoLocation;
 
   ngOnInit() {
     this.form = this.fb.group({
-      cityName: [''],
-      relations: this.fb.array([new FormControl(null)]),
+      cityName: ['', [Validators.required]],
+      relations: this.fb.array([new FormControl(null, [Validators.required])]),
     });
 
     this.stationService
@@ -124,13 +124,13 @@ export class AdminStationsComponent implements OnInit {
     this.$relationName.next(value);
   }
 
-  onCityNameSelection(value: string) {
+  onOriginSelection(value: string) {
     this.geoService
       .getCoordinatesByName(value)
       .pipe(
         tap(({ results }) => {
           if (results.length) {
-            this.mapCoordinates = {
+            this.origin = {
               lat: results[0].geometry.location.lat,
               lng: results[0].geometry.location.lng,
             };
@@ -147,7 +147,7 @@ export class AdminStationsComponent implements OnInit {
         tap(list => {
           const city = list.find(el => el.city === value);
           if (city) {
-            this.mapCoordinates = {
+            this.origin = {
               lat: city.latitude,
               lng: city.longitude,
             };
