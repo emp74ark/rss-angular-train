@@ -1,0 +1,18 @@
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card-wrapper {
+  padding: 0.5rem 1rem;
+
+  & mat-card-subtitle {
+    margin: 1rem 0;
+  }
+
+  & ul {
+    margin-left: 2rem;
+  }
+}
