@@ -6,10 +6,10 @@ import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
-      path: 'profile',
-      title: 'Profile',
-      loadComponent : () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent),
-      canMatch: [authGuard]
+    path: 'profile',
+    title: 'Profile',
+    loadComponent: () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+    canMatch: [authGuard],
   },
   { path: 'signin', component: SigninPageComponent, canMatch: [authGuard] },
   { path: 'signup', component: SignupPageComponent, canMatch: [authGuard] },
