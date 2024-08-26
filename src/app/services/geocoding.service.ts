@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { MapsApiCoordinates, MapsApiSuggestions } from '../models/geo';
+import { GeoLocation, MapsApiCoordinates, MapsApiSuggestions } from '../models/geo';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +25,20 @@ export class GeocodingService {
         input: searchExp,
         types: 'geocode',
       },
+    });
+  }
+
+  getMap(position?: GeoLocation) {
+    const defaultPosition: GeoLocation = { lat: 53.893009, lng: 27.567444 };
+    const center = position ? position : defaultPosition;
+    return this.httpClient.get('/maps/api/staticmap', {
+      params: {
+        key: environment.geo_api_key,
+        center: `${center.lat}, ${center.lng}`,
+        zoom: 12,
+        size: '640x640',
+      },
+      responseType: 'arraybuffer',
     });
   }
 }

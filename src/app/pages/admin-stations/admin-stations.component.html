@@ -9,7 +9,7 @@
         type="text"
         formControlName="cityName"
         [matAutocomplete]="auto" />
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSuggestion($event.option.value)">
         @for (option of $citySuggestions | async; track option) {
           <mat-option [value]="option">{{ option }}</mat-option>
         }
@@ -25,7 +25,7 @@
             [formControlName]="i"
             (input)="onRelationChange($event)"
             [matAutocomplete]="relation" />
-          <mat-autocomplete #relation="matAutocomplete">
+          <mat-autocomplete #relation="matAutocomplete" (optionSelected)="onSuggestion($event.option.value)">
             @for (option of $relationSuggestions | async; track option.id) {
               <mat-option [value]="option.city">{{ option.city }}</mat-option>
             }
@@ -39,5 +39,7 @@
     </div>
     <button mat-button (click)="onAddStation()">Add station</button>
   </form>
-  <div class="map-wrapper"></div>
+  <div class="map-wrapper">
+    <app-map [coordinates]="mapCoordinates" />
+  </div>
 </div>

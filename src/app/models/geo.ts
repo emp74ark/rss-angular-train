@@ -1,9 +1,10 @@
+export type GeoLocation = {
+  lat: number;
+  lng: number;
+};
 export type MapsApiCoordinates = {
   geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
+    location: GeoLocation;
   };
 };
 

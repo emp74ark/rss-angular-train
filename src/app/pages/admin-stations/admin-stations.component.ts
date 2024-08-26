@@ -10,6 +10,8 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, switchMap,
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { StationConnections } from '../../models/stations';
+import { MapComponent } from '../../components/map/map.component';
+import { GeoLocation } from '../../models/geo';
 
 @Component({
   selector: 'app-admin-stations',
@@ -24,6 +26,7 @@ import { StationConnections } from '../../models/stations';
     AsyncPipe,
     MatOption,
     MatAutocompleteTrigger,
+    MapComponent,
   ],
   templateUrl: './admin-stations.component.html',
   styleUrl: './admin-stations.component.scss',
@@ -43,6 +46,8 @@ export class AdminStationsComponent implements OnInit {
   relations: StationConnections[] = [];
   $relationName = new BehaviorSubject<string>('');
   $relationSuggestions = new BehaviorSubject<StationConnections[]>([]);
+
+  mapCoordinates: GeoLocation;
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -118,6 +123,23 @@ export class AdminStationsComponent implements OnInit {
   onRelationChange($event: Event) {
     const value = ($event.target as HTMLInputElement).value;
     this.$relationName.next(value);
+  }
+
+  onSuggestion(value: string) {
+    this.geoService
+      .getCoordinatesByName(value)
+      .pipe(
+        tap(({ results }) => {
+          if (results.length) {
+            this.mapCoordinates = {
+              lat: results[0].geometry.location.lat,
+              lng: results[0].geometry.location.lng,
+            };
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   onAddStation() {
