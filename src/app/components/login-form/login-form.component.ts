@@ -104,7 +104,6 @@ export class LoginFormComponent {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       this.untrackedErrorMessage.set('');
-      console.log({ values: { email: this.form.value.email, password: this.form.value.password } });
       const { email, password } = this.form.getRawValue();
       this.isRegistering.set(true);
       this.authService
@@ -118,7 +117,6 @@ export class LoginFormComponent {
             if (data.status === AuthResponseStatus.OK) {
               this.router.navigate(['/']);
             } else if (data.error?.reason === 'userNotFound') {
-              console.log('userNotFound Error');
               this.previousFormFields.fields['email'] = email;
               this.previousFormFields.fields['password'] = password;
               this.previousFormFields.validate = true;

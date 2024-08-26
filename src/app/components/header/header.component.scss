@@ -1,0 +1,17 @@
+@import 'theme';
+@import 'palette-color';
+
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.active-link {
+  background-color: $color-pr-90;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

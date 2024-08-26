@@ -24,16 +24,16 @@ export class AuthService {
     role: null,
   });
 
+  $authStatus = this.$$authStatus.asObservable();
+
   constructor(private httpClient: HttpClient) {
     if (this.$$authStatus.getValue().token) {
       this.getRole().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     }
   }
 
-  $authStatus = this.$$authStatus.asObservable();
-
   signUp(body: AuthRequest) {
-    return this.httpClient.post<AuthResponse>(AuthRoutes.signup, body).pipe(
+    return this.httpClient.post<AuthResponse>(AuthRoutes.Signup, body).pipe(
       switchMap(() => {
         return this.signIn(body);
       }),
@@ -46,7 +46,7 @@ export class AuthService {
 
   signIn(body: AuthRequest) {
     this.cleanToken();
-    return this.httpClient.post<AuthResponse>(AuthRoutes.signin, body).pipe(
+    return this.httpClient.post<AuthResponse>(AuthRoutes.Signin, body).pipe(
       switchMap(res => {
         this.$$authStatus.next({ token: res.token, success: true, error: null, role: null });
         localStorage.setItem('rsToken', res.token);
@@ -61,7 +61,7 @@ export class AuthService {
   }
 
   getRole() {
-    return this.httpClient.get<ProfileResponse>(ProfileRoutes.profile).pipe(
+    return this.httpClient.get<ProfileResponse>(ProfileRoutes.Profile).pipe(
       switchMap(res => {
         const resStatus: AuthStatus = {
           ...this.$$authStatus.getValue(),
@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   logOut() {
-    this.httpClient.delete(AuthRoutes.logout);
+    this.httpClient.delete(AuthRoutes.Logout);
     this.cleanToken();
   }
 

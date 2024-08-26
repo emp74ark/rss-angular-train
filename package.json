@@ -40,10 +40,25 @@
     "@angular/cli": "^18.1.3",
     "@angular/compiler-cli": "^18.1.0",
     "@ngrx/eslint-plugin": "^18.0.2",
-    "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@types/lodash": "^4.17.7",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
     "eslint": "^8.57.0",
+    "lint-staged": "^15.2.9",
+    "lint-staged-tsc": "^0.2.1",
     "prettier": "^3.3.3",
     "typescript": "~5.4.2"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint",
+      "prettier --write",
+      "lint-staged-tsc"
+    ],
+    "src/**/*.{css,scss,html}": [
+      "prettier --write --ignore-unknown"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }
