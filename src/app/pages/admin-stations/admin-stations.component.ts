@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { StationsService } from '../../services/stations.service';
 import { GeocodingService } from '../../services/geocoding.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
+import { StationConnections } from '../../models/stations';
 
 @Component({
   selector: 'app-admin-stations',
@@ -36,40 +37,95 @@ export class AdminStationsComponent implements OnInit {
 
   form: FormGroup;
 
-  $input = new BehaviorSubject<string>('');
+  $cityName = new BehaviorSubject<string>('');
   $citySuggestions = new BehaviorSubject<string[]>([]);
+
+  relations: StationConnections[] = [];
+  $relationName = new BehaviorSubject<string>('');
+  $relationSuggestions = new BehaviorSubject<StationConnections[]>([]);
 
   ngOnInit() {
     this.form = this.fb.group({
       cityName: [''],
-      relations: [''],
+      relations: this.fb.array([new FormControl(null)]),
     });
 
-    this.$input
+    // preload stations list
+    this.stationService
+      .getStations()
+      .pipe(
+        tap(result => (this.relations = result)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
+
+    this.$cityName
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        tap(value => console.log('!', value)),
+        filter(value => !!value.trim()),
         switchMap(value => {
           return this.geoService.getAutoCompleteSuggestions(value);
         }),
         tap(value => {
-          console.log('SUGGESTION', value);
           this.$citySuggestions.next(value.predictions.map(el => el.description));
         }),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
+
+    this.$relationName
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(value => {
+          return this.stationService.getStations().pipe(
+            tap((stations: StationConnections[]) => {
+              const cities = stations.filter(el => {
+                const trimmedValue = value.trim().toLowerCase();
+                const trimmedCity = el.city.trim().toLowerCase();
+                if (trimmedValue && trimmedCity.startsWith(trimmedValue)) {
+                  return el;
+                }
+                return null;
+              });
+              this.$relationSuggestions.next(cities);
+            }),
+          );
+        }),
+      )
+      .subscribe();
   }
 
-  onInputChange($event: Event) {
+  get relationsGroup() {
+    return this.form.get('relations') as FormArray;
+  }
+
+  addRelation(): void {
+    const relationControl = this.fb.control(null);
+    this.relationsGroup.push(relationControl);
+  }
+
+  removeRelation(i: number): void {
+    this.relationsGroup.removeAt(i);
+  }
+
+  onCityNameChange($event: Event) {
     const value = ($event.target as HTMLInputElement).value;
-    this.$input.next(value);
+    this.$cityName.next(value);
+  }
+
+  onRelationChange($event: Event) {
+    const value = ($event.target as HTMLInputElement).value;
+    this.$relationName.next(value);
   }
 
   onAddStation() {
     if (this.form.valid) {
-      const cityName = this.form.controls['cityName']?.value as string;
+      const { cityName, relations } = this.form.value;
+
+      const relationIds = this.relations.filter(({ city }) => relations.includes(city)).map(relation => relation.id);
+
       this.geoService
         .getCoordinatesByName(cityName)
         .pipe(
@@ -79,13 +135,15 @@ export class AdminStationsComponent implements OnInit {
               city: cityName,
               latitude: results[0].geometry.location.lat,
               longitude: results[0].geometry.location.lng,
-              relations: [],
+              relations: relationIds,
             });
           }),
           tap(res => console.log(res)),
           takeUntilDestroyed(this.destroyRef),
         )
         .subscribe();
+
+      this.form.reset();
     }
   }
 }

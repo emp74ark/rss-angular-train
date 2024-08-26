@@ -18,3 +18,11 @@
   max-width: 60%;
   height: auto;
 }
+
+.relations {
+  display: flex;
+  flex-direction: column;
+  background: #eae9e9;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
