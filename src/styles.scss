@@ -1,5 +1,6 @@
 @import 'theme';
 @import 'palette-color';
+@import 'variables';
 
 html,
 body {
@@ -8,6 +9,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 16px;
   background-color: var(--mat-app-background);
 }
 
@@ -18,4 +20,20 @@ body {
   border: none;
   outline: none;
   background-color: transparent;
+}
+
+app-root {
+  margin: 0 auto;
+}
+
+@media (min-width: $desktop) {
+  app-root {
+    width: $desktop;
+  }
+}
+
+@media (max-width: $tablet) {
+  body {
+    font-size: 12px;
+  }
 }

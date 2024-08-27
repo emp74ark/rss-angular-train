@@ -1,3 +1,5 @@
+@import 'variables';
+
 $color-primary: #1a3487;
 $color-secondary: #ccc;
 $color-tertiary: #7e96e3;
@@ -7,6 +9,8 @@ $carriage-border: 2px solid $color-secondary;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  padding: 1rem;
 }
 
 .carriage {
@@ -24,8 +28,8 @@ $carriage-border: 2px solid $color-secondary;
   flex-shrink: 0;
 
   & div {
-    height: 10rem;
-    width: 10rem;
+    height: 5rem;
+    width: 5rem;
   }
 }
 
@@ -50,7 +54,7 @@ $carriage-border: 2px solid $color-secondary;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 4rem;
+  gap: 2rem;
 }
 
 .row {
@@ -67,8 +71,8 @@ $carriage-border: 2px solid $color-secondary;
 }
 
 .seat {
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
 
   .indicator {
     width: 100%;
@@ -78,7 +82,7 @@ $carriage-border: 2px solid $color-secondary;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: x-large;
+    font-size: large;
   }
 
   .indicator:hover {
@@ -110,5 +114,15 @@ $carriage-border: 2px solid $color-secondary;
   }
   100% {
     background: $color-primary;
+  }
+}
+
+@media (max-width: $mobile) {
+  .carriage {
+    transform: rotate(90deg) translate(40%, 0);
+  }
+
+  .indicator {
+    transform: rotate(270deg);
   }
 }
