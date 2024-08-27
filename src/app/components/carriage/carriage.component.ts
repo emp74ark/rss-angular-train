@@ -1,4 +1,6 @@
-import { Component, computed, input, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
+
+type SeatState = { id: number; state: 'free' | 'booked' | 'disabled' };
 
 @Component({
   selector: 'app-carriage',
@@ -8,42 +10,35 @@ import { Component, computed, input, OnInit } from '@angular/core';
   styleUrl: './carriage.component.scss',
 })
 export class CarriageComponent implements OnInit {
-  // input values:
-  rows = input<number>(16);
-  leftSeats = input<number>(48);
-  rightSeats = input<number>(32);
+  initialValue = input<number>();
+  rows = input<number>(5);
+  leftSeats = input<number>(2);
+  rightSeats = input<number>(2);
 
-  // computed values:
-  leftSeatsLines = computed<number>(() => {
-    return this.leftSeats() / this.rows();
-  });
-  rightSeatsLines = computed<number>(() => {
-    return this.rightSeats() / this.rows();
-  });
-
-  seats: Record<'left' | 'right', { id: number; booked: boolean }[][]> = {
+  seats: Record<'left' | 'right', SeatState[][]> = {
     left: [],
     right: [],
   };
 
   ngOnInit() {
-    let currentRightSeatNumber = 1;
-    let currentLeftSeatNumber = this.leftSeats() + 1;
+    let seatCounter = 1;
 
-    for (let l = 0; l < this.rows(); l++) {
-      const leftSeatLine = new Array(this.leftSeatsLines());
-      for (let s = 0; s < this.leftSeatsLines(); s++) {
-        leftSeatLine[s] = { id: currentLeftSeatNumber, booked: false };
-        currentLeftSeatNumber++;
-      }
-      this.seats.left.push(leftSeatLine);
+    for (let r = 0; r < this.rows(); r++) {
+      const rightSeatLine = new Array(this.rightSeats());
 
-      const rightSeatLine = new Array(this.rightSeatsLines());
-      for (let s = 0; s < this.rightSeatsLines(); s++) {
-        rightSeatLine[s] = { id: currentRightSeatNumber, booked: false };
-        currentRightSeatNumber++;
+      for (let l = 0; l < this.rightSeats(); l++) {
+        rightSeatLine[l] = { id: seatCounter, state: 'free' };
+        seatCounter++;
       }
       this.seats.right.push(rightSeatLine);
+
+      const leftSeatLine = new Array(this.leftSeats());
+
+      for (let l = 0; l < this.leftSeats(); l++) {
+        leftSeatLine[l] = { id: seatCounter, state: 'free' };
+        seatCounter++;
+      }
+      this.seats.left.push(leftSeatLine);
     }
   }
 

@@ -48,7 +48,7 @@ $carriage-border: 2px solid $color-secondary;
 
 .line {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 1rem;
 }
 
