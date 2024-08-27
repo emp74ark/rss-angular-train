@@ -14,6 +14,7 @@ export class CarriageComponent implements OnInit {
   rows = input<number>(5);
   leftSeats = input<number>(2);
   rightSeats = input<number>(2);
+  editable = input<boolean>(true);
 
   seats: Record<'left' | 'right', SeatState[][]> = {
     left: [],
@@ -27,7 +28,7 @@ export class CarriageComponent implements OnInit {
       const rightSeatLine = new Array(this.rightSeats());
 
       for (let l = 0; l < this.rightSeats(); l++) {
-        rightSeatLine[l] = { id: seatCounter, state: 'free' };
+        rightSeatLine[l] = { id: seatCounter, state: this.editable() ? 'free' : 'disabled' };
         seatCounter++;
       }
       this.seats.right.push(rightSeatLine);
@@ -35,7 +36,7 @@ export class CarriageComponent implements OnInit {
       const leftSeatLine = new Array(this.leftSeats());
 
       for (let l = 0; l < this.leftSeats(); l++) {
-        leftSeatLine[l] = { id: seatCounter, state: 'free' };
+        leftSeatLine[l] = { id: seatCounter, state: this.editable() ? 'booked' : 'disabled' };
         seatCounter++;
       }
       this.seats.left.push(leftSeatLine);
@@ -45,5 +46,9 @@ export class CarriageComponent implements OnInit {
   onClick($event: Event) {
     // todo: add related logic here
     console.log(($event.target as HTMLInputElement).id);
+  }
+
+  isDisabled(state: string) {
+    return state === 'disabled';
   }
 }

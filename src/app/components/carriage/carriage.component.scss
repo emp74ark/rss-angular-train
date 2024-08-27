@@ -2,7 +2,8 @@
 
 $color-primary: #1a3487;
 $color-secondary: #ccc;
-$color-tertiary: #7e96e3;
+$color-tertiary: #6174ae;
+$color-disabled: #979292;
 $carriage-border: 2px solid $color-secondary;
 
 .container {
@@ -80,6 +81,11 @@ $carriage-border: 2px solid $color-secondary;
     color: #fff;
     font-weight: bold;
     animation: selection 1s;
+  }
+
+  & input[type='checkbox']:disabled + .indicator {
+    background: $color-disabled;
+    color: #fff;
   }
 
   & label {
