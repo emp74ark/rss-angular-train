@@ -46,8 +46,6 @@ export class CarriageComponent implements OnInit {
       }
       this.seats.right.push(rightSeatLine);
     }
-
-    console.log(this.seats);
   }
 
   onClick($event: Event) {
