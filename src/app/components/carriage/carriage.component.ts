@@ -9,7 +9,6 @@ import { Component, computed, input, OnInit } from '@angular/core';
 })
 export class CarriageComponent implements OnInit {
   // input values:
-  carriageName = input<string>('Default name');
   rows = input<number>(16);
   leftSeats = input<number>(48);
   rightSeats = input<number>(32);

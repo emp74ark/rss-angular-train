@@ -9,8 +9,8 @@ $carriage-border: 2px solid $color-secondary;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   padding: 1rem;
+  overflow-x: auto;
   container: carriage;
   container-type: inline-size;
 }
@@ -23,36 +23,11 @@ $carriage-border: 2px solid $color-secondary;
   flex-direction: row;
 }
 
-@mixin appendix {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-shrink: 0;
-
-  & div {
-    height: 5rem;
-    width: 5rem;
-  }
-}
-
-.entrance {
-  @include appendix;
-
-  & div {
-    border-right: $carriage-border;
-  }
-}
-
-.exit {
-  @include appendix;
-
-  & div {
-    border-left: $carriage-border;
-  }
+.appendix {
+  width: 5rem;
 }
 
 .rows {
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -64,6 +39,11 @@ $carriage-border: 2px solid $color-secondary;
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  border-width: 0 2px 0 2px;
+  border-style: solid;
+  border-color: $color-secondary;
+  padding: 1rem;
+  min-width: 10rem;
 }
 
 .line {
@@ -119,12 +99,35 @@ $carriage-border: 2px solid $color-secondary;
   }
 }
 
-@container carriage (width < 1000px) {
+@container carriage (width < 800px) {
   .carriage {
-    transform: rotate(90deg) translate(40%, 0);
+    border-radius: 1.2rem;
   }
 
-  .indicator {
-    transform: rotate(270deg);
+  .appendix {
+    width: 4rem;
+  }
+
+  .rows {
+    gap: 1.5rem;
+  }
+
+  .row {
+    gap: 0.7rem;
+    padding: 0.7rem;
+    min-width: 7rem;
+  }
+
+  .line {
+    gap: 0.7rem;
+  }
+
+  .seat {
+    width: 1.3rem;
+    height: 1.3rem;
+
+    .indicator {
+      font-size: small;
+    }
   }
 }
