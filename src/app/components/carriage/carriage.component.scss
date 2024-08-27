@@ -1,0 +1,114 @@
+$color-primary: #1a3487;
+$color-secondary: #ccc;
+$color-tertiary: #7e96e3;
+$carriage-border: 2px solid $color-secondary;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carriage {
+  border: $carriage-border;
+  border-radius: 1.5rem;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin appendix {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+
+  & div {
+    height: 10rem;
+    width: 10rem;
+  }
+}
+
+.entrance {
+  @include appendix;
+
+  & div {
+    border-right: $carriage-border;
+  }
+}
+
+.exit {
+  @include appendix;
+
+  & div {
+    border-left: $carriage-border;
+  }
+}
+
+.rows {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+.row {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.line {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.seat {
+  width: 4rem;
+  height: 4rem;
+
+  .indicator {
+    width: 100%;
+    height: 100%;
+    background: #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: x-large;
+  }
+
+  .indicator:hover {
+    background: $color-tertiary;
+  }
+
+  & input[type='checkbox'] {
+    display: none;
+  }
+
+  & input[type='checkbox']:checked + .indicator {
+    background: $color-primary;
+    color: #fff;
+    font-weight: bold;
+    animation: selection 1s;
+  }
+
+  & label {
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@keyframes selection {
+  0% {
+    background: $color-secondary;
+  }
+  100% {
+    background: $color-primary;
+  }
+}
