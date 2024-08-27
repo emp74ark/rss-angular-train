@@ -28,6 +28,7 @@ export class SearchService {
     toLongitude: number;
     time?: number;
   }) {
+    console.log('search');
     return this.httpClient
       .get<SearchResult>('/api/search', {
         params: searchParams,
@@ -36,6 +37,7 @@ export class SearchService {
         tap(result => {
           this.$$searchResults.next(result);
           this.$$apiStatus.next({ success: true, error: null });
+          console.log('result', result);
         }),
         catchError(({ error }: HttpErrorResponse) => {
           this.$$searchResults.next(null);

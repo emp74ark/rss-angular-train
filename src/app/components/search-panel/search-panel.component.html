@@ -1,0 +1,55 @@
+<mat-toolbar [formGroup]="form">
+  <mat-form-field>
+    <mat-label>From</mat-label>
+    <input
+      type="text"
+      placeholder="Departure"
+      aria-label="From"
+      matInput
+      formControlName="from"
+      [matAutocomplete]="from" />
+
+    <!-- <mat-error *ngIf="from?.invalid">From field is required</mat-error> -->
+    <mat-autocomplete #from="matAutocomplete">
+      @for (station of filteredFrom | async; track station.city) {
+        <mat-option [value]="station.city">
+          {{ station.city }}
+        </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <button
+    mat-mini-fab
+    aria-label="icon button with a sync_alt icon"
+    color="primary"
+    type="button"
+    (click)="switchStations()">
+    <mat-icon>sync_alt</mat-icon>
+  </button>
+  <mat-form-field>
+    <mat-label>To</mat-label>
+    <input type="text" placeholder="Destination" aria-label="To" matInput formControlName="to" [matAutocomplete]="to" />
+
+    <!-- <mat-error *ngIf="to?.invalid">Destination field is required</mat-error> -->
+    <mat-autocomplete #to="matAutocomplete">
+      @for (station of filteredTo | async; track station.city) {
+        <mat-option [value]="station.city">
+          {{ station.city }}
+        </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <!-- <mat-error *ngIf="start?.hasError('required')">Choose departure date, please</mat-error> -->
+    <mat-datepicker #picker>
+      <mat-date-range-picker-actions>
+        <button mat-button color="primary" matDateRangePickerCancel>Cancel</button>
+        <button mat-button color="primary" matDateRangePickerApply>OK</button>
+      </mat-date-range-picker-actions>
+    </mat-datepicker>
+  </mat-form-field>
+  <button mat-flat-button color="primary" type="submit" (click)="onSubmit()">Search</button>
+</mat-toolbar>
