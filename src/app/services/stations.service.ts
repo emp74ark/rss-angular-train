@@ -35,9 +35,9 @@ export class StationsService {
   }
 
   getStationById(id: number) {
-    return this.httpClient.get(`/api/station`).pipe(
+    return this.$$stations.pipe(
       map(list => {
-        return (list as StationConnections[])?.find(el => {
+        return list.find(el => {
           return el.id === id;
         });
       }),
