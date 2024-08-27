@@ -22,16 +22,6 @@ body {
   background-color: transparent;
 }
 
-app-root {
-  margin: 0 auto;
-}
-
-@media (min-width: $desktop) {
-  app-root {
-    width: $desktop;
-  }
-}
-
 @media (max-width: $tablet) {
   body {
     font-size: 12px;
