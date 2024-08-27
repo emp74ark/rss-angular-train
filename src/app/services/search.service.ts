@@ -44,4 +44,19 @@ export class SearchService {
         }),
       );
   }
+
+  searchRide(rideId: number) {
+    return this.httpClient.get(`/api/search/${rideId}`).pipe(
+      tap(result => {
+        console.log(result);
+        // this.$$searchResults.next(result);
+        this.$$apiStatus.next({ success: true, error: null });
+      }),
+      catchError(({ error }: HttpErrorResponse) => {
+        this.$$searchResults.next(null);
+        this.$$apiStatus.next({ success: false, error: error.message });
+        return of(error);
+      }),
+    );
+  }
 }
