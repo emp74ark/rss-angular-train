@@ -10,7 +10,7 @@ type SeatState = { id: number; state: 'free' | 'booked' | 'disabled' };
   styleUrl: './carriage.component.scss',
 })
 export class CarriageComponent implements OnInit {
-  initialValue = input<number>();
+  initialValue = input<number>(1);
   rows = input<number>(5);
   leftSeats = input<number>(2);
   rightSeats = input<number>(2);
@@ -22,7 +22,7 @@ export class CarriageComponent implements OnInit {
   };
 
   ngOnInit() {
-    let seatCounter = 1;
+    let seatCounter = this.initialValue();
 
     for (let r = 0; r < this.rows(); r++) {
       const rightSeatLine = new Array(this.rightSeats());
