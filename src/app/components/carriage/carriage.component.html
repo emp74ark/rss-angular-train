@@ -1,0 +1,50 @@
+<div class="container">
+  <h2>{{ carriageName() }}</h2>
+  <div class="carriage">
+    <div class="entrance">
+      <div></div>
+      <div></div>
+    </div>
+
+    <div class="rows">
+      <ul class="row">
+        @for (line of seats.left; let i = $index; track i) {
+          <div class="line">
+            @for (seat of line; let i = $index; track i) {
+              @if (seat?.id) {
+                <li class="seat">
+                  <label [for]="seat.id">
+                    <input type="checkbox" (change)="onClick($event)" [name]="seat.id" [id]="seat.id" />
+                    <span class="indicator">{{ seat.id }}</span>
+                  </label>
+                </li>
+              }
+            }
+          </div>
+        }
+      </ul>
+
+      <ul class="row">
+        @for (line of seats.right; let i = $index; track i) {
+          <div class="line">
+            @for (seat of line; let i = $index; track i) {
+              @if (seat?.id) {
+                <li class="seat">
+                  <label [for]="seat.id">
+                    <input type="checkbox" (change)="onClick($event)" [name]="seat.id" [id]="seat.id" />
+                    <span class="indicator">{{ seat.id }}</span>
+                  </label>
+                </li>
+              }
+            }
+          </div>
+        }
+      </ul>
+    </div>
+
+    <div class="exit">
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
