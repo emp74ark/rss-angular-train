@@ -1,0 +1,49 @@
+.wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background: #000000b7;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.frame {
+  width: 50%;
+  height: auto;
+  background: #fff;
+  border-radius: 0.5rem;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: #ccc;
+  padding: 0.5rem 1rem;
+  font-size: large;
+  font-weight: 500;
+
+  & button {
+    cursor: pointer;
+    font-size: large;
+    font-weight: 500;
+
+    &:active {
+      font-weight: bold;
+    }
+  }
+}
+
+.content {
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: 40rem;
+}

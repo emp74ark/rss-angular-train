@@ -1,0 +1,11 @@
+<div class="wrapper">
+  <div class="frame">
+    <div class="header">
+      <span>{{ title() }}</span>
+      <button (click)="onClose()">&times;</button>
+    </div>
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
