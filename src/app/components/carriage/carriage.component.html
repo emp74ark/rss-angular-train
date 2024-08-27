@@ -10,7 +10,12 @@
               @if (seat?.id) {
                 <li class="seat">
                   <label [for]="seat.id">
-                    <input type="checkbox" (change)="onClick($event)" [name]="seat.id" [id]="seat.id" />
+                    <input
+                      type="checkbox"
+                      [disabled]="isDisabled(seat.state)"
+                      (change)="onClick($event)"
+                      [name]="seat.id"
+                      [id]="seat.id" />
                     <span class="indicator">{{ seat.id }}</span>
                   </label>
                 </li>
@@ -27,7 +32,12 @@
               @if (seat?.id) {
                 <li class="seat">
                   <label [for]="seat.id">
-                    <input type="checkbox" (change)="onClick($event)" [name]="seat.id" [id]="seat.id" />
+                    <input
+                      type="checkbox"
+                      [disabled]="isDisabled(seat.state)"
+                      (change)="onClick($event)"
+                      [name]="seat.id"
+                      [id]="seat.id" />
                     <span class="indicator">{{ seat.id }}</span>
                   </label>
                 </li>
