@@ -11,6 +11,8 @@ $carriage-border: 2px solid $color-secondary;
   align-items: center;
   width: 100%;
   padding: 1rem;
+  container: carriage;
+  container-type: inline-size;
 }
 
 .carriage {
@@ -117,7 +119,7 @@ $carriage-border: 2px solid $color-secondary;
   }
 }
 
-@media (max-width: $mobile) {
+@container carriage (width < 1000px) {
   .carriage {
     transform: rotate(90deg) translate(40%, 0);
   }
