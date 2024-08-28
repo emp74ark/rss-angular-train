@@ -1,1 +1,160 @@
-<p>admin-carriages works!</p>
+@let isMobile = ($pageWidth | async)?.isMobile;
+@if (form) {
+  <form [formGroup]="form" class="registerForm" (ngSubmit)="onSubmit()">
+    <mat-card class="matCard" appearance="outlined">
+      <mat-card-header class="cardHeader">
+        <mat-card-subtitle>{{ formCodeControlValue ? 'Edit' : 'Create' }}</mat-card-subtitle>
+        <mat-card-title></mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="cardContent">
+        <div class="formContent">
+          <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+            <mat-label>Name</mat-label>
+            <input matInput [errorStateMatcher]="matcher" placeholder="Enter carriage name" formControlName="name" />
+            <mat-error><app-form-error-message formControlName="name" /></mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+            <mat-label>Rows</mat-label>
+            <input
+              matInput
+              [errorStateMatcher]="matcher"
+              type="number"
+              min="-1"
+              placeholder="Enter number of rows"
+              formControlName="rows"
+              class="full-width" />
+            <mat-error><app-form-error-message formControlName="rows" /></mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+            <mat-label>Left columns</mat-label>
+            <input
+              matInput
+              type="number"
+              [errorStateMatcher]="matcher"
+              (ngModelChange)="onLeftChange()"
+              min="0"
+              placeholder="Enter number of left columns"
+              formControlName="leftColumns"
+              class="full-width" />
+            <mat-error><app-form-error-message formControlName="leftColumns" /></mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
+            <mat-label>Right columns</mat-label>
+            <input
+              matInput
+              type="number"
+              [errorStateMatcher]="matcher"
+              (ngModelChange)="onRightChange()"
+              min="0"
+              placeholder="Enter number of right columns"
+              formControlName="rightColumns"
+              class="full-width" />
+            <mat-error><app-form-error-message formControlName="rightColumns" /></mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="cardControls">
+        <button
+          mat-flat-button
+          color="primary"
+          class="full-width saveButton"
+          type="submit"
+          [disabled]="isSubmitDisabled">
+          Save
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="full-width cancelButton"
+          type="button"
+          (click)="onCanselForm()">
+          Cancel
+        </button>
+      </mat-card-actions>
+      <mat-card-footer class="cardFooter">
+        @let untrackedErrorText = untrackedErrorMessage();
+        <div [ngClass]="{ unknownErrorContainer: true, opened: untrackedErrorText }">
+          <mat-error class="unknownError">{{ untrackedErrorText }}</mat-error>
+        </div>
+      </mat-card-footer>
+    </mat-card>
+  </form>
+}
+
+<button
+  mat-flat-button
+  color="primary"
+  class="full-width createButton"
+  type="submit"
+  [disabled]="createFormDisabled"
+  (click)="createNewForm()">
+  Create
+</button>
+
+<h5 class="devider">Cariages</h5>
+
+@let carriages = carriagesSig();
+@for (carriage of carriages; track carriage.code) {
+  <mat-card class="matCard createdCard" appearance="outlined">
+    <mat-card-header class="cardHeader">
+      <mat-card-subtitle></mat-card-subtitle>
+      <mat-card-title>{{ carriage.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="cardContent">
+      <div class="dataField">
+        <span class="title">Rows:</span>
+        <span class="value">{{ carriage.rows }}</span>
+      </div>
+      <div class="dataField">
+        <span class="title">Left seats:</span>
+        <span class="value">{{ carriage.leftSeats }}</span>
+      </div>
+      <div class="dataField">
+        <span class="title">Right seats:</span>
+        <span class="value">{{ carriage.rightSeats }}</span>
+      </div>
+    </mat-card-content>
+    <mat-card-actions class="cardControls">
+      @if (isMobile) {
+        <button
+          mat-flat-button
+          color="primary"
+          class="full-width editButton"
+          type="submit"
+          [disabled]="createFormDisabled"
+          (click)="editCarriage(carriage)">
+          Edit
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          class="full-width deleteButton"
+          type="submit"
+          [disabled]="isDeleteDisabled || carriage.code === formCodeControlValue"
+          (click)="deleteCarriage(carriage.code)">
+          Delete
+        </button>
+      } @else {
+        <button
+          mat-raised-button
+          color="primary"
+          class="full-width editButton"
+          type="submit"
+          [disabled]="createFormDisabled"
+          (click)="editCarriage(carriage)">
+          Edit
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          class="full-width deleteButton"
+          type="submit"
+          [disabled]="isDeleteDisabled || carriage.code === formCodeControlValue"
+          (click)="deleteCarriage(carriage.code)">
+          Delete
+        </button>
+      }
+    </mat-card-actions>
+    <mat-card-footer class="cardFooter"> </mat-card-footer>
+  </mat-card>
+}
