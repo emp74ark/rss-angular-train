@@ -1,12 +1,19 @@
+@import 'variables';
+
 $color-primary: #1a3487;
 $color-secondary: #ccc;
-$color-tertiary: #7e96e3;
+$color-tertiary: #6174ae;
+$color-disabled: #979292;
 $carriage-border: 2px solid $color-secondary;
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1rem;
+  overflow-x: auto;
+  container: carriage;
+  container-type: inline-size;
 }
 
 .carriage {
@@ -17,40 +24,15 @@ $carriage-border: 2px solid $color-secondary;
   flex-direction: row;
 }
 
-@mixin appendix {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-shrink: 0;
-
-  & div {
-    height: 10rem;
-    width: 10rem;
-  }
-}
-
-.entrance {
-  @include appendix;
-
-  & div {
-    border-right: $carriage-border;
-  }
-}
-
-.exit {
-  @include appendix;
-
-  & div {
-    border-left: $carriage-border;
-  }
+.appendix {
+  width: 5rem;
 }
 
 .rows {
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 4rem;
+  gap: 2rem;
 }
 
 .row {
@@ -58,17 +40,22 @@ $carriage-border: 2px solid $color-secondary;
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  border-width: 0 2px 0 2px;
+  border-style: solid;
+  border-color: $color-secondary;
+  padding: 1rem;
+  min-width: 10rem;
 }
 
 .line {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 1rem;
 }
 
 .seat {
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
 
   .indicator {
     width: 100%;
@@ -78,7 +65,7 @@ $carriage-border: 2px solid $color-secondary;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: x-large;
+    font-size: large;
   }
 
   .indicator:hover {
@@ -96,6 +83,11 @@ $carriage-border: 2px solid $color-secondary;
     animation: selection 1s;
   }
 
+  & input[type='checkbox']:disabled + .indicator {
+    background: $color-disabled;
+    color: #fff;
+  }
+
   & label {
     cursor: pointer;
     display: flex;
@@ -110,5 +102,38 @@ $carriage-border: 2px solid $color-secondary;
   }
   100% {
     background: $color-primary;
+  }
+}
+
+@container carriage (width < 800px) {
+  .carriage {
+    border-radius: 1.2rem;
+  }
+
+  .appendix {
+    width: 4rem;
+  }
+
+  .rows {
+    gap: 1.5rem;
+  }
+
+  .row {
+    gap: 0.7rem;
+    padding: 0.7rem;
+    min-width: 7rem;
+  }
+
+  .line {
+    gap: 0.7rem;
+  }
+
+  .seat {
+    width: 1.3rem;
+    height: 1.3rem;
+
+    .indicator {
+      font-size: small;
+    }
   }
 }

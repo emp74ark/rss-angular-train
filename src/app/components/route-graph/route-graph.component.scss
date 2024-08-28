@@ -1,0 +1,25 @@
+.title {
+  font-weight: bold;
+  color: #ccc;
+  padding-bottom: 1rem;
+}
+
+.table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.col1 {
+  display: flex;
+  flex-direction: column;
+  font-size: small;
+}
+
+.col2 {
+  font-size: large;
+}
+
+.col3 {
+  font-size: small;
+}
