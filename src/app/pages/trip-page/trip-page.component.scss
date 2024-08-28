@@ -1,0 +1,70 @@
+.trip-header {
+  background: #ccc;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.trip-direction {
+  display: flex;
+  flex-direction: column;
+}
+
+.trip-station {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  & span:first-child {
+    font-weight: bold;
+  }
+  & span:last-child {
+    font-size: small;
+  }
+}
+
+.trip-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+
+  & > span {
+    font-weight: bold;
+  }
+
+  & > button {
+    font-size: small;
+    cursor: pointer;
+    color: #6174ae;
+  }
+}
+
+.trip-content {
+  display: flex;
+  flex-direction: row;
+  min-height: 80%;
+  padding: 0 2rem;
+}
+
+.carriage-details {
+  flex: 2;
+}
+
+.carriage-selector {
+  max-width: 70vw;
+  margin: 1rem auto;
+}
+
+.carriage-container {
+}
+
+.order-details {
+  flex: 1;
+  align-self: flex-end;
+}
