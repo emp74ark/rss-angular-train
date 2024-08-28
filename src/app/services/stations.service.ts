@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { StationConnections, StationRelations } from '../models/stations';
-import { BehaviorSubject, catchError, map, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, of, switchMap, tap } from 'rxjs';
 import { ApiStatus } from '../models/common';
 
 @Injectable({
@@ -36,10 +36,8 @@ export class StationsService {
 
   getStationById(id: number) {
     return this.$$stations.pipe(
-      map(list => {
-        return list.find(el => {
-          return el.id === id;
-        });
+      switchMap(list => {
+        return of(list.find(el => el.id === id));
       }),
       catchError(({ error }: HttpErrorResponse) => {
         console.log(error);

@@ -47,9 +47,7 @@ export class SearchService {
 
   searchRide(rideId: number) {
     return this.httpClient.get(`/api/search/${rideId}`).pipe(
-      tap(result => {
-        console.log(result);
-        // this.$$searchResults.next(result);
+      tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
       }),
       catchError(({ error }: HttpErrorResponse) => {
