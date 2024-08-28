@@ -1,0 +1,42 @@
+<table class="table">
+  <thead class="title">
+    <th>Time</th>
+    <th>Station</th>
+    <th>Arrival</th>
+  </thead>
+  <tbody>
+    @for (el of route()?.path; let i = $index; track i) {
+      @if (stationsService.getStationById(el) | async; as station) {
+        <tr>
+          <td class="col1">
+            @if (i === stepsAmount()) {
+              <span>
+                {{ route()?.schedule?.[0]?.segments?.[i - 1]?.time?.[1] | date: 'shortTime' }}
+              </span>
+            }
+            <span>
+              {{ route()?.schedule?.[0]?.segments?.[i]?.time?.[0] | date: 'shortTime' }}
+            </span>
+            <span>
+              {{ route()?.schedule?.[0]?.segments?.[i]?.time?.[1] | date: 'shortTime' }}
+            </span>
+          </td>
+          <td class="col2">{{ station.city }}</td>
+          <td class="col3">
+            @if (i === 0) {
+              First station
+            } @else if (i === stepsAmount()) {
+              Last station
+            }
+            {{
+              dateDif(
+                route()?.schedule?.[0]?.segments?.[i - 1]?.time?.[1],
+                route()?.schedule?.[0]?.segments?.[i]?.time?.[0]
+              )
+            }}
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
+</table>

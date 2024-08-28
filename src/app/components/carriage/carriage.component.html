@@ -1,10 +1,6 @@
 <div class="container">
-  <h2>{{ carriageName() }}</h2>
   <div class="carriage">
-    <div class="entrance">
-      <div></div>
-      <div></div>
-    </div>
+    <div class="appendix"></div>
 
     <div class="rows">
       <ul class="row">
@@ -14,7 +10,12 @@
               @if (seat?.id) {
                 <li class="seat">
                   <label [for]="seat.id">
-                    <input type="checkbox" (change)="onClick($event)" [name]="seat.id" [id]="seat.id" />
+                    <input
+                      type="checkbox"
+                      [disabled]="isDisabled(seat.state)"
+                      (change)="onClick($event)"
+                      [name]="seat.id"
+                      [id]="seat.id" />
                     <span class="indicator">{{ seat.id }}</span>
                   </label>
                 </li>
@@ -31,7 +32,12 @@
               @if (seat?.id) {
                 <li class="seat">
                   <label [for]="seat.id">
-                    <input type="checkbox" (change)="onClick($event)" [name]="seat.id" [id]="seat.id" />
+                    <input
+                      type="checkbox"
+                      [disabled]="isDisabled(seat.state)"
+                      (change)="onClick($event)"
+                      [name]="seat.id"
+                      [id]="seat.id" />
                     <span class="indicator">{{ seat.id }}</span>
                   </label>
                 </li>
@@ -42,9 +48,6 @@
       </ul>
     </div>
 
-    <div class="exit">
-      <div></div>
-      <div></div>
-    </div>
+    <div class="appendix"></div>
   </div>
 </div>
