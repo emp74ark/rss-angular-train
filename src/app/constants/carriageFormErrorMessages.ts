@@ -12,18 +12,18 @@ export const carriageFormErrorMessages = {
     pattern: 'Rows must be integers',
     required: 'Rows is required',
   },
-  leftColumns: {
-    min: 'Too few columns',
-    pattern: 'Columns must be integers',
-    required: 'Columns is required',
-    minSumRows: 'Too few columns in total',
-    maxSumRows: 'Too many columns in total',
+  leftSeats: {
+    min: 'Too few seats',
+    pattern: 'Seats must be integers',
+    required: 'Seats is required',
+    minSumRows: 'Too few seats in row',
+    maxSumRows: 'Too many seats in row',
   },
-  rightColumns: {
-    min: 'Too few columns',
-    pattern: 'Columns must be integers',
-    required: 'Right columns is required',
-    minSumRows: 'Too few columns in total',
-    maxSumRows: 'Too many columns in total',
+  rightSeats: {
+    min: 'Too few seats',
+    pattern: 'Seats must be integers',
+    required: 'Seats is required',
+    minSumRows: 'Too few seats in row',
+    maxSumRows: 'Too many seats in row',
   },
 };
