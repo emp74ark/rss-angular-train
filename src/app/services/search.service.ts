@@ -26,7 +26,7 @@ export class SearchService {
     fromLongitude: number;
     toLatitude: number;
     toLongitude: number;
-    time?: number;
+    time?: string;
   }) {
     console.log('search');
     return this.httpClient
