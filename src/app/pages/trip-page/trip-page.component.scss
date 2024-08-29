@@ -1,3 +1,10 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
 .trip-header {
   background: #ccc;
   display: flex;
@@ -47,24 +54,25 @@
 
 .trip-content {
   display: flex;
-  flex-direction: row;
-  min-height: 80%;
-  padding: 0 2rem;
-}
-
-.carriage-details {
-  flex: 2;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
 }
 
 .carriage-selector {
-  max-width: 70vw;
-  margin: 1rem auto;
-}
-
-.carriage-container {
+  max-width: 80vw;
 }
 
 .order-details {
-  flex: 1;
-  align-self: flex-end;
+  width: 20rem;
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  padding: 0.5rem 1rem;
+  & ul {
+    padding-left: 1rem;
+  }
+  & li {
+    padding: 0.2rem;
+  }
 }
