@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, Signal, signal 
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { CarriageService } from '../../services/carriage';
 import { CarriageData, CarriageResponseStatus } from '../../models/carriage';
 import { CarriageComponent } from '../../components/carriage/carriage.component';
@@ -56,6 +56,18 @@ export class AdminCarriagesComponent {
   isDeleting = signal(false);
   matcher = inject(FastErrorStateMatcher);
   protected untrackedErrorMessage = signal('');
+  protected form: FormGroup<{
+    code: FormControl<string>;
+    name: FormControl<string>;
+    rows: FormControl<number>;
+    leftSeats: FormControl<number>;
+    rightSeats: FormControl<number>;
+  }> | null = null;
+  protected carriageViewState = signal<Omit<CarriageData, 'code' | 'name'>>({
+    leftSeats: 0,
+    rightSeats: 0,
+    rows: 0,
+  });
   private carriageService = inject(CarriageService);
   private pageService = inject(PageWidthService);
   private destroyRef = inject(DestroyRef);
@@ -74,14 +86,6 @@ export class AdminCarriagesComponent {
   };
 
   private previousFormCode: { code: string; validate: boolean } = { code: '', validate: false };
-
-  form: FormGroup<{
-    code: FormControl<string | null>;
-    name: FormControl<string>;
-    rows: FormControl<number>;
-    leftColumns: FormControl<number>;
-    rightColumns: FormControl<number>;
-  }> | null = null;
 
   constructor() {
     this.carriagesSig = toSignal(this.carriageService.$carriages, { initialValue: [] });
@@ -105,47 +109,6 @@ export class AdminCarriagesComponent {
     return this.form ? this.form.controls.code.value : null;
   }
 
-  createForm({ code, leftSeats, name, rightSeats, rows }: CarriageData) {
-    this.form = new FormGroup({
-      code: new FormControl<string>(code),
-      name: new FormControl<string>(name, {
-        nonNullable: true,
-        validators: [
-          Validators.required,
-          uniqueCarriageNameValidator(this.uniqueCarriageNameValidatorParams, this.carriagesSig),
-          carriageCodeDuplicateValidator(this.previousFormCode),
-        ],
-      }),
-      rows: new FormControl<number>(rows, {
-        nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.min(CARRIAGEMINROWS),
-          Validators.max(CARRIAGEMAXROWS),
-          Validators.pattern(/^[0-9]*$/),
-        ],
-      }),
-      leftColumns: new FormControl<number>(leftSeats, {
-        nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.min(0),
-          Validators.pattern(/^[0-9]*$/),
-          maxSumColumns(this.maxSumColumnsParams, 'rightColumns'),
-        ],
-      }),
-      rightColumns: new FormControl<number>(rightSeats, {
-        nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.min(0),
-          Validators.pattern(/^[0-9]*$/),
-          maxSumColumns(this.maxSumColumnsParams, 'leftColumns'),
-        ],
-      }),
-    });
-  }
-
   createNewForm() {
     this.createForm({ code: '', name: '', leftSeats: 1, rightSeats: 1, rows: 12 });
   }
@@ -156,17 +119,17 @@ export class AdminCarriagesComponent {
 
   onLeftChange() {
     if (this.form) {
-      this.form.controls.leftColumns.markAsTouched();
-      this.form.controls.rightColumns.markAsTouched();
-      this.form.controls.rightColumns.updateValueAndValidity();
+      this.form.controls.leftSeats.markAsTouched();
+      this.form.controls.rightSeats.markAsTouched();
+      this.form.controls.rightSeats.updateValueAndValidity();
     }
   }
 
   onRightChange() {
     if (this.form) {
-      this.form.controls.leftColumns.markAsTouched();
-      this.form.controls.rightColumns.markAsTouched();
-      this.form.controls.leftColumns.updateValueAndValidity();
+      this.form.controls.leftSeats.markAsTouched();
+      this.form.controls.rightSeats.markAsTouched();
+      this.form.controls.leftSeats.updateValueAndValidity();
     }
   }
 
@@ -175,12 +138,12 @@ export class AdminCarriagesComponent {
       this.form.markAllAsTouched();
       this.untrackedErrorMessage.set('');
       if (this.form.valid) {
-        const { code, leftColumns, name, rightColumns, rows } = this.form.getRawValue();
+        const { code, leftSeats, name, rightSeats, rows } = this.form.getRawValue();
         this.isSubmitting.set(true);
 
         const method = code
-          ? this.carriageService.put({ leftSeats: leftColumns, name, rightSeats: rightColumns, rows }, code)
-          : this.carriageService.post({ leftSeats: leftColumns, name, rightSeats: rightColumns, rows });
+          ? this.carriageService.put({ leftSeats, name, rightSeats, rows }, code)
+          : this.carriageService.post({ leftSeats, name, rightSeats, rows });
 
         method
           .pipe(
@@ -222,5 +185,65 @@ export class AdminCarriagesComponent {
 
   onCanselForm() {
     this.form = null;
+  }
+
+  private createForm({ code, leftSeats, name, rightSeats, rows }: CarriageData) {
+    this.carriageViewState.set({ leftSeats, rightSeats, rows });
+    this.form = new FormGroup({
+      code: new FormControl<string>(code, {
+        nonNullable: true,
+      }),
+      name: new FormControl<string>(name, {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          uniqueCarriageNameValidator(this.uniqueCarriageNameValidatorParams, this.carriagesSig),
+          carriageCodeDuplicateValidator(this.previousFormCode),
+        ],
+      }),
+      rows: new FormControl<number>(rows, {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.min(CARRIAGEMINROWS),
+          Validators.max(CARRIAGEMAXROWS),
+          Validators.pattern(/^[0-9]*$/),
+        ],
+      }),
+      leftSeats: new FormControl<number>(leftSeats, {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.min(0),
+          Validators.pattern(/^[0-9]*$/),
+          maxSumColumns(this.maxSumColumnsParams, 'rightSeats'),
+        ],
+      }),
+      rightSeats: new FormControl<number>(rightSeats, {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.min(0),
+          Validators.pattern(/^[0-9]*$/),
+          maxSumColumns(this.maxSumColumnsParams, 'leftSeats'),
+        ],
+      }),
+    });
+
+    this.form.valueChanges
+      .pipe(
+        tap(x =>
+          this.carriageViewState.update(y => {
+            const rows = Math.min(CARRIAGEMAXROWS, x.rows ?? y.rows);
+            const leftSeats = Math.min(CARRIAGEMAXTOTALCOLUMNS, x.leftSeats ?? y.leftSeats);
+            const rightSeats = Math.min(CARRIAGEMAXTOTALCOLUMNS, x.rightSeats ?? y.rightSeats);
+
+            return { rows, leftSeats, rightSeats };
+          }),
+        ),
+        map(() => true),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 }
