@@ -16,7 +16,7 @@ export const routes: Routes = [
     canMatch: [authGuard],
   },
   { path: 'search', component: SearchPageComponent, pathMatch: 'full' },
-  { path: 'trip/:id', component: TripPageComponent },
+  { path: 'trip/:id', component: TripPageComponent, pathMatch: 'full' },
   {
     path: 'signin',
     component: SigninPageComponent,
