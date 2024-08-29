@@ -1,0 +1,52 @@
+<div class="trip-header">
+  <button mat-button (click)="onBack()">Back</button>
+  <div class="trip-direction">
+    <div class="trip-station">
+      <span>From: {{ stationFrom }}</span>
+      <span>Departure {{ departureDate | date: 'medium' }}</span>
+    </div>
+    <div class="trip-station">
+      <span>&darr;</span>
+    </div>
+    <div class="trip-station">
+      <span>To: {{ stationTo }}</span>
+      <span>Arrival: {{ arrivalDate | date: 'medium' }}</span>
+    </div>
+  </div>
+  <div class="trip-number">
+    <span>Ride &numero;:{{ rideId }}</span>
+    <button (click)="onModal()">Route details</button>
+  </div>
+</div>
+<div class="trip-content">
+  <mat-tab-group class="carriage-selector">
+    @for (c of carriages; let i = $index; track i) {
+      <mat-tab [label]="c.name">
+        <app-carriage
+          [rows]="c.rows"
+          [leftSeats]="c.leftSeats"
+          [rightSeats]="c.rightSeats"
+          (selectSeat)="onSeatSelect($event)" />
+      </mat-tab>
+    }
+  </mat-tab-group>
+
+  <mat-card class="order-details">
+    <mat-card-title>Order</mat-card-title>
+    <mat-card-content>
+      <ul>
+        <li>Selected {{ selectedSeats().length > 1 ? 'seats' : 'seat' }}: {{ selectedSeats().join(', ') }}</li>
+        <li>Price:</li>
+      </ul>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>Book the trip</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+@if (modal()) {
+  <app-modal-window [title]="'Route' + ' ' + tripRoute.id" (toggleVisibility)="onModal()">
+    <app-route-graph [route]="tripRoute" />
+  </app-modal-window>
+}

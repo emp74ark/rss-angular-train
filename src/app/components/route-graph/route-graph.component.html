@@ -11,14 +11,14 @@
           <td class="col1">
             @if (i === stepsAmount()) {
               <span>
-                {{ route()?.schedule?.[0]?.segments?.[i - 1]?.time?.[1] | date: 'shortTime' }}
+                {{ route()?.schedule?.segments?.[i - 1]?.time?.[1] | date: 'shortTime' }}
               </span>
             }
             <span>
-              {{ route()?.schedule?.[0]?.segments?.[i]?.time?.[0] | date: 'shortTime' }}
+              {{ route()?.schedule?.segments?.[i]?.time?.[0] | date: 'shortTime' }}
             </span>
             <span>
-              {{ route()?.schedule?.[0]?.segments?.[i]?.time?.[1] | date: 'shortTime' }}
+              {{ route()?.schedule?.segments?.[i]?.time?.[1] | date: 'shortTime' }}
             </span>
           </td>
           <td class="col2">{{ station.city }}</td>
@@ -28,12 +28,7 @@
             } @else if (i === stepsAmount()) {
               Last station
             }
-            {{
-              dateDif(
-                route()?.schedule?.[0]?.segments?.[i - 1]?.time?.[1],
-                route()?.schedule?.[0]?.segments?.[i]?.time?.[0]
-              )
-            }}
+            {{ dateDif(route()?.schedule?.segments?.[i - 1]?.time?.[1], route()?.schedule?.segments?.[i]?.time?.[0]) }}
           </td>
         </tr>
       }

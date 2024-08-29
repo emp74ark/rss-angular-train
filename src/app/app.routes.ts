@@ -5,6 +5,7 @@ import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.com
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
+import { TripPageComponent } from './pages/trip-page/trip-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'search', pathMatch: 'full' },
@@ -15,8 +16,19 @@ export const routes: Routes = [
     canMatch: [authGuard],
   },
   { path: 'search', component: SearchPageComponent, pathMatch: 'full' },
-  { path: 'signin', component: SigninPageComponent, canMatch: [authGuard], pathMatch: 'full' },
-  { path: 'signup', component: SignupPageComponent, canMatch: [authGuard], pathMatch: 'full' },
+  { path: 'trip/:id', component: TripPageComponent, pathMatch: 'full' },
+  {
+    path: 'signin',
+    component: SigninPageComponent,
+    canMatch: [authGuard],
+    pathMatch: 'full',
+  },
+  {
+    path: 'signup',
+    component: SignupPageComponent,
+    canMatch: [authGuard],
+    pathMatch: 'full',
+  },
   {
     path: 'admin',
     loadChildren: () => import('./pages/admin/admin-routes').then(routes => routes.AdminRoutes),
