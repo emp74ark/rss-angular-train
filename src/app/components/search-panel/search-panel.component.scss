@@ -1,0 +1,28 @@
+.mdc-text-field__input::-webkit-calendar-picker-indicator {
+  display: block !important;
+  background: url('../../../../public/schedule.svg') no-repeat;
+  background-size: cover;
+  opacity: 1;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  right: -8px;
+  top: calc(50% - 14px);
+}
+
+::ng-deep {
+  .time-picker {
+    max-width: none !important;
+    width: 300px !important;
+    border-radius: 16px !important;
+  }
+}
+
+.calendar {
+  width: 300px;
+}
+
+.time-field {
+  width: 100%;
+  padding: 16px;
+}
