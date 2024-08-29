@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input, OnInit, output } from '@angular/core';
 
 type SeatState = { id: number; state: 'free' | 'booked' | 'disabled' };
 
@@ -16,6 +16,8 @@ export class CarriageComponent implements OnInit {
   rightSeats = input<number>(2);
   editable = input<boolean>(true);
 
+  selectSeat = output<string>();
+
   seats: Record<'left' | 'right', SeatState[][]> = {
     left: [],
     right: [],
@@ -28,7 +30,10 @@ export class CarriageComponent implements OnInit {
       const rightSeatLine = new Array(this.rightSeats());
 
       for (let l = 0; l < this.rightSeats(); l++) {
-        rightSeatLine[l] = { id: seatCounter, state: this.editable() ? 'free' : 'disabled' };
+        rightSeatLine[l] = {
+          id: seatCounter,
+          state: this.editable() ? 'free' : 'disabled',
+        };
         seatCounter++;
       }
       this.seats.right.push(rightSeatLine);
@@ -36,7 +41,10 @@ export class CarriageComponent implements OnInit {
       const leftSeatLine = new Array(this.leftSeats());
 
       for (let l = 0; l < this.leftSeats(); l++) {
-        leftSeatLine[l] = { id: seatCounter, state: this.editable() ? 'booked' : 'disabled' };
+        leftSeatLine[l] = {
+          id: seatCounter,
+          state: this.editable() ? 'booked' : 'disabled',
+        };
         seatCounter++;
       }
       this.seats.left.push(leftSeatLine);
@@ -44,8 +52,11 @@ export class CarriageComponent implements OnInit {
   }
 
   onClick($event: Event) {
-    // todo: add related logic here
-    console.log(($event.target as HTMLInputElement).id);
+    const target = $event.target as HTMLInputElement;
+    console.log('emit', target.id);
+    this.selectSeat.emit(target.id);
+    // if (target.checked) {
+    // }
   }
 
   isDisabled(state: string) {

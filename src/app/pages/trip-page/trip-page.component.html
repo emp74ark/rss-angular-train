@@ -1,5 +1,5 @@
 <div class="trip-header">
-  <button mat-button>Back</button>
+  <button mat-button (click)="onBack()">Back</button>
   <div class="trip-direction">
     <div class="trip-station">
       <span>From: {{ stationFrom }}</span>
@@ -19,23 +19,25 @@
   </div>
 </div>
 <div class="trip-content">
-  <div class="carriage-details">
-    <div class="carriage-selector">
-      <mat-tab-group>
-        @for (c of carriages; track c) {
-          <mat-tab [label]="c">
-            <div class="carriage-container">
-              <app-carriage />
-            </div>
-          </mat-tab>
-        }
-      </mat-tab-group>
-    </div>
-  </div>
+  <mat-tab-group class="carriage-selector">
+    @for (c of carriages; let i = $index; track i) {
+      <mat-tab [label]="c">
+        <app-carriage (selectSeat)="onSeatSelect($event)" />
+      </mat-tab>
+    }
+  </mat-tab-group>
+
   <mat-card class="order-details">
-    <span>Selected seat</span>
-    <span>Cost</span>
-    <button mat-button>Book the trip</button>
+    <mat-card-title>Order</mat-card-title>
+    <mat-card-content>
+      <ul>
+        <li>Selected {{ selectedSeats().length > 1 ? 'seats' : 'seat' }}: {{ selectedSeats().join(', ') }}</li>
+        <li>Price:</li>
+      </ul>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>Book the trip</button>
+    </mat-card-actions>
   </mat-card>
 </div>
 

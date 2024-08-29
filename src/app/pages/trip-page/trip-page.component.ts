@@ -3,15 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest, filter, map, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SearchService } from '../../services/search.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { StationsService } from '../../services/stations.service';
 import { MatButton } from '@angular/material/button';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { CarriageComponent } from '../../components/carriage/carriage.component';
-import { MatCard } from '@angular/material/card';
+import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { ModalWindowComponent } from '../../components/modal-window/modal-window.component';
 import { RouteGraphComponent } from '../../components/route-graph/route-graph.component';
 import { Route } from '../../models/route';
+import { parseInt } from 'lodash';
 
 @Component({
   selector: 'app-trip-page',
@@ -25,11 +26,15 @@ import { Route } from '../../models/route';
     MatCard,
     ModalWindowComponent,
     RouteGraphComponent,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
   ],
   templateUrl: './trip-page.component.html',
   styleUrl: './trip-page.component.scss',
 })
 export class TripPageComponent implements OnInit {
+  location = inject(Location);
   route = inject(ActivatedRoute);
   searchService = inject(SearchService);
   stationsService = inject(StationsService);
@@ -92,5 +97,21 @@ export class TripPageComponent implements OnInit {
 
   onModal() {
     this.modal.set(!this.modal());
+  }
+
+  onBack() {
+    this.location.back();
+  }
+
+  selectedSeats = signal<number[]>([]);
+
+  onSeatSelect(value: string) {
+    const seatNumber = parseInt(value);
+    if (this.selectedSeats().includes(seatNumber)) {
+      this.selectedSeats.set(this.selectedSeats().filter(el => el !== seatNumber));
+    } else {
+      this.selectedSeats.set([...this.selectedSeats(), seatNumber]);
+    }
+    console.log(this.selectedSeats());
   }
 }
