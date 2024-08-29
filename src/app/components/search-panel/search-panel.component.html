@@ -1,0 +1,82 @@
+<div class="content-wrapper">
+  <div [formGroup]="form" class="form-container">
+    <mat-form-field class="from">
+      <mat-label>From</mat-label>
+      <input
+        type="text"
+        placeholder="Departure"
+        aria-label="From"
+        (ngModelChange)="onFromChange()"
+        matInput
+        formControlName="from"
+        [matAutocomplete]="from" />
+      <mat-error><app-form-error-message formControlName="from" /></mat-error>
+      <mat-autocomplete #from="matAutocomplete">
+        @for (station of filteredFrom | async; track station.city) {
+          <mat-option [value]="station.city">
+            {{ station.city }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="to">
+      <mat-label>To</mat-label>
+      <input
+        type="text"
+        placeholder="Destination"
+        aria-label="To"
+        matInput
+        formControlName="to"
+        [matAutocomplete]="to" />
+      <mat-error><app-form-error-message formControlName="to" /></mat-error>
+      <mat-autocomplete #to="matAutocomplete">
+        @for (station of filteredTo | async; track station.city) {
+          <mat-option [value]="station.city">
+            {{ station.city }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="date">
+      <mat-label>Date/Time(optional)</mat-label>
+      <input matInput formControlName="date" [errorStateMatcher]="fastMatcher" (blur)="formatOnBlur()" />
+      <mat-icon matSuffix [matMenuTriggerFor]="dateTimeMenu" (onMenuClose)="setDateTime()" aria-disabled="false">
+        event
+      </mat-icon>
+      <mat-error><app-form-error-message formControlName="date" /></mat-error>
+      <mat-menu #dateTimeMenu="matMenu" class="time-picker">
+        <div (click)="$event.stopPropagation()" aria-hidden="true">
+          <mat-calendar class="calendar" #calendar [(selected)]="selected" [minDate]="minDate"></mat-calendar>
+          <div>
+            <mat-form-field class="time-field">
+              <mat-label>Time</mat-label>
+              <input matInput formControlName="time" placeholder="time" type="time" />
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-menu>
+    </mat-form-field>
+
+    <button
+      class="inputlike-btn submit-btn"
+      mat-flat-button
+      color="primary"
+      type="submit"
+      (click)="onSubmit()"
+      [disabled]="isSubmitDisabled">
+      Search
+    </button>
+    <div class="switch-container">
+      <button
+        class="switch-btn"
+        mat-mini-fab
+        aria-label="icon button with a sync_alt icon"
+        color="primary"
+        type="button"
+        (click)="switchStations()">
+        <mat-icon>sync_alt</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+@let result = searchService.$searchResults | async;
+@if (result) {
+  <p>from {{ result.from.city }} to {{ result.to.city }}</p>
+
+  @for (item of result.routes; track item) {
+    <div>{{ item.id }}</div>
+    @for (schedule of item.schedule; track schedule) {
+      <div>RideID: {{ schedule.rideId }}</div>
+      @for (segment of schedule.segments; track segment) {
+        <mat-card>
+          <div>start time: {{ segment.time[0] }}</div>
+          <div>end time: {{ segment.time[1] }}</div>
+        </mat-card>
+      }
+    }
+  }
+}
