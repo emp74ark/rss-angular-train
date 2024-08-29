@@ -9,13 +9,13 @@ import { TripPageComponent } from './pages/trip-page/trip-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'search', pathMatch: 'full' },
+  { path: 'search', component: SearchPageComponent, pathMatch: 'full' },
   {
     path: 'profile',
     title: 'Profile',
     loadComponent: () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent),
     canMatch: [authGuard],
   },
-  { path: 'search', component: SearchPageComponent, pathMatch: 'full' },
   { path: 'trip/:id', component: TripPageComponent, pathMatch: 'full' },
   {
     path: 'signin',

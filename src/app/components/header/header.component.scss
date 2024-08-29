@@ -1,7 +1,9 @@
 @import 'theme';
 @import 'palette-color';
+@import 'common';
 
 .header-nav {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
