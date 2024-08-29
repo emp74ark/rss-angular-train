@@ -58,7 +58,13 @@ export class TripPageComponent implements OnInit {
 
   ngOnInit() {
     // preload stations
-    this.stationsService.getStations().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.stationsService
+      .getStations()
+      .pipe(
+        // tap(st => console.log(st)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
     // preload carriage types
     this.carriageService
       .get()
@@ -135,6 +141,5 @@ export class TripPageComponent implements OnInit {
     } else {
       this.selectedSeats.set([...this.selectedSeats(), seatNumber]);
     }
-    console.log(this.selectedSeats());
   }
 }
