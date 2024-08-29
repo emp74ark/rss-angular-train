@@ -13,6 +13,8 @@ import { ModalWindowComponent } from '../../components/modal-window/modal-window
 import { RouteGraphComponent } from '../../components/route-graph/route-graph.component';
 import { Route } from '../../models/route';
 import { parseInt } from 'lodash';
+import { CarriageService } from '../../services/carriage';
+import { CarriageData } from '../../models/carriage';
 
 @Component({
   selector: 'app-trip-page',
@@ -38,6 +40,7 @@ export class TripPageComponent implements OnInit {
   route = inject(ActivatedRoute);
   searchService = inject(SearchService);
   stationsService = inject(StationsService);
+  carriageService = inject(CarriageService);
   destroyRef = inject(DestroyRef);
 
   rideId: number;
@@ -46,10 +49,30 @@ export class TripPageComponent implements OnInit {
   departureDate: string;
   stationTo: string;
   arrivalDate: string;
-  carriages: string[];
+  carriages: CarriageData[];
+  carriageTypes: CarriageData[];
+
+  getCarriageData(carriageName: string) {
+    return this.carriageTypes.find(el => el.code === carriageName);
+  }
 
   ngOnInit() {
+    // preload stations
     this.stationsService.getStations().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    // preload carriage types
+    this.carriageService
+      .get()
+      .pipe(
+        switchMap(() => {
+          return this.carriageService.$carriages;
+        }),
+        tap(res => {
+          console.log(res);
+          this.carriageTypes = res;
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
     // id
     this.route.params
       .pipe(
@@ -62,7 +85,7 @@ export class TripPageComponent implements OnInit {
           this.rideId = route.rideId;
           this.departureDate = route.schedule.segments[0].time[0];
           this.arrivalDate = route.schedule.segments[steps - 2].time[1];
-          this.carriages = route.carriages;
+          this.carriages = route.carriages.map((el: string) => this.getCarriageData(el));
           this.tripRoute = route;
           console.log(route);
         }),

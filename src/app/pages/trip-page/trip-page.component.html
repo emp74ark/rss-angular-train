@@ -21,8 +21,12 @@
 <div class="trip-content">
   <mat-tab-group class="carriage-selector">
     @for (c of carriages; let i = $index; track i) {
-      <mat-tab [label]="c">
-        <app-carriage (selectSeat)="onSeatSelect($event)" />
+      <mat-tab [label]="c.name">
+        <app-carriage
+          [rows]="c.rows"
+          [leftSeats]="c.leftSeats"
+          [rightSeats]="c.rightSeats"
+          (selectSeat)="onSeatSelect($event)" />
       </mat-tab>
     }
   </mat-tab-group>
