@@ -19,37 +19,46 @@
               matInput
               [errorStateMatcher]="matcher"
               type="number"
-              min="-1"
+              min="0"
+              max="30"
+              maxlength="2"
+              oninput="this.value = this.value.trim();this.value = this.value.replace(/[^0-9.]/g, '');this.value = this.value.slice(0, 2);"
               placeholder="Enter number of rows"
               formControlName="rows"
               class="full-width" />
             <mat-error><app-form-error-message formControlName="rows" /></mat-error>
           </mat-form-field>
           <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
-            <mat-label>Left columns</mat-label>
+            <mat-label>Left seats in row</mat-label>
             <input
               matInput
               type="number"
               [errorStateMatcher]="matcher"
               (ngModelChange)="onLeftChange()"
               min="0"
-              placeholder="Enter number of left columns"
-              formControlName="leftColumns"
+              max="6"
+              maxlength="1"
+              oninput="this.value = this.value.trim();this.value = this.value.replace(/[^0-9.]/g, '');this.value = this.value.slice(0, 1);"
+              placeholder="Enter number of left seats"
+              formControlName="leftSeats"
               class="full-width" />
-            <mat-error><app-form-error-message formControlName="leftColumns" /></mat-error>
+            <mat-error><app-form-error-message formControlName="leftSeats" /></mat-error>
           </mat-form-field>
           <mat-form-field class="full-width form-input" [subscriptSizing]="'dynamic'">
-            <mat-label>Right columns</mat-label>
+            <mat-label>Right seats in row</mat-label>
             <input
               matInput
               type="number"
               [errorStateMatcher]="matcher"
               (ngModelChange)="onRightChange()"
               min="0"
-              placeholder="Enter number of right columns"
-              formControlName="rightColumns"
+              max="6"
+              maxlength="1"
+              oninput="this.value = this.value.trim();this.value = this.value.replace(/[^0-9.]/g, '');this.value = this.value.slice(0, 1);"
+              placeholder="Enter number of right seats"
+              formControlName="rightSeats"
               class="full-width" />
-            <mat-error><app-form-error-message formControlName="rightColumns" /></mat-error>
+            <mat-error><app-form-error-message formControlName="rightSeats" /></mat-error>
           </mat-form-field>
         </div>
       </mat-card-content>
@@ -76,6 +85,14 @@
         <div [ngClass]="{ unknownErrorContainer: true, opened: untrackedErrorText }">
           <mat-error class="unknownError">{{ untrackedErrorText }}</mat-error>
         </div>
+        @let carriagePreview = carriageViewState();
+        <app-carriage
+          class="carriage"
+          [editable]="false"
+          [rows]="carriagePreview.rows"
+          [leftSeats]="carriagePreview.leftSeats"
+          [rightSeats]="carriagePreview.rightSeats">
+        </app-carriage>
       </mat-card-footer>
     </mat-card>
   </form>
@@ -155,6 +172,14 @@
         </button>
       }
     </mat-card-actions>
-    <mat-card-footer class="cardFooter"> </mat-card-footer>
+    <mat-card-footer class="cardFooter">
+      <app-carriage
+        class="carriage"
+        [editable]="false"
+        [rows]="carriage.rows"
+        [leftSeats]="carriage.leftSeats"
+        [rightSeats]="carriage.rightSeats">
+      </app-carriage>
+    </mat-card-footer>
   </mat-card>
 }

@@ -1,20 +1,26 @@
-import { Component, input, OnInit, output } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input, output, OnChanges, Signal } from '@angular/core';
 
 type SeatState = { id: number; state: 'free' | 'booked' | 'disabled' };
 
 @Component({
   selector: 'app-carriage',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   templateUrl: './carriage.component.html',
   styleUrl: './carriage.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarriageComponent implements OnInit {
+export class CarriageComponent implements OnChanges {
   initialValue = input<number>(1);
   rows = input<number>(5);
   leftSeats = input<number>(2);
   rightSeats = input<number>(2);
   editable = input<boolean>(true);
+  compressionLevel: Signal<2 | 1 | 0> = computed(() => {
+    const maxNum = this.initialValue() + this.rows() * (this.leftSeats() + this.rightSeats());
+    return maxNum > 9999 ? 2 : maxNum > 999 ? 1 : 0;
+  });
 
   selectSeat = output<string>();
 
@@ -23,7 +29,11 @@ export class CarriageComponent implements OnInit {
     right: [],
   };
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.seats = {
+      left: [],
+      right: [],
+    };
     let seatCounter = this.initialValue();
 
     for (let r = 0; r < this.rows(); r++) {
