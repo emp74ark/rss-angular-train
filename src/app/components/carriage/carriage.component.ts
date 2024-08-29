@@ -53,10 +53,7 @@ export class CarriageComponent implements OnInit {
 
   onClick($event: Event) {
     const target = $event.target as HTMLInputElement;
-    console.log('emit', target.id);
     this.selectSeat.emit(target.id);
-    // if (target.checked) {
-    // }
   }
 
   isDisabled(state: string) {
