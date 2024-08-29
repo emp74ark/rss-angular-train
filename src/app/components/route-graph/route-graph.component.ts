@@ -12,6 +12,8 @@ import { Route } from '../../models/route';
 })
 export class RouteGraphComponent {
   route = input<Route>();
+  startStation = input<number>();
+  lastStation = input<number>();
 
   stepsAmount = computed(() => {
     const length = this.route()?.path?.length;
