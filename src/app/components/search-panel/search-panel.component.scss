@@ -1,3 +1,15 @@
+@import 'theme';
+@import 'palette-color';
+@import 'common';
+
+$media-mobile: 'screen and (max-width: 767px)';
+$media-tablets: 'screen and (min-width: 768px) and (max-width: 1199px)';
+$media-desktop: 'screen and (min-width: 1200px)';
+
+:host {
+  background-color: $color-pr-99;
+}
+
 .mdc-text-field__input::-webkit-calendar-picker-indicator {
   display: block !important;
   background: url('../../../../public/schedule.svg') no-repeat;
@@ -25,4 +37,65 @@
 .time-field {
   width: 100%;
   padding: 16px;
+}
+
+.form-container {
+  width: 100%;
+  display: grid;
+  position: relative;
+  grid-template-columns: 1fr 2px 1fr 1fr auto;
+  grid-template-rows: 1fr;
+  gap: 14px;
+  padding: 16px;
+
+  grid-template-areas: 'from switch to date submit';
+
+  .from {
+    grid-area: from;
+  }
+
+  .to {
+    grid-area: to;
+  }
+
+  .date {
+    grid-area: date;
+  }
+
+  .submit-btn {
+    grid-area: submit;
+  }
+
+  .switch-container {
+    grid-area: switch;
+    justify-self: stretch;
+    align-self: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 8px;
+  }
+
+  @media #{$media-tablets} {
+    grid-template-columns: 1fr 2px 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 'from switch to' 'date date date' 'submit submit submit';
+  }
+
+  @media #{$media-mobile} {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-areas: 'from' 'to' 'date' 'submit';
+
+    .switch-container {
+      position: absolute;
+      top: 60px;
+      right: 30px;
+    }
+  }
+}
+
+.inputlike-btn {
+  border-radius: 4px;
+  height: 56px;
 }

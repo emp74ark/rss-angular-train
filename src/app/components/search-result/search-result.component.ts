@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { SearchService } from '../../services/search.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
@@ -12,11 +12,11 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './search-result.component.html',
   styleUrl: './search-result.component.scss',
 })
-export class SearchResultComponent {
+export class SearchResultComponent implements OnInit {
   readonly searchService = inject(SearchService);
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor() {
+  ngOnInit(): void {
     this.searchService.$searchResults
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(data => console.log('SearchResultComponent', { data }));
