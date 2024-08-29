@@ -1,0 +1,21 @@
+$media-mobile: 'screen and (max-width: 767px)';
+$media-tablets: 'screen and (min-width: 768px) and (max-width: 1199px)';
+$media-desktop: 'screen and (min-width: 1200px)';
+$media-desktop-large: 'screen and (min-width: 1920px)';
+
+.content-wrapper {
+  width: 100%;
+  @media #{$media-desktop-large} {
+    padding: 0 120px;
+  }
+  @media #{$media-desktop} {
+    padding: 0 76px;
+  }
+  @media #{$media-tablets} {
+    padding: 0 20px;
+  }
+
+  @media #{$media-mobile} {
+    padding: 0 10px;
+  }
+}
