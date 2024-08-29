@@ -16,7 +16,10 @@
                       (change)="onClick($event)"
                       [name]="seat.id"
                       [id]="seat.id" />
-                    <span class="indicator">{{ seat.id }}</span>
+                    <span
+                      [ngClass]="{ indicator: true, thin: compressionLevel() === 1, thinner: compressionLevel() === 2 }"
+                      >{{ seat.id }}</span
+                    >
                   </label>
                 </li>
               }
@@ -38,7 +41,14 @@
                       (change)="onClick($event)"
                       [name]="seat.id"
                       [id]="seat.id" />
-                    <span class="indicator">{{ seat.id }}</span>
+                    <span
+                      [ngClass]="{
+                        indicator: true,
+                        thin: compressionLevel() === 1,
+                        thinner: compressionLevel() === 2,
+                      }">
+                      {{ seat.id }}
+                    </span>
                   </label>
                 </li>
               }
