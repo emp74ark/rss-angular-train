@@ -1,0 +1,54 @@
+@import 'common';
+@import 'theme';
+@import 'palette-color';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
+  padding-top: 1rem;
+}
+
+.tab-group {
+  padding: 0 16px;
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  background-color: $color-neutral-variant-100;
+  ::ng-deep {
+    .mdc-tab__text-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  &.active {
+    background-color: $color-pr-90;
+    box-shadow: 1px 1px 1px $color-neutral-variant-50;
+    & .tab-day,
+    & .tab-day-week {
+      color: $color-pr-40;
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+}
+
+.tab-content {
+  padding: 1rem 1rem;
+}
+
+.tab-day {
+  color: $color-neutral-variant-20;
+  margin-bottom: 4px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.tab-day-week {
+  color: $color-neutral-variant-30;
+  font-weight: 300;
+  font-size: 14px;
+}

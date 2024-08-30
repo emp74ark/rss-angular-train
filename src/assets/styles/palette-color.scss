@@ -11,24 +11,57 @@
 $color-pr-0: mat.get-theme-color($rss-angular-train-theme, primary, 0);
 $color-pr-10: mat.get-theme-color($rss-angular-train-theme, primary, 10);
 $color-pr-20: mat.get-theme-color($rss-angular-train-theme, primary, 20);
+$color-pr-25: mat.get-theme-color($rss-angular-train-theme, primary, 25);
+$color-pr-30: mat.get-theme-color($rss-angular-train-theme, primary, 30);
+$color-pr-35: mat.get-theme-color($rss-angular-train-theme, primary, 35);
 $color-pr-40: mat.get-theme-color($rss-angular-train-theme, primary, 40);
+$color-pr-50: mat.get-theme-color($rss-angular-train-theme, primary, 50);
 $color-pr-60: mat.get-theme-color($rss-angular-train-theme, primary, 60);
+$color-pr-70: mat.get-theme-color($rss-angular-train-theme, primary, 70);
+$color-pr-80: mat.get-theme-color($rss-angular-train-theme, primary, 80);
 $color-pr-90: mat.get-theme-color($rss-angular-train-theme, primary, 90);
+$color-pr-95: mat.get-theme-color($rss-angular-train-theme, primary, 95);
+$color-pr-98: mat.get-theme-color($rss-angular-train-theme, primary, 98);
 $color-pr-99: mat.get-theme-color($rss-angular-train-theme, primary, 99);
-$color-pr-90: mat.get-theme-color($rss-angular-train-theme, primary, 90);
+$color-pr-99: mat.get-theme-color($rss-angular-train-theme, primary, 99);
 $color-pr-100: mat.get-theme-color($rss-angular-train-theme, primary, 100);
 
 // from secondary
 $color-sec-0: mat.get-theme-color($rss-angular-train-theme, secondary, 0);
 $color-sec-10: mat.get-theme-color($rss-angular-train-theme, secondary, 10);
+$color-sec-20: mat.get-theme-color($rss-angular-train-theme, secondary, 20);
+$color-sec-25: mat.get-theme-color($rss-angular-train-theme, secondary, 25);
+$color-sec-30: mat.get-theme-color($rss-angular-train-theme, secondary, 30);
+$color-sec-35: mat.get-theme-color($rss-angular-train-theme, secondary, 35);
+$color-sec-40: mat.get-theme-color($rss-angular-train-theme, secondary, 40);
+$color-sec-50: mat.get-theme-color($rss-angular-train-theme, secondary, 50);
+$color-sec-60: mat.get-theme-color($rss-angular-train-theme, secondary, 60);
+$color-sec-70: mat.get-theme-color($rss-angular-train-theme, secondary, 70);
+$color-sec-80: mat.get-theme-color($rss-angular-train-theme, secondary, 80);
 $color-sec-90: mat.get-theme-color($rss-angular-train-theme, secondary, 90);
+$color-sec-95: mat.get-theme-color($rss-angular-train-theme, secondary, 95);
+$color-sec-98: mat.get-theme-color($rss-angular-train-theme, secondary, 98);
+$color-sec-99: mat.get-theme-color($rss-angular-train-theme, secondary, 99);
+$color-sec-99: mat.get-theme-color($rss-angular-train-theme, secondary, 99);
 $color-sec-100: mat.get-theme-color($rss-angular-train-theme, secondary, 100);
 
 // from tertiary (like accent)
 $color-ter-0: mat.get-theme-color($rss-angular-train-theme, tertiary, 0);
 $color-ter-10: mat.get-theme-color($rss-angular-train-theme, tertiary, 10);
+$color-ter-20: mat.get-theme-color($rss-angular-train-theme, tertiary, 20);
+$color-ter-25: mat.get-theme-color($rss-angular-train-theme, tertiary, 25);
+$color-ter-30: mat.get-theme-color($rss-angular-train-theme, tertiary, 30);
+$color-ter-35: mat.get-theme-color($rss-angular-train-theme, tertiary, 35);
+$color-ter-40: mat.get-theme-color($rss-angular-train-theme, tertiary, 40);
+$color-ter-50: mat.get-theme-color($rss-angular-train-theme, tertiary, 50);
+$color-ter-60: mat.get-theme-color($rss-angular-train-theme, tertiary, 60);
+$color-ter-70: mat.get-theme-color($rss-angular-train-theme, tertiary, 70);
+$color-ter-80: mat.get-theme-color($rss-angular-train-theme, tertiary, 80);
 $color-ter-90: mat.get-theme-color($rss-angular-train-theme, tertiary, 90);
+$color-ter-95: mat.get-theme-color($rss-angular-train-theme, tertiary, 95);
 $color-ter-98: mat.get-theme-color($rss-angular-train-theme, tertiary, 98);
+$color-ter-99: mat.get-theme-color($rss-angular-train-theme, tertiary, 99);
+$color-ter-99: mat.get-theme-color($rss-angular-train-theme, tertiary, 99);
 $color-ter-100: mat.get-theme-color($rss-angular-train-theme, tertiary, 100);
 
 // from neutral
@@ -47,3 +80,37 @@ $color-neutral-95: mat.get-theme-color($rss-angular-train-theme, neutral, 95);
 $color-neutral-98: mat.get-theme-color($rss-angular-train-theme, neutral, 98);
 $color-neutral-99: mat.get-theme-color($rss-angular-train-theme, neutral, 99);
 $color-neutral-100: mat.get-theme-color($rss-angular-train-theme, neutral, 100);
+
+//from neutral-variant
+$color-neutral-0: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 0);
+$color-neutral-variant-10: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 10);
+$color-neutral-variant-20: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 20);
+$color-neutral-variant-25: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 25);
+$color-neutral-variant-30: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 30);
+$color-neutral-variant-40: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 40);
+$color-neutral-variant-50: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 50);
+$color-neutral-variant-60: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 60);
+$color-neutral-variant-70: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 70);
+$color-neutral-variant-80: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 80);
+$color-neutral-variant-90: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 90);
+$color-neutral-variant-95: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 95);
+$color-neutral-variant-98: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 98);
+$color-neutral-variant-99: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 99);
+$color-neutral-variant-100: mat.get-theme-color($rss-angular-train-theme, neutral-variant, 100);
+
+//from error
+$color-error-0: mat.get-theme-color($rss-angular-train-theme, error, 0);
+$color-error-10: mat.get-theme-color($rss-angular-train-theme, error, 10);
+$color-error-20: mat.get-theme-color($rss-angular-train-theme, error, 20);
+$color-error-25: mat.get-theme-color($rss-angular-train-theme, error, 25);
+$color-error-30: mat.get-theme-color($rss-angular-train-theme, error, 30);
+$color-error-40: mat.get-theme-color($rss-angular-train-theme, error, 40);
+$color-error-50: mat.get-theme-color($rss-angular-train-theme, error, 50);
+$color-error-60: mat.get-theme-color($rss-angular-train-theme, error, 60);
+$color-error-70: mat.get-theme-color($rss-angular-train-theme, error, 70);
+$color-error-80: mat.get-theme-color($rss-angular-train-theme, error, 80);
+$color-error-90: mat.get-theme-color($rss-angular-train-theme, error, 90);
+$color-error-95: mat.get-theme-color($rss-angular-train-theme, error, 95);
+$color-error-98: mat.get-theme-color($rss-angular-train-theme, error, 98);
+$color-error-99: mat.get-theme-color($rss-angular-train-theme, error, 99);
+$color-error-100: mat.get-theme-color($rss-angular-train-theme, error, 100);
