@@ -1,8 +1,8 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { StationsService } from '../../services/stations.service';
 import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
-import { Route } from '../../models/route';
 import moment from 'moment';
+import { ExtendedRoute } from '../../models/route';
 
 @Component({
   selector: 'app-route-graph',
@@ -12,7 +12,7 @@ import moment from 'moment';
   styleUrl: './route-graph.component.scss',
 })
 export class RouteGraphComponent {
-  route = input<Route>();
+  route = input<ExtendedRoute>();
   startStation = input<number>();
   startStationIndex = computed(() => {
     return this.route()?.path?.findIndex(id => id === this.startStation());
