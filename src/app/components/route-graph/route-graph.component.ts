@@ -2,6 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { StationsService } from '../../services/stations.service';
 import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { Route } from '../../models/route';
+import moment from 'moment';
 
 @Component({
   selector: 'app-route-graph',
@@ -36,7 +37,7 @@ export class RouteGraphComponent {
       const date1 = new Date(time1).getTime();
       const date2 = new Date(time2).getTime();
       const diff = date2 - date1;
-      return `${Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))} min`;
+      return moment.duration(diff).humanize();
     }
     return null;
   }
