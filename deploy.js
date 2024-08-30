@@ -6,11 +6,9 @@ console.log('Starting deployment configuration file creation');
 const fs = require('fs');
 const path = require('path');
 
-console.log('ALL ENV VARIABLES:', process.env)
-
 const dir = "src/environments";
-const configDev = "environment.ts;
-const configProd = "environment.prod.ts;
+const configDev = "environment.ts";
+const configProd = "environment.prod.ts";
 
 const content = `${process.env.APP_ENV}`;
 

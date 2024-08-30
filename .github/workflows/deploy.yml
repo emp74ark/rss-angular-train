@@ -19,18 +19,22 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Setup Node
         uses: actions/setup-node@v3
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update variables
+        env:
+          APP_ENV: ${{ secrets.APP_ENV }}
+        run: node deploy.js
+
       - name: Build
-        run: |
-          npm ci
-          npm run build
-          node deploy.js
-          env:
-            APP_ENV: ${{secrets.APP_ENV}}
+        run: npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
