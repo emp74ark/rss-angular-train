@@ -26,6 +26,13 @@ export interface Order {
   schedule: Schedule;
 }
 
+export interface OrderBody {
+  rideId: number;
+  seat: number;
+  stationStart: number;
+  stationEnd: number;
+}
+
 export interface User {
   id: number;
   email: string;
