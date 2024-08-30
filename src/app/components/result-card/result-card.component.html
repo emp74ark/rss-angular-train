@@ -34,7 +34,7 @@
           <mat-card-subtitle class="text-secondary">carriage type</mat-card-subtitle>
           <mat-card-subtitle class="name margin">{{ carriage.type }}</mat-card-subtitle>
           <p>{{ carriage.seatsAvailable }} seats</p>
-          <mat-card-title>${{ carriage.price }}</mat-card-title>
+          <mat-card-title>{{ carriage.price | currency: 'USD' }}</mat-card-title>
         </div>
       }
     </div>
