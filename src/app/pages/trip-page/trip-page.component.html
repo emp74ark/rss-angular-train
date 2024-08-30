@@ -46,7 +46,7 @@
 </div>
 
 @if (modal()) {
-  <app-modal-window [title]="'Route' + ' ' + tripRoute.id" (toggleVisibility)="onModal()">
+  <app-modal-window [title]="'Route' + ' ' + rideId" (toggleVisibility)="onModal()">
     <app-route-graph [route]="tripRoute" [startStation]="stationFrom.stationId" [lastStation]="stationTo.stationId" />
   </app-modal-window>
 }
