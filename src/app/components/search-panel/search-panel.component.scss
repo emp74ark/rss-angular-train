@@ -10,6 +10,10 @@ $media-desktop: 'screen and (min-width: 1200px)';
   background-color: $color-pr-99;
 }
 
+.content {
+  background-color: $color-pr-99;
+}
+
 .mdc-text-field__input::-webkit-calendar-picker-indicator {
   display: block !important;
   background: url('../../../../public/schedule.svg') no-repeat;
