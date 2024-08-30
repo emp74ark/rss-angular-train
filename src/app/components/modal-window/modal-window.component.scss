@@ -1,3 +1,6 @@
+@import 'theme';
+@import 'palette-color';
+
 .wrapper {
   position: fixed;
   left: 0;
@@ -15,6 +18,7 @@
 .frame {
   width: 50%;
   height: auto;
+  max-height: 80vh;
   background: #fff;
   border-radius: 0.5rem;
   z-index: 2;
@@ -26,7 +30,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background: #ccc;
+  background: $color-neutral-90;
   padding: 0.5rem 1rem;
   font-size: large;
   font-weight: 500;
