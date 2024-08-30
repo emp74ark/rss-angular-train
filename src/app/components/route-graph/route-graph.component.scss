@@ -1,6 +1,9 @@
+@import 'theme';
+@import 'palette-color';
+
 .title {
   font-weight: bold;
-  color: #ccc;
+  color: $color-neutral-90;
   padding-bottom: 1rem;
 }
 
@@ -22,4 +25,28 @@
 
 .col3 {
   font-size: small;
+}
+
+.highlightedRow {
+  background: $color-pr-90;
+  animation: row-lighting 0.5s;
+  box-shadow: 1px 1px 1px #00000019;
+}
+
+@keyframes row-lighting {
+  0% {
+    background: $color-pr-60;
+  }
+
+  40% {
+    background: $color-pr-90;
+  }
+
+  70% {
+    background: $color-pr-60;
+  }
+
+  100% {
+    background: $color-pr-90;
+  }
 }
