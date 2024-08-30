@@ -11,10 +11,10 @@ import { CarriageComponent } from '../../components/carriage/carriage.component'
 import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { ModalWindowComponent } from '../../components/modal-window/modal-window.component';
 import { RouteGraphComponent } from '../../components/route-graph/route-graph.component';
-import { Route } from '../../models/route';
 import { parseInt } from 'lodash';
 import { CarriageService } from '../../services/carriage';
 import { CarriageData } from '../../models/carriage';
+import { ExtendedRoute } from '../../models/route';
 
 @Component({
   selector: 'app-trip-page',
@@ -44,7 +44,7 @@ export class TripPageComponent implements OnInit {
   destroyRef = inject(DestroyRef);
 
   rideId: number;
-  tripRoute: Route;
+  tripRoute: ExtendedRoute;
   stationFrom: { stationId: number; cityName: string };
   departureDate: string;
   stationTo: { stationId: number; cityName: string };

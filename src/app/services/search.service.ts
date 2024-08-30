@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
-import { ApiStatus } from '../models/common';
-import { SearchResult } from '../models/search';
+import { ApiStatus, SearchResult } from '../models/common';
 
 @Injectable({
   providedIn: 'root',
