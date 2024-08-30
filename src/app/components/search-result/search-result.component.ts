@@ -31,6 +31,7 @@ export class SearchResultComponent implements OnInit {
   protected dates = dates;
   protected activeDate: string = this.dates[0];
   protected trips: UserTrip[];
+  protected isNoRide: boolean = false;
   private response: TripResponse = tripInfo;
 
   ngOnInit(): void {

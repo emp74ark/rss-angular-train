@@ -9,6 +9,25 @@
   padding-top: 1rem;
 }
 
+.no-ride {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 auto;
+  padding: 1rem;
+
+  font-size: 1.8rem;
+  font-weight: 300;
+  line-height: 120%;
+
+  color: $color-error-80;
+  @media #{$media-mobile} {
+    flex-direction: column;
+    font-size: 1rem;
+  }
+}
+
 .tab-group {
   padding: 0 16px;
   max-width: 100%;

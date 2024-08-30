@@ -1,19 +1,32 @@
 <div class="content-wrapper">
-  <nav class="tab-group" mat-tab-nav-bar [tabPanel]="tabPanel">
-    @for (date of dates; track date) {
-      <button
-        [ngClass]="{ tab: true, active: activeDate === date }"
-        mat-tab-link
-        (click)="activeDate = date; renderTrips()"
-        [active]="activeDate === date">
-        <div class="tab-day">{{ date | date: 'MMMM dd' }}</div>
-        <div class="tab-day-week">{{ date | date: 'EEEE' }}</div>
-      </button>
-    }
-  </nav>
-  <mat-tab-nav-panel class="tab-content" #tabPanel>
-    @for (trip of trips; track trip) {
-      <app-result-card [trip]="trip"></app-result-card>
-    }
-  </mat-tab-nav-panel>
+  @if (isNoRide) {
+    <div class="no-ride">
+      <img src="ride-not-found.svg" alt="ride-not-found image" />
+      <div>
+        <h3>No direct trains found.</h3>
+        <p>
+          No seats on direct trains are available right now, but there is always hope. Try again later or travel with a
+          transfer.
+        </p>
+      </div>
+    </div>
+  } @else {
+    <nav class="tab-group" mat-tab-nav-bar [tabPanel]="tabPanel">
+      @for (date of dates; track date) {
+        <button
+          [ngClass]="{ tab: true, active: activeDate === date }"
+          mat-tab-link
+          (click)="activeDate = date; renderTrips()"
+          [active]="activeDate === date">
+          <div class="tab-day">{{ date | date: 'MMMM dd' }}</div>
+          <div class="tab-day-week">{{ date | date: 'EEEE' }}</div>
+        </button>
+      }
+    </nav>
+    <mat-tab-nav-panel class="tab-content" #tabPanel>
+      @for (trip of trips; track trip) {
+        <app-result-card [trip]="trip"></app-result-card>
+      }
+    </mat-tab-nav-panel>
+  }
 </div>
