@@ -7,7 +7,10 @@
   <tbody>
     @for (el of route()?.path; let i = $index; track i) {
       @if (stationsService.getStationById(el) | async; as station) {
-        <tr>
+        <tr
+          [ngClass]="{
+            highlightedRow: isHighlighted(i),
+          }">
           <td class="col1">
             @if (i === stepsAmount()) {
               <span>

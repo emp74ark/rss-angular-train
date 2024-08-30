@@ -45,9 +45,9 @@ export class TripPageComponent implements OnInit {
 
   rideId: number;
   tripRoute: Route;
-  stationFrom: string;
+  stationFrom: { stationId: number; cityName: string };
   departureDate: string;
-  stationTo: string;
+  stationTo: { stationId: number; cityName: string };
   arrivalDate: string;
   carriages: CarriageData[];
   carriageTypes: CarriageData[];
@@ -114,8 +114,8 @@ export class TripPageComponent implements OnInit {
           ]),
         ),
         tap(res => {
-          this.stationFrom = res[0]?.city;
-          this.stationTo = res[1]?.city;
+          this.stationFrom = { stationId: res[0]?.id, cityName: res[0]?.city };
+          this.stationTo = { stationId: res[1]?.id, cityName: res[1]?.city };
         }),
         takeUntilDestroyed(this.destroyRef),
       )
