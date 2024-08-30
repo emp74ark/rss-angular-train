@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - closed
   workflow_dispatch:
 
 jobs:
@@ -26,6 +28,9 @@ jobs:
         run: |
           npm ci
           npm run build
+          node deploy.js
+          env:
+            APP_ENV: ${{secrets.APP_ENV}}
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
