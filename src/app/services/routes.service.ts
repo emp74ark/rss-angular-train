@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
-import { ApiStatus } from '../models/common';
-import { Route, Schedule } from '../models/route';
+import { ApiStatus, Route } from '../models/common';
+import { RouteSchedule } from '../models/route';
 
 @Injectable({
   providedIn: 'root',
@@ -86,7 +86,7 @@ export class RoutesService {
     );
   }
 
-  createRide(routeId: number, body: Schedule) {
+  createRide(routeId: number, body: RouteSchedule) {
     return this.httpClient.post(`/api/route/${routeId}/ride`, body).pipe(
       tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
@@ -98,7 +98,7 @@ export class RoutesService {
     );
   }
 
-  updateRide(routeId: number, rideId: number, body: Schedule) {
+  updateRide(routeId: number, rideId: number, body: RouteSchedule) {
     return this.httpClient.put(`/api/route/${routeId}/ride/${rideId}`, body).pipe(
       tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
