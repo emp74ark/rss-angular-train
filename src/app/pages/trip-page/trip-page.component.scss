@@ -1,3 +1,6 @@
+@import 'theme';
+@import 'palette-color';
+
 :host {
   display: flex;
   flex-direction: column;
@@ -6,7 +9,7 @@
 }
 
 .trip-header {
-  background: #ccc;
+  background: $color-neutral-90;
   display: flex;
   flex-direction: row;
   align-items: center;
