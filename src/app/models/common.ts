@@ -13,7 +13,7 @@ export interface Route {
 
 export interface Segment {
   time: string[];
-  price: Record<string, number>;
+  price: PriceList;
 }
 
 export interface RideSegment extends Segment {
@@ -34,3 +34,7 @@ export type SearchResult = {
   to: StationData;
   routes: RideRoute[];
 };
+
+export interface PriceList {
+  [carriageType: string]: number;
+}
