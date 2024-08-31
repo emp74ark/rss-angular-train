@@ -11,10 +11,10 @@ import { CarriageComponent } from '../../components/carriage/carriage.component'
 import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { ModalWindowComponent } from '../../components/modal-window/modal-window.component';
 import { RouteGraphComponent } from '../../components/route-graph/route-graph.component';
-import { Route } from '../../models/route';
 import { parseInt } from 'lodash';
 import { CarriageService } from '../../services/carriage';
 import { CarriageData } from '../../models/carriage';
+import { ExtendedRoute } from '../../models/route';
 
 @Component({
   selector: 'app-trip-page',
@@ -44,10 +44,10 @@ export class TripPageComponent implements OnInit {
   destroyRef = inject(DestroyRef);
 
   rideId: number;
-  tripRoute: Route;
-  stationFrom: string;
+  tripRoute: ExtendedRoute;
+  stationFrom: { stationId: number; cityName: string };
   departureDate: string;
-  stationTo: string;
+  stationTo: { stationId: number; cityName: string };
   arrivalDate: string;
   carriages: CarriageData[];
   carriageTypes: CarriageData[];
@@ -114,8 +114,8 @@ export class TripPageComponent implements OnInit {
           ]),
         ),
         tap(res => {
-          this.stationFrom = res[0]?.city;
-          this.stationTo = res[1]?.city;
+          this.stationFrom = { stationId: res[0]?.id, cityName: res[0]?.city };
+          this.stationTo = { stationId: res[1]?.id, cityName: res[1]?.city };
         }),
         takeUntilDestroyed(this.destroyRef),
       )

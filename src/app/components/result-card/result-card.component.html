@@ -1,0 +1,42 @@
+<mat-card class="card">
+  <mat-card-content class="card-content">
+    <div class="information">
+      <div class="row">
+        <mat-card-title>{{ trip.startTime | date: 'HH:mm' }}</mat-card-title>
+        <div class="duration-container">
+          <div class="point start"></div>
+          <div class="duration">{{ trip.duration }}</div>
+          <div class="point end"></div>
+        </div>
+        <mat-card-title>{{ trip.endTime | date: 'HH:mm' }}</mat-card-title>
+      </div>
+      <div class="row">
+        <p>{{ trip.startTime | date: 'longDate' }}</p>
+        <p>{{ trip.endTime | date: 'longDate' }}</p>
+      </div>
+      <div class="row">
+        <mat-card-subtitle class="name">{{ trip.from.city }}</mat-card-subtitle>
+        <mat-card-subtitle class="name">{{ trip.to.city }}</mat-card-subtitle>
+      </div>
+      <div class="route">
+        <span class="route-info">
+          <div class="icon"><img src="train.svg" alt="icon for train" /></div>
+          <span class="name">{{ trip.routeStartCityName }}</span>
+          <mat-icon>east</mat-icon>
+          <span class="name">{{ trip.routeEndCityName }}</span>
+        </span>
+        <button class="route-button" mat-button color="primary"><mat-icon>route</mat-icon>Route</button>
+      </div>
+    </div>
+    <div class="price">
+      @for (carriage of trip.carriage; track carriage) {
+        <div class="carriage">
+          <mat-card-subtitle class="text-secondary">carriage type</mat-card-subtitle>
+          <mat-card-subtitle class="name margin">{{ carriage.type }}</mat-card-subtitle>
+          <p>{{ carriage.seatsAvailable }} seats</p>
+          <mat-card-title>{{ carriage.price | currency: 'USD' }}</mat-card-title>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

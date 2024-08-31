@@ -1,20 +1,16 @@
-export interface Route {
-  id: number;
-  path: number[];
-  carriages: string[];
-  schedule?: Schedule;
+import { RideRoute, Route, Segment } from './common';
+
+export interface RouteSchedule {
+  rideId: number;
+  segments: Segment[];
 }
 
-export interface Schedule {
-  rideId: number;
-  segments: {
-    time: [string, string];
-    price: { [key: string]: number };
-  }[];
+export interface ExtendedRoute extends Route {
+  schedule: RouteSchedule;
 }
 
 export type Trip = {
   from: { city: string };
   to: { city: string };
-  routes: Route[];
+  routes: RideRoute[];
 };

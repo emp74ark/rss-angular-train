@@ -1,3 +1,4 @@
+import { Segment } from './common';
 import { ProfileRole } from './profile';
 
 export enum OrderStatus {
@@ -7,11 +8,8 @@ export enum OrderStatus {
   CANCELED = 'canceled',
 }
 
-interface Schedule {
-  segments: {
-    time: string[];
-    price: Record<string, number>;
-  }[];
+interface OrderSchedule {
+  segments: Segment[];
 }
 
 export interface Order {
@@ -23,7 +21,14 @@ export interface Order {
   status: OrderStatus;
   path: number[];
   carriages: string[];
-  schedule: Schedule;
+  schedule: OrderSchedule;
+}
+
+export interface OrderBody {
+  rideId: number;
+  seat: number;
+  stationStart: number;
+  stationEnd: number;
 }
 
 export interface User {
