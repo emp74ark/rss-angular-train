@@ -2,12 +2,15 @@
   <thead class="title">
     <th>Time</th>
     <th>Station</th>
-    <th>Arrival</th>
+    <th>Stop</th>
   </thead>
   <tbody>
     @for (el of route()?.path; let i = $index; track i) {
       @if (stationsService.getStationById(el) | async; as station) {
-        <tr>
+        <tr
+          [ngClass]="{
+            highlightedRow: isHighlighted(i),
+          }">
           <td class="col1">
             @if (i === stepsAmount()) {
               <span>
@@ -28,7 +31,9 @@
             } @else if (i === stepsAmount()) {
               Last station
             }
-            {{ dateDif(route()?.schedule?.segments?.[i - 1]?.time?.[1], route()?.schedule?.segments?.[i]?.time?.[0]) }}
+            {{
+              route()?.schedule?.segments?.[i - 1]?.time?.[1] | dateDiff: route()?.schedule?.segments?.[i]?.time?.[0]
+            }}
           </td>
         </tr>
       }

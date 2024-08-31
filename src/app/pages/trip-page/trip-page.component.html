@@ -2,14 +2,14 @@
   <button mat-button (click)="onBack()">Back</button>
   <div class="trip-direction">
     <div class="trip-station">
-      <span>From: {{ stationFrom }}</span>
+      <span>From: {{ stationFrom.cityName }}</span>
       <span>Departure {{ departureDate | date: 'medium' }}</span>
     </div>
     <div class="trip-station">
       <span>&darr;</span>
     </div>
     <div class="trip-station">
-      <span>To: {{ stationTo }}</span>
+      <span>To: {{ stationTo.cityName }}</span>
       <span>Arrival: {{ arrivalDate | date: 'medium' }}</span>
     </div>
   </div>
@@ -46,7 +46,7 @@
 </div>
 
 @if (modal()) {
-  <app-modal-window [title]="'Route' + ' ' + tripRoute.id" (toggleVisibility)="onModal()">
-    <app-route-graph [route]="tripRoute" />
+  <app-modal-window [title]="'Route' + ' ' + rideId" (toggleVisibility)="onModal()">
+    <app-route-graph [route]="tripRoute" [startStation]="stationFrom.stationId" [lastStation]="stationTo.stationId" />
   </app-modal-window>
 }
