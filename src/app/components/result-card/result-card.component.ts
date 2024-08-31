@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { UserTrip } from '../search-result/result-mock';
+import { UserTrip } from '../../services/result.service';
 
 @Component({
   selector: 'app-result-card',
