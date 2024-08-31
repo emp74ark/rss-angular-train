@@ -26,23 +26,13 @@
           [rows]="c.rows"
           [leftSeats]="c.leftSeats"
           [rightSeats]="c.rightSeats"
-          (selectSeat)="onSeatSelect($event)" />
+          [initialValue]="c.firstSeatNumber"
+          (selectSeat)="onSeatSelect($event, c.code)" />
       </mat-tab>
     }
   </mat-tab-group>
 
-  <mat-card class="order-details">
-    <mat-card-title>Order</mat-card-title>
-    <mat-card-content>
-      <ul>
-        <li>Selected {{ selectedSeats().length > 1 ? 'seats' : 'seat' }}: {{ selectedSeats().join(', ') }}</li>
-        <li>Price:</li>
-      </ul>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>Book the trip</button>
-    </mat-card-actions>
-  </mat-card>
+  <app-order-widget class="order-details" [selectedSeats]="selectedSeats()" />
 </div>
 
 @if (modal()) {

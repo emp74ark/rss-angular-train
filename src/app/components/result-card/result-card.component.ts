@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { UserTrip } from '../search-result/result-mock';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-result-card',
@@ -14,4 +15,18 @@ import { UserTrip } from '../search-result/result-mock';
 })
 export class ResultCardComponent {
   @Input() trip: UserTrip;
+
+  router = inject(Router);
+
+  onNavigateToTrip() {
+    const rideId = this.trip.rideId.toString();
+    const from = this.trip.from.stationId;
+    const to = this.trip.to.stationId;
+    this.router.navigate([`trip/${rideId}`], {
+      queryParams: {
+        from: from,
+        to: to,
+      },
+    });
+  }
 }
