@@ -1,3 +1,5 @@
+@let dates = datesSig();
+
 <div class="content-wrapper">
   @if (isNoRide) {
     <div class="no-ride">
@@ -12,15 +14,17 @@
     </div>
   } @else {
     <nav class="tab-group" mat-tab-nav-bar [tabPanel]="tabPanel">
-      @for (date of dates; track date) {
-        <button
-          [ngClass]="{ tab: true, active: activeDate === date }"
-          mat-tab-link
-          (click)="activeDate = date; renderTrips()"
-          [active]="activeDate === date">
-          <div class="tab-day">{{ date | date: 'MMMM dd' }}</div>
-          <div class="tab-day-week">{{ date | date: 'EEEE' }}</div>
-        </button>
+      @if (dates) {
+        @for (date of dates; track date) {
+          <button
+            [ngClass]="{ tab: true, active: activeDate === date }"
+            mat-tab-link
+            (click)="activeDate = date; renderTrips()"
+            [active]="activeDate === date">
+            <div class="tab-day">{{ date | date: 'MMMM dd' }}</div>
+            <div class="tab-day-week">{{ date | date: 'EEEE' }}</div>
+          </button>
+        }
       }
     </nav>
     <mat-tab-nav-panel class="tab-content" #tabPanel>

@@ -1,14 +1,19 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { StationConnections, StationRelations } from '../models/stations';
 import { BehaviorSubject, catchError, of, switchMap, tap } from 'rxjs';
 import { ApiStatus } from '../models/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StationsService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
+  constructor() {
+    this.getStations().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+  }
 
   private $$stations = new BehaviorSubject<StationConnections[]>([]);
 
