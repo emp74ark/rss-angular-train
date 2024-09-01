@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-title>Order</mat-card-title>
+  <mat-card-content>
+    <ul>
+      <li>Selected: {{ selectedSeat()?.id }}</li>
+      <li>Price: {{ selectedSeat()?.price }}</li>
+    </ul>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>Book the trip</button>
+  </mat-card-actions>
+</mat-card>
