@@ -21,14 +21,22 @@
 <div class="trip-content">
   <mat-tab-group class="carriage-selector">
     @for (c of trainDetails?.trainInfo; let i = $index; track i) {
-      <mat-tab [label]="c.name">
-        <app-carriage
-          [rows]="c.rows"
-          [leftSeats]="c.leftSeats"
-          [rightSeats]="c.rightSeats"
-          [occupiedSeats]="c.seatsOccupied"
-          [initialValue]="c.firstSeat"
-          (selectSeat)="onSeatSelect($event)" />
+      <mat-tab>
+        <ng-template matTabLabel>
+          <div class="carriage-selector__tab">
+            <span>{{ c.name }}</span>
+            <span>{{ trainDetails.userSegments[0].price[c.code] | currency: 'USD' }}</span>
+          </div>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-carriage
+            [rows]="c.rows"
+            [leftSeats]="c.leftSeats"
+            [rightSeats]="c.rightSeats"
+            [occupiedSeats]="c.seatsOccupied"
+            [initialValue]="c.firstSeat"
+            (selectSeat)="onSeatSelect($event)" />
+        </ng-template>
       </mat-tab>
     }
   </mat-tab-group>

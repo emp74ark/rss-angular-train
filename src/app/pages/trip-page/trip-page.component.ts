@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest, filter, map, of, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SearchService } from '../../services/search.service';
-import { DatePipe, Location } from '@angular/common';
+import { CurrencyPipe, DatePipe, Location } from '@angular/common';
 import { StationsService } from '../../services/stations.service';
 import { MatButton } from '@angular/material/button';
-import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { MatTab, MatTabContent, MatTabGroup, MatTabLabel } from '@angular/material/tabs';
 import { CarriageComponent } from '../../components/carriage/carriage.component';
 import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { ModalWindowComponent } from '../../components/modal-window/modal-window.component';
@@ -31,6 +31,9 @@ import { DetailedRideInfo } from '../../models/train';
     MatCardTitle,
     MatCardContent,
     MatCardActions,
+    MatTabContent,
+    MatTabLabel,
+    CurrencyPipe,
   ],
   templateUrl: './trip-page.component.html',
   styleUrl: './trip-page.component.scss',
