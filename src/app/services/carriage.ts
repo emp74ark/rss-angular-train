@@ -1,8 +1,9 @@
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, of, switchMap } from 'rxjs';
 
 import { CarriageBody, CarriageData, CarriagePostResponse, CarriageResponseStatus } from '../models/carriage';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export const CARRIAGE_API = '/api/carriage';
 
@@ -12,8 +13,12 @@ export const CARRIAGE_API = '/api/carriage';
 export class CarriageService {
   private http = inject(HttpClient);
   private $$carriages = new BehaviorSubject<Array<CarriageData>>([]);
-
+  private destroyRef = inject(DestroyRef);
   $carriages = this.$$carriages.asObservable();
+
+  constructor() {
+    this.get().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+  }
 
   get() {
     return this.http.get<Array<CarriageData>>(CARRIAGE_API).pipe(
