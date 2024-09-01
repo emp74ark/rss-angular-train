@@ -3,12 +3,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { UserTrip } from '../search-result/result-mock';
+import { DurationPipe } from '../../pipes/duration.pipe';
+import { UserTrip } from '../../models/train';
 
 @Component({
   selector: 'app-result-card',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, DatePipe, MatIconModule, CurrencyPipe],
+  imports: [MatCardModule, MatButtonModule, DatePipe, MatIconModule, CurrencyPipe, DurationPipe],
   templateUrl: './result-card.component.html',
   styleUrl: './result-card.component.scss',
 })

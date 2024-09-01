@@ -5,7 +5,7 @@
         <mat-card-title>{{ trip.startTime | date: 'HH:mm' }}</mat-card-title>
         <div class="duration-container">
           <div class="point start"></div>
-          <div class="duration">{{ trip.duration }}</div>
+          <div class="duration">{{ trip.endTime | duration: trip.startTime }}</div>
           <div class="point end"></div>
         </div>
         <mat-card-title>{{ trip.endTime | date: 'HH:mm' }}</mat-card-title>
@@ -29,12 +29,12 @@
       </div>
     </div>
     <div class="price">
-      @for (carriage of trip.carriage; track carriage) {
+      @for (price of trip.price; track price) {
         <div class="carriage">
           <mat-card-subtitle class="text-secondary">carriage type</mat-card-subtitle>
-          <mat-card-subtitle class="name margin">{{ carriage.type }}</mat-card-subtitle>
-          <p>{{ carriage.seatsAvailable }} seats</p>
-          <mat-card-title>{{ carriage.price | currency: 'USD' }}</mat-card-title>
+          <mat-card-subtitle class="name margin">{{ price.type }}</mat-card-subtitle>
+          <p>{{ price.seatsAvailable }} seats</p>
+          <mat-card-title>{{ price.price | currency: 'USD' }}</mat-card-title>
         </div>
       }
     </div>
