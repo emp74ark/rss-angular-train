@@ -3,8 +3,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { UserTrip } from '../../services/result.service';
 import { DurationPipe } from '../../pipes/duration.pipe';
+import { UserTrip } from '../../models/train';
 
 @Component({
   selector: 'app-result-card',
