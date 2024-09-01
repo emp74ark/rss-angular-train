@@ -21,6 +21,7 @@ export class CarriageComponent implements OnChanges {
     const maxNum = this.initialValue() + this.rows() * (this.leftSeats() + this.rightSeats());
     return maxNum > 9999 ? 2 : maxNum > 999 ? 1 : 0;
   });
+  occupiedSeat = input<number[]>([]);
 
   selectSeat = output<string>();
 
