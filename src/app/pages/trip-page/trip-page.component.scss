@@ -66,6 +66,17 @@
   max-width: 80vw;
 }
 
+.carriage-selector__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  & span:first-child {
+    font-weight: bold;
+  }
+}
+
 .order-details {
   width: 20rem;
   position: absolute;
