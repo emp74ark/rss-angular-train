@@ -90,7 +90,6 @@ export class AdminCarriagesComponent {
   constructor() {
     this.carriagesSig = toSignal(this.carriageService.$carriages, { initialValue: [] });
     this.$pageWidth = this.pageService.pageWidth$;
-    this.carriageService.get().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   get createFormDisabled() {
