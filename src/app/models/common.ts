@@ -25,8 +25,17 @@ export interface RideSchedule {
   segments: RideSegment[];
 }
 
+export interface RideAdminSchedule {
+  rideId: number;
+  segments: Segment[];
+}
+
 export interface RideRoute extends Route {
   schedule: RideSchedule[];
+}
+
+export interface RideAdminRoute extends Route {
+  schedule: RideAdminSchedule[];
 }
 
 export type SearchResult = {

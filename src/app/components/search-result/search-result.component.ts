@@ -7,8 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ResultCardComponent } from '../result-card/result-card.component';
-import { ResultService, UserTrip } from '../../services/result.service';
+import { ResultService } from '../../services/result.service';
 import moment from 'moment';
+import { UserTrip } from '../../models/train';
 
 @Component({
   selector: 'app-search-result',
@@ -51,7 +52,6 @@ export class SearchResultComponent implements OnInit {
       });
       this.isNoRide = this.cardData.length === 0 ? true : false;
 
-      console.log('dataResult', data);
       const availableDates = this.getAllDates();
       this.activeDate = availableDates[0];
       this.renderTrips();
@@ -60,9 +60,7 @@ export class SearchResultComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.searchService.$searchResults
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(data => console.log('SearchResultComponent', { data }));
+    this.searchService.$searchResults.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   renderTrips(): void {

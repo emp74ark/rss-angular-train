@@ -31,7 +31,9 @@
             } @else if (i === stepsAmount()) {
               Last station
             }
-            {{ dateDif(route()?.schedule?.segments?.[i - 1]?.time?.[1], route()?.schedule?.segments?.[i]?.time?.[0]) }}
+            {{
+              route()?.schedule?.segments?.[i - 1]?.time?.[1] | duration: route()?.schedule?.segments?.[i]?.time?.[0]
+            }}
           </td>
         </tr>
       }
