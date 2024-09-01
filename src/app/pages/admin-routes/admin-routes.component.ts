@@ -464,6 +464,10 @@ export class AdminRoutesComponent {
       this.form.controls.stations.controls.forEach((control, i) => {
         if (i >= index) {
           control.updateValueAndValidity();
+
+          if (control.value !== null) {
+            control.markAsTouched();
+          }
         }
       });
     }
