@@ -1,4 +1,4 @@
-<mat-card class="card">
+<mat-card class="card" (click)="onNavigateToTrip()">
   <mat-card-content class="card-content">
     <div class="information">
       <div class="row">
@@ -25,7 +25,10 @@
           <mat-icon>east</mat-icon>
           <span class="name">{{ trip.routeEndCityName }}</span>
         </span>
-        <button class="route-button" mat-button color="primary"><mat-icon>route</mat-icon>Route</button>
+        <button class="route-button" mat-button color="primary">
+          <mat-icon>route</mat-icon>
+          Route
+        </button>
       </div>
     </div>
     <div class="price">

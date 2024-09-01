@@ -46,7 +46,7 @@ export class TripPageComponent implements OnInit {
   carriageService = inject(CarriageService);
   destroyRef = inject(DestroyRef);
 
-  rideId: number;
+  rideId: number; // todo: change to route id
   tripRoute: ExtendedRoute;
   stationFrom: { stationId: number; cityName: string };
   departureDate: string;
@@ -141,6 +141,7 @@ export class TripPageComponent implements OnInit {
           return this.searchService.searchRide(prev[2]['id']);
         }),
         tap(route => {
+          console.log('TRIP ROUTE', route);
           this.tripRoute = route;
           const segmentIndex = route.path?.findIndex((el: number) => el === this.stationFrom?.stationId);
           const currentSegment = route.schedule?.segments[segmentIndex];
@@ -167,20 +168,13 @@ export class TripPageComponent implements OnInit {
     this.location.back();
   }
 
-  selectedSeats = signal<Seat[]>([]);
+  selectedSeat = signal<Seat | undefined>(undefined);
 
   onSeatSelect(id: string, carriageType: string) {
     const seatNumber = parseInt(id);
-    if (this.selectedSeats().some(s => s.id === seatNumber)) {
-      this.selectedSeats.set(this.selectedSeats().filter(el => el.id !== seatNumber));
-    } else {
-      this.selectedSeats.set([
-        ...this.selectedSeats(),
-        {
-          id: seatNumber,
-          price: this.seatPrices?.[carriageType],
-        },
-      ]);
-    }
+    this.selectedSeat.set({
+      id: seatNumber,
+      price: this.seatPrices?.[carriageType],
+    });
   }
 }
