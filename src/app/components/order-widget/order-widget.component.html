@@ -2,13 +2,8 @@
   <mat-card-title>Order</mat-card-title>
   <mat-card-content>
     <ul>
-      <li>
-        Selected:
-        @for (seat of selectedSeats(); track seat.id) {
-          <span>{{ seat.id }},</span>
-        }
-      </li>
-      <li>Price: {{ priseSum() }}</li>
+      <li>Selected: {{ selectedSeat()?.id }}</li>
+      <li>Price: {{ selectedSeat()?.price }}</li>
     </ul>
   </mat-card-content>
   <mat-card-actions>

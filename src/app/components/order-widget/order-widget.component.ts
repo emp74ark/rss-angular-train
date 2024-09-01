@@ -1,4 +1,4 @@
-import { Component, computed, input, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { Seat } from '../../models/carriage';
@@ -11,13 +11,10 @@ import { Seat } from '../../models/carriage';
   styleUrl: './order-widget.component.scss',
 })
 export class OrderWidgetComponent implements OnInit {
-  selectedSeats = input<Seat[]>([]);
-  priseSum = computed(() => {
-    return this.selectedSeats().reduce((sum, seat) => sum + (seat?.price ?? 0), 0);
-  });
+  selectedSeat = input<Seat>();
   rideId = input<number>();
 
   ngOnInit() {
-    console.log('SELECTED SEATS', this.selectedSeats());
+    console.log('SELECTED SEATS', this.selectedSeat());
   }
 }
