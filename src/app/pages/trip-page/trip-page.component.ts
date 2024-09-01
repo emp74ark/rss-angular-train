@@ -13,8 +13,10 @@ import { ModalWindowComponent } from '../../components/modal-window/modal-window
 import { RouteGraphComponent } from '../../components/route-graph/route-graph.component';
 import { parseInt } from 'lodash';
 import { CarriageService } from '../../services/carriage';
-import { CarriageData } from '../../models/carriage';
+import { CarriageData, CarriageWithSeatsData, Seat } from '../../models/carriage';
 import { ExtendedRoute } from '../../models/route';
+import { Segment } from '../../models/common';
+import { OrderWidgetComponent } from '../../components/order-widget/order-widget.component';
 
 @Component({
   selector: 'app-trip-page',
@@ -31,6 +33,7 @@ import { ExtendedRoute } from '../../models/route';
     MatCardTitle,
     MatCardContent,
     MatCardActions,
+    OrderWidgetComponent,
   ],
   templateUrl: './trip-page.component.html',
   styleUrl: './trip-page.component.scss',
@@ -43,61 +46,76 @@ export class TripPageComponent implements OnInit {
   carriageService = inject(CarriageService);
   destroyRef = inject(DestroyRef);
 
-  rideId: number;
+  rideId: number; // todo: change to route id
   tripRoute: ExtendedRoute;
   stationFrom: { stationId: number; cityName: string };
   departureDate: string;
   stationTo: { stationId: number; cityName: string };
   arrivalDate: string;
-  carriages: CarriageData[];
+  carriages: CarriageWithSeatsData[];
   carriageTypes: CarriageData[];
+  currentSegment: Segment;
+  seatPrices: Record<string, number> | undefined;
 
-  getCarriageData(carriageName: string) {
-    return this.carriageTypes.find(el => el.code === carriageName);
+  calcSeatsAmount(c: CarriageData) {
+    return c.rows * (c.leftSeats + c.rightSeats);
+  }
+
+  calcCarriageTypeAmount() {
+    const cTypes = [...new Set(this.tripRoute.carriages)];
+    const data: Record<string, number> = {};
+    cTypes.forEach(c => {
+      data[c] = this.tripRoute.carriages.filter((i: string) => i === c).length;
+    });
+    return data;
+  }
+
+  getCarriageSeats(list: string[]) {
+    const data: CarriageWithSeatsData[] = [];
+    let seatsCounter = 1;
+    for (let i = 0; i < list.length; i++) {
+      const carriageDescription = this.carriageTypes.find(c => c.code === list[i]);
+      if (carriageDescription) {
+        const amountOfSeats = this.calcSeatsAmount(carriageDescription);
+        data.push({
+          ...carriageDescription,
+          index: i,
+          firstSeatNumber: seatsCounter,
+        });
+        seatsCounter += amountOfSeats;
+      }
+    }
+    return data;
+  }
+
+  getSeatsPrice(segment: Segment) {
+    const price = segment?.price;
+
+    if (!price) {
+      return;
+    }
+
+    const data: Record<string, number> = {};
+    const types = this.calcCarriageTypeAmount();
+    Object.entries(segment?.price).forEach(([key, value]) => {
+      data[key] = value / types?.[key];
+    });
+
+    return data;
   }
 
   ngOnInit() {
     // preload stations
-    this.stationsService
-      .getStations()
-      .pipe(
-        // tap(st => console.log(st)),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
+    this.stationsService.getStations().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+
     // preload carriage types
     this.carriageService
       .get()
       .pipe(
-        switchMap(() => {
-          return this.carriageService.$carriages;
-        }),
-        tap(res => {
-          console.log(res);
-          this.carriageTypes = res;
-        }),
+        switchMap(() => this.carriageService.$carriages),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe();
-    // id
-    this.route.params
-      .pipe(
-        tap(params => console.log(params)),
-        switchMap(params => {
-          return this.searchService.searchRide(params['id']);
-        }),
-        tap(route => {
-          const steps: number = route.path.length;
-          this.rideId = route.rideId;
-          this.departureDate = route.schedule.segments[0].time[0];
-          this.arrivalDate = route.schedule.segments[steps - 2].time[1];
-          this.carriages = route.carriages.map((el: string) => this.getCarriageData(el));
-          this.tripRoute = route;
-          console.log(route);
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
+      .subscribe(res => (this.carriageTypes = res));
 
     // from & to
     this.route.queryParams
@@ -109,13 +127,31 @@ export class TripPageComponent implements OnInit {
         })),
         switchMap(params =>
           combineLatest([
-            this.stationsService.getStationById(params.from),
-            this.stationsService.getStationById(params.to),
+            this.stationsService.getStationById(params.from), // from -> 0
+            this.stationsService.getStationById(params.to), // to -> 1
+            this.route.params, // id -> 2
           ]),
         ),
         tap(res => {
-          this.stationFrom = { stationId: res[0]?.id, cityName: res[0]?.city };
-          this.stationTo = { stationId: res[1]?.id, cityName: res[1]?.city };
+          this.stationFrom = { stationId: res[0]?.id, cityName: res[0]?.city }; // page header
+          this.stationTo = { stationId: res[1]?.id, cityName: res[1]?.city }; // page header
+          this.rideId = res[2]['id']; // page header & ride details bellow
+        }),
+        switchMap(prev => {
+          return this.searchService.searchRide(prev[2]['id']);
+        }),
+        tap(route => {
+          console.log('TRIP ROUTE', route);
+          this.tripRoute = route;
+          const segmentIndex = route.path?.findIndex((el: number) => el === this.stationFrom?.stationId);
+          const currentSegment = route.schedule?.segments[segmentIndex];
+          this.currentSegment = currentSegment;
+          this.departureDate = currentSegment?.time[0];
+          this.arrivalDate = currentSegment?.time[1];
+          // get carriage name, seats numbers
+          this.carriages = this.getCarriageSeats(route.carriages);
+          // get occupied seats and price
+          this.seatPrices = this.getSeatsPrice(currentSegment);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -132,14 +168,13 @@ export class TripPageComponent implements OnInit {
     this.location.back();
   }
 
-  selectedSeats = signal<number[]>([]);
+  selectedSeat = signal<Seat | undefined>(undefined);
 
-  onSeatSelect(value: string) {
-    const seatNumber = parseInt(value);
-    if (this.selectedSeats().includes(seatNumber)) {
-      this.selectedSeats.set(this.selectedSeats().filter(el => el !== seatNumber));
-    } else {
-      this.selectedSeats.set([...this.selectedSeats(), seatNumber]);
-    }
+  onSeatSelect(id: string, carriageType: string) {
+    const seatNumber = parseInt(id);
+    this.selectedSeat.set({
+      id: seatNumber,
+      price: this.seatPrices?.[carriageType],
+    });
   }
 }

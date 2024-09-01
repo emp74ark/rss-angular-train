@@ -12,6 +12,7 @@
             highlightedRow: isHighlighted(i),
           }">
           <td class="col1">
+            <!--  remove first statioin date -->
             @if (i === stepsAmount()) {
               <span>
                 {{ route()?.schedule?.segments?.[i - 1]?.time?.[1] | date: 'shortTime' }}
@@ -32,7 +33,7 @@
               Last station
             }
             {{
-              route()?.schedule?.segments?.[i - 1]?.time?.[1] | dateDiff: route()?.schedule?.segments?.[i]?.time?.[0]
+              route()?.schedule?.segments?.[i - 1]?.time?.[1] | duration: route()?.schedule?.segments?.[i]?.time?.[0]
             }}
           </td>
         </tr>

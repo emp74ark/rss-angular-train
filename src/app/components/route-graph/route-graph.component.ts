@@ -2,12 +2,12 @@ import { Component, computed, inject, input } from '@angular/core';
 import { StationsService } from '../../services/stations.service';
 import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { ExtendedRoute } from '../../models/route';
-import { DateDiffPipe } from '../../pipes/date-diff.pipe';
+import { DurationPipe } from '../../pipes/duration.pipe';
 
 @Component({
   selector: 'app-route-graph',
   standalone: true,
-  imports: [AsyncPipe, DatePipe, NgClass, DateDiffPipe],
+  imports: [AsyncPipe, DatePipe, NgClass, DurationPipe],
   templateUrl: './route-graph.component.html',
   styleUrl: './route-graph.component.scss',
 })
