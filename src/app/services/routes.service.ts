@@ -1,14 +1,16 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { ApiStatus, RideAdminRoute, Route } from '../models/common';
 import { RouteSchedule } from '../models/route';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoutesService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
 
   private $$routes = new BehaviorSubject<Route[]>([]);
   $routes = this.$$routes.asObservable();
@@ -18,6 +20,10 @@ export class RoutesService {
     error: null,
   });
   $apiStatus = this.$$apiStatus.asObservable();
+
+  constructor() {
+    this.retrieveRoutes().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+  }
 
   retrieveRoutes() {
     return this.httpClient.get<Route[]>('/api/route').pipe(

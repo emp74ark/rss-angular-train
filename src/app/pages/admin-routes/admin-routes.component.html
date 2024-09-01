@@ -1,1 +1,209 @@
-<p>admin-routes works!</p>
+@if (form) {
+  <form [formGroup]="form" class="routeForm" (ngSubmit)="handleSubmit()">
+    <mat-card class="matCard" appearance="outlined">
+      <mat-card-header class="cardHeader">
+        <mat-card-subtitle>{{ formIdControlValue ? 'Edit' : 'Create' }}</mat-card-subtitle>
+        <mat-card-title></mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="cardContent">
+        <div class="formContent">
+          <div class="stations">
+            @if (stationsControls) {
+              @for (city of stationsControls.controls; let i = $index; track city) {
+                <div class="stationsRow" formArrayName="stations">
+                  <mat-form-field class="stationField">
+                    <mat-label>Select station</mat-label>
+                    <input
+                      #input
+                      type="text"
+                      placeholder="Pick station from list"
+                      matInput
+                      formControlName="{{ i }}"
+                      [matAutocomplete]="auto"
+                      (input)="filterStations($event, i)"
+                      (focus)="filterStations($event, i)" />
+                    <mat-autocomplete
+                      requireSelection
+                      #auto="matAutocomplete"
+                      [displayWith]="getStationOptionText"
+                      (optionSelected)="getStations($event.option.value, i)">
+                      @for (option of filteredStations(); track option.id) {
+                        <mat-option [value]="option"
+                          ><span>{{ option.cityName }}</span></mat-option
+                        >
+                      }
+                    </mat-autocomplete>
+                    <mat-error class="formFieldError"
+                      ><app-array-control-error-message formControlName="{{ i }}"
+                    /></mat-error>
+                  </mat-form-field>
+                  <button mat-mini-fab class="deleteRow" color="warn" (click)="deleteStation(i)" type="button">
+                    <mat-icon aria-hidden="false" aria-label="icon" fontIcon="delete" color="warn"></mat-icon>
+                  </button>
+                </div>
+              }
+            }
+            @if (stationsArrayErrors) {
+              <mat-error class="arrayError">Minimum 3 stations</mat-error>
+            }
+            <button mat-fab extended class="addRow" color="accent" (click)="addCity()" type="button">
+              <mat-icon aria-hidden="false" aria-label="icon" fontIcon="add_circle"></mat-icon>
+              <span class="text">Add station</span>
+            </button>
+          </div>
+          <div class="carriages">
+            @if (carriagesControls) {
+              @for (carriage of carriagesControls.controls; let i = $index; track carriage) {
+                <div class="carriagesRow" formArrayName="carriages">
+                  <mat-form-field class="carriagesField">
+                    <mat-label>Select carriage</mat-label>
+                    <input
+                      #input
+                      type="text"
+                      placeholder="Pick carriage from list"
+                      matInput
+                      formControlName="{{ i }}"
+                      [matAutocomplete]="auto"
+                      (input)="filterCarriages($event)"
+                      (focus)="filterCarriages($event)" />
+                    <mat-autocomplete requireSelection #auto="matAutocomplete" [displayWith]="getCarriageOptionText">
+                      @for (option of filteredCarriages(); track option.code) {
+                        <mat-option [value]="option"
+                          ><span>{{ option.carriageName }}</span></mat-option
+                        >
+                      }
+                    </mat-autocomplete>
+                    <mat-error class="formFieldError"
+                      ><app-array-control-error-message formControlName="{{ i }}"
+                    /></mat-error>
+                  </mat-form-field>
+                  <button mat-mini-fab class="deleteRow" color="warn" (click)="deleteCarriage(i)" type="button">
+                    <mat-icon aria-hidden="false" aria-label="icon" fontIcon="delete" color="warn"></mat-icon>
+                  </button>
+                </div>
+              }
+            }
+
+            @if (carriagesArrayErrors) {
+              <mat-error class="arrayError">Minimum 3 carriages</mat-error>
+            }
+            <button mat-fab extended class="addRow" color="accent" (click)="addCarriage()" type="button">
+              <mat-icon aria-hidden="false" aria-label="icon" fontIcon="add_circle"></mat-icon>
+              <span class="text">Add carriage</span>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="cardControls">
+        <button
+          mat-flat-button
+          color="primary"
+          class="full-width saveButton"
+          type="submit"
+          [disabled]="isSubmitDisabled">
+          Save
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="full-width cancelButton"
+          type="button"
+          (click)="handleCanselForm()">
+          Cancel
+        </button>
+      </mat-card-actions>
+      <mat-card-footer class="cardFooter">
+        @let untrackedErrorText = untrackedErrorMessage();
+        <div [ngClass]="{ unknownErrorContainer: true, opened: untrackedErrorText }">
+          <mat-error class="unknownError">{{ untrackedErrorText }}</mat-error>
+        </div>
+      </mat-card-footer>
+    </mat-card>
+  </form>
+}
+<button
+  mat-flat-button
+  color="primary"
+  class="full-width createButton"
+  type="submit"
+  [disabled]="createFormDisabled"
+  (click)="createNewForm()">
+  Create
+</button>
+
+<h5 class="devider">Routes</h5>
+
+@let routes = combinedSignal();
+<div class="routes">
+  @for (route of routes; track route.id; let first = $first, last = $last) {
+    <mat-card class="matCard createdCard" appearance="outlined">
+      <mat-card-header class="cardHeader">
+        <div class="headerContainer">
+          <mat-card-title class="cardTitle">Route {{ route.id }}</mat-card-title>
+          <mat-card-subtitle class="cardSubtitle">
+            <button mat-fab extended class="button" color="primary" (click)="updateRoute(route)" [disabled]="!!form">
+              <mat-icon aria-hidden="false" aria-label="icon" fontIcon="edit_square"></mat-icon>
+              <span class="text">Update</span>
+            </button>
+            <button mat-fab extended class="button" color="primary" (click)="assignRide(route)">
+              <mat-icon aria-hidden="false" aria-label="icon" fontIcon="directions_bus"></mat-icon>
+              <span class="text">Assign ride</span>
+            </button>
+            <button
+              mat-fab
+              class="button"
+              color="primary"
+              (click)="deleteRouteModal(route)"
+              [disabled]="isDeleteDisabled || route.id === formIdControlValue">
+              <mat-icon aria-hidden="false" aria-label="icon" fontIcon="delete" color="warn"></mat-icon>
+              <span class="text"></span></button
+          ></mat-card-subtitle>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="cardContent">
+        <div class="dataContainer">
+          <span class="title">Cities:</span>
+          <div class="data">
+            @for (city of route.path; track city.id; let cityFirst = $first, cityLast = $last) {
+              <div class="city">
+                @if (!cityFirst) {
+                  <span class="dash">-</span>
+                }
+                <span class="cityName">{{ city.city }}</span>
+                @if (!cityLast) {
+                  <span class="dash">-</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+        <div class="dataContainer">
+          <span class="title">Carriages Types:</span>
+          <div class="data">
+            @for (carriage of route.carriages; let cityFirst = $first, cityLast = $last, i = $index; track i) {
+              <div class="city">
+                @if (!cityFirst) {
+                  <span class="dash">-</span>
+                }
+                <span class="cityName">{{ carriage.name }}</span>
+                @if (!cityLast) {
+                  <span class="dash">-</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="cardControls"> </mat-card-actions>
+      <mat-card-footer class="cardFooter"> </mat-card-footer>
+    </mat-card>
+  }
+</div>
+<mat-paginator
+  (page)="handlePageEvent($event)"
+  [length]="routesLengthSig()"
+  [pageSize]="10"
+  showFirstLastButtons
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  aria-label="Select page">
+</mat-paginator>
