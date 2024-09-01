@@ -1,11 +1,11 @@
-<mat-card class="card" (click)="onNavigateToTrip()">
+<mat-card class="card">
   <mat-card-content class="card-content">
     <div class="information">
       <div class="row">
         <mat-card-title>{{ trip.startTime | date: 'HH:mm' }}</mat-card-title>
         <div class="duration-container">
           <div class="point start"></div>
-          <div class="duration">{{ +trip.endTime - +trip.startTime }}</div>
+          <div class="duration">{{ trip.endTime | duration: trip.startTime }}</div>
           <div class="point end"></div>
         </div>
         <mat-card-title>{{ trip.endTime | date: 'HH:mm' }}</mat-card-title>

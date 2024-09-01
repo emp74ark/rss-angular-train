@@ -1,13 +1,13 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { StationsService } from '../../services/stations.service';
 import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
-import moment from 'moment';
 import { ExtendedRoute } from '../../models/route';
+import { DurationPipe } from '../../pipes/duration.pipe';
 
 @Component({
   selector: 'app-route-graph',
   standalone: true,
-  imports: [AsyncPipe, DatePipe, NgClass],
+  imports: [AsyncPipe, DatePipe, NgClass, DurationPipe],
   templateUrl: './route-graph.component.html',
   styleUrl: './route-graph.component.scss',
 })
@@ -31,16 +31,6 @@ export class RouteGraphComponent {
   });
 
   stationsService = inject(StationsService);
-
-  dateDif(time1: string | undefined, time2: string | undefined) {
-    if (time1 && time2) {
-      const date1 = new Date(time1).getTime();
-      const date2 = new Date(time2).getTime();
-      const diff = date2 - date1;
-      return moment.duration(diff).humanize();
-    }
-    return null;
-  }
 
   isHighlighted(index: number): boolean {
     const start = this.startStationIndex();

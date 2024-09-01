@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
-import { ApiStatus, Route } from '../models/common';
+import { ApiStatus, RideAdminRoute, Route } from '../models/common';
 import { RouteSchedule } from '../models/route';
 
 @Injectable({
@@ -33,9 +33,9 @@ export class RoutesService {
   }
 
   createRoute(body: Omit<Route, 'id'>) {
-    return this.httpClient.post<Route>('/api/route', body).pipe(
-      tap(route => {
-        this.$$routes.next([...(this.$$routes.value || []), route]);
+    return this.httpClient.post<{ id: number }>('/api/route', body).pipe(
+      tap(() => {
+        this.retrieveRoutes();
         this.$$apiStatus.next({ success: true, error: null });
       }),
       catchError(({ error }: HttpErrorResponse) => {
@@ -46,10 +46,9 @@ export class RoutesService {
   }
 
   updateRoute(id: number, body: Omit<Route, 'id'>) {
-    return this.httpClient.put<Route>(`/api/route/${id}`, body).pipe(
-      tap(updatedRoute => {
-        const updatedRoutes = (this.$$routes.value || []).map(route => (route.id === id ? updatedRoute : route));
-        this.$$routes.next(updatedRoutes);
+    return this.httpClient.put<{ id: number }>(`/api/route/${id}`, body).pipe(
+      tap(() => {
+        this.retrieveRoutes();
         this.$$apiStatus.next({ success: true, error: null });
       }),
       catchError(({ error }: HttpErrorResponse) => {
@@ -74,9 +73,8 @@ export class RoutesService {
   }
 
   retrieveRouteInfo(id: number) {
-    return this.httpClient.get<Route>(`/api/route/${id}`).pipe(
-      tap(route => {
-        this.$$routes.next([...(this.$$routes.value || []), route]);
+    return this.httpClient.get<RideAdminRoute[]>(`/api/route/${id}`).pipe(
+      tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
       }),
       catchError(({ error }: HttpErrorResponse) => {
@@ -87,7 +85,7 @@ export class RoutesService {
   }
 
   createRide(routeId: number, body: RouteSchedule) {
-    return this.httpClient.post(`/api/route/${routeId}/ride`, body).pipe(
+    return this.httpClient.post<{ rideId: number }>(`/api/route/${routeId}/ride`, body).pipe(
       tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
       }),
@@ -100,6 +98,18 @@ export class RoutesService {
 
   updateRide(routeId: number, rideId: number, body: RouteSchedule) {
     return this.httpClient.put(`/api/route/${routeId}/ride/${rideId}`, body).pipe(
+      tap(() => {
+        this.$$apiStatus.next({ success: true, error: null });
+      }),
+      catchError(({ error }: HttpErrorResponse) => {
+        this.$$apiStatus.next({ success: false, error: error.message });
+        return of(error);
+      }),
+    );
+  }
+
+  deleteRide(routeId: number, rideId: number) {
+    return this.httpClient.delete(`/api/route/${routeId}/ride/${rideId}`).pipe(
       tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
       }),
