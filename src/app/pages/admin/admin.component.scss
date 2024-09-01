@@ -1,5 +1,6 @@
 @import 'theme';
 @import 'palette-color';
+@import 'variables';
 
 :host {
   display: grid;
@@ -25,9 +26,12 @@
 
   .page {
     padding: 1rem;
+    @media #{$media-mobile} {
+      padding: 6px;
+    }
   }
 
-  @media (max-width: 767px) {
+  @media #{$media-mobile} {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     gap: 10px;

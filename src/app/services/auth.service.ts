@@ -8,15 +8,17 @@ import {
   ProfileResponse,
   ProfileRoutes,
 } from '../models/auth';
-import { BehaviorSubject, catchError, of, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, of, switchMap, tap } from 'rxjs';
 import { AuthRoutes } from '../models/auth';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
   private $$authStatus = new BehaviorSubject<AuthStatus>({
     token: localStorage.getItem('rsToken') || null,
     success: false,
@@ -78,8 +80,21 @@ export class AuthService {
   }
 
   logOut() {
-    this.httpClient.delete(AuthRoutes.Logout);
-    this.cleanToken();
+    this.httpClient
+      .delete(AuthRoutes.Logout)
+      .pipe(
+        catchError(({ error }: HttpErrorResponse) => {
+          return of({ status: AuthResponseStatus.ERROR, error });
+        }),
+      )
+      .pipe(
+        tap(() => {
+          this.cleanToken();
+          this.router.navigate(['/']);
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   private cleanToken() {

@@ -1,0 +1,34 @@
+@let title = data.title || 'Are you sure?';
+@let cancelText = data.cancelText || 'Cancel';
+@let cancelColor = data.cancelColor || 'accent';
+@let confirmText = data.confirmText || 'Ok';
+@let confirmColor = data.confirmColor || 'primary';
+@let showCancel = data.showCancel ?? 'true';
+@let showOkIcon = data.showOkIcon ?? false;
+
+<h2 [ngStyle]="{ 'text-align': 'center' }" mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content [ngStyle]="{ display: 'flex', 'justify-content': 'center', 'align-items': 'center' }">
+  <mat-icon
+    [ngStyle]="{ 'font-size': '70px', height: '70px', width: '70px' }"
+    aria-hidden="false"
+    aria-label="icon"
+    [fontIcon]="showOkIcon ? 'recommend' : 'warning_amber'"
+    [color]="showOkIcon ? 'primary' : 'warn'"></mat-icon>
+</mat-dialog-content>
+<mat-dialog-actions
+  [ngStyle]="{
+    display: 'flex',
+    'justify-content': 'center',
+    'align-items': 'center',
+    gap: '10px',
+    'flex-wrap': 'nowrap',
+  }">
+  @if (showCancel) {
+    <button [ngStyle]="{ flex: '1 1 50%' }" mat-button mat-dialog-close [color]="cancelColor" (click)="onCancelClick()">
+      {{ cancelText }}
+    </button>
+  }
+  <button [ngStyle]="{ flex: '1 1 50%' }" mat-raised-button [color]="confirmColor" (click)="onConfirmClick()">
+    {{ confirmText }}
+  </button>
+</mat-dialog-actions>
