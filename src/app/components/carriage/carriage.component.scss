@@ -4,6 +4,7 @@ $color-primary: #1a3487;
 $color-secondary: #ccc;
 $color-tertiary: #6174ae;
 $color-disabled: #979292;
+$color-booked: #dab566;
 $carriage-border: 2px solid $color-secondary;
 
 :host {
@@ -15,6 +16,44 @@ $carriage-border: 2px solid $color-secondary;
   overflow-x: auto;
   container: carriage;
   container-type: inline-size;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.map {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: x-small;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+}
+
+.map__item {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+
+  &.free {
+    background: #ccc;
+  }
+
+  &.selected {
+    background: $color-primary;
+  }
+
+  &.booked {
+    background: $color-booked;
+  }
+
+  &.disabled {
+    background: $color-disabled;
+  }
 }
 
 .carriage {
@@ -78,7 +117,7 @@ $carriage-border: 2px solid $color-secondary;
       letter-spacing: -2px;
     }
     &.booked {
-      background: #dab566;
+      background: $color-booked;
     }
   }
 
@@ -103,7 +142,7 @@ $carriage-border: 2px solid $color-secondary;
     font-weight: bold;
 
     &.booked {
-      background: #dab566;
+      background: $color-booked;
     }
   }
 
