@@ -1,41 +1,40 @@
-<table class="table">
-  <thead class="title">
-    <th>Time</th>
-    <th>Station</th>
-    <th>Stop</th>
-  </thead>
-  <tbody>
-    @for (el of path(); let i = $index; track i) {
-      @if (stationsService.getStationById(el) | async; as station) {
-        <tr
-          [ngClass]="{
-            highlightedRow: isHighlighted(i),
-          }">
-          <td class="col1">
-            <!--  remove first statioin date -->
-            @if (i === stepsAmount()) {
-              <span>
-                {{ segments()?.[i - 1]?.time?.[1] | date: 'shortTime' }}
-              </span>
-            }
-            <span>
-              {{ segments()?.[i]?.time?.[0] | date: 'shortTime' }}
-            </span>
-            <span>
-              {{ segments()?.[i]?.time?.[1] | date: 'shortTime' }}
-            </span>
-          </td>
-          <td class="col2">{{ station.city }}</td>
-          <td class="col3">
-            @if (i === 0) {
-              First station
-            } @else if (i === stepsAmount()) {
-              Last station
-            }
-            {{ segments()?.[i - 1]?.time?.[1] | duration: segments()?.[i]?.time?.[0] }}
-          </td>
-        </tr>
+@let routePath = path();
+@if (routePath) {
+  <table class="table">
+    <thead class="title">
+      <th>Time</th>
+      <th></th>
+      <th>Station</th>
+      <th>Stop</th>
+    </thead>
+    <tbody>
+      @for (el of routePath; let i = $index; track i) {
+        @if (stationsService.getStationById(el) | async; as station) {
+          <tr [ngClass]="{ highlightedRow: isHighlighted(i) }">
+            <td class="col1">
+              @if (i !== 0) {
+                <span>
+                  {{ segments()?.[i - 1]?.time?.[1] | date: 'HH: mm' }}
+                </span>
+              }
+              @if (i !== routePath.length - 1) {
+                <span>
+                  {{ segments()?.[i]?.time?.[0] | date: 'HH: mm' }}
+                </span>
+              }
+            </td>
+            <td class="col2">{{ station.city }}</td>
+            <td class="col3">
+              @if (i === 0) {
+                First station
+              } @else if (i === stepsAmount()) {
+                Last station
+              }
+              {{ segments()?.[i - 1]?.time?.[1] | duration: segments()?.[i]?.time?.[0] }}
+            </td>
+          </tr>
+        }
       }
-    }
-  </tbody>
-</table>
+    </tbody>
+  </table>
+}
