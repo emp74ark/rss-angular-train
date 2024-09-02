@@ -33,10 +33,20 @@ export class RouteGraphComponent {
 
   stationsService = inject(StationsService);
 
+  isFirst(index: number): boolean {
+    const start = this.startStationIndex();
+    return index === start;
+  }
+
+  isLast(index: number): boolean {
+    const end = this.lastStationIndex();
+    return index === end;
+  }
+
   isHighlighted(index: number): boolean {
     const start = this.startStationIndex();
     const end = this.lastStationIndex();
-    if (!start || !end) return false;
+    if (start === undefined || end === undefined) return false;
     return index >= start && index <= end;
   }
 }
