@@ -29,6 +29,12 @@
 </div>
 <div class="content-wrapper">
   <div class="trip-content">
+    <app-order-widget
+      class="order-details"
+      [selectedSeat]="selectedSeat()"
+      [rideId]="trainDetails.rideId"
+      [stationStart]="stationFrom.id"
+      [stationEnd]="stationTo.id" />
     <mat-tab-group class="carriage-selector">
       @for (type of trainDetails.price; let i = $index; track i) {
         <mat-tab>
@@ -68,13 +74,6 @@
         </mat-tab>
       }
     </mat-tab-group>
-
-    <app-order-widget
-      class="order-details"
-      [selectedSeat]="selectedSeat()"
-      [rideId]="trainDetails.rideId"
-      [stationStart]="stationFrom.id"
-      [stationEnd]="stationTo.id" />
   </div>
 </div>
 
