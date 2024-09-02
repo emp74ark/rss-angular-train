@@ -10,3 +10,9 @@
     <button mat-button (click)="onOrder()">Book the trip</button>
   </mat-card-actions>
 </mat-card>
+
+@if (modal()) {
+  <app-modal-window title="Order" (toggleVisibility)="onModal()">
+    <p>{{ modalMessage() }}</p>
+  </app-modal-window>
+}
