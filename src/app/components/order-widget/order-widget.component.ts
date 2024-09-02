@@ -53,7 +53,9 @@ export class OrderWidgetComponent {
           switchMap(() => this.orderService.$apiStatus),
           tap(status => {
             if (status?.success) {
-              this.modalMessage.set(`Order successfully created with}`);
+              this.modalMessage.set(`Order successfully created`);
+            } else if (status?.error === 'Access is not granted') {
+              this.modalMessage.set('Please login/sign up first to be able make order');
             } else {
               this.modalMessage.set(status?.error as string);
             }

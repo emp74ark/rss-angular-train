@@ -7,7 +7,7 @@
     </ul>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button (click)="onOrder()">Book the trip</button>
+    <button mat-button (click)="onOrder()" [disabled]="!selectedSeat()?.id">Book the trip</button>
   </mat-card-actions>
 </mat-card>
 
