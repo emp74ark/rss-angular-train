@@ -34,7 +34,8 @@
       [selectedSeat]="selectedSeat()"
       [rideId]="trainDetails?.rideId"
       [stationStart]="stationFrom?.id"
-      [stationEnd]="stationTo?.id" />
+      [stationEnd]="stationTo?.id"
+      (orderFinished)="onOrderFinished($event)" />
     <mat-tab-group class="carriage-selector">
       @for (type of trainDetails?.price; let i = $index; track i) {
         <mat-tab>
@@ -65,8 +66,8 @@
                       [occupiedSeats]="car.seatsOccupied"
                       [initialValue]="car.firstSeat"
                       [selectedSeat]="selectedSeat()?.id"
-                      (selectSeat)="onSeatSelect($event, type.price)"
-                  /></mat-card-content>
+                      (selectSeat)="onSeatSelect($event, type.price)" />
+                  </mat-card-content>
                 </mat-card>
               }
             </div>

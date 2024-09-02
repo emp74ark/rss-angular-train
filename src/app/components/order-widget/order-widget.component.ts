@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Seat } from '../../models/carriage';
@@ -22,7 +22,7 @@ export class OrderWidgetComponent {
   stationStart = input<number>();
   stationEnd = input<number>();
 
-  orderId = signal<number | undefined>(undefined);
+  orderFinished = output<boolean | undefined>();
 
   orderService = inject(OrderService);
   destroyRef = inject(DestroyRef);
@@ -50,6 +50,7 @@ export class OrderWidgetComponent {
             } else {
               this.modalMessage.set(status?.error as string);
             }
+            this.orderFinished.emit(true);
             this.modal.set(true);
           }),
           takeUntilDestroyed(this.destroyRef),
