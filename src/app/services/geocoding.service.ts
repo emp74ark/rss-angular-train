@@ -58,6 +58,7 @@ export class GeocodingService {
 
     return from(
       fetch(`${url}?${params.toString()}`).then(response => {
+        console.log(response);
         if (!response.ok) {
           throw new Error('Network response error');
         }
