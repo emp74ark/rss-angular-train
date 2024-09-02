@@ -35,24 +35,14 @@
             [rightSeats]="c.rightSeats"
             [occupiedSeats]="c.seatsOccupied"
             [initialValue]="c.firstSeat"
-            (selectSeat)="onSeatSelect($event)" />
+            [selectedSeat]="selectedSeat()?.id"
+            (selectSeat)="onSeatSelect($event, trainDetails.userSegments[0].price[c.code])" />
         </ng-template>
       </mat-tab>
     }
   </mat-tab-group>
 
-  <mat-card class="order-details">
-    <mat-card-title>Order</mat-card-title>
-    <mat-card-content>
-      <ul>
-        <li>Selected {{ selectedSeats().length > 1 ? 'seats' : 'seat' }}: {{ selectedSeats().join(', ') }}</li>
-        <li>Price:</li>
-      </ul>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>Book the trip</button>
-    </mat-card-actions>
-  </mat-card>
+  <app-order-widget class="order-details" [selectedSeat]="selectedSeat()" />
 </div>
 
 @if (modal()) {
