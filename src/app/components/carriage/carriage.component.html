@@ -38,6 +38,7 @@
                   <label [for]="seat.id">
                     <input
                       type="checkbox"
+                      [checked]="seat.id === selectedSeat()"
                       [disabled]="isDisabled(seat.state)"
                       (change)="onClick($event)"
                       [name]="seat.id"

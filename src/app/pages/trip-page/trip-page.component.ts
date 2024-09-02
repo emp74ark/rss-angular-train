@@ -115,11 +115,11 @@ export class TripPageComponent implements OnInit {
 
   onSeatSelect(value: number | undefined, price: number) {
     if (value) {
-      if (this.selectedSeat()?.id === value) {
-        this.selectedSeat.set(undefined);
-      } else {
+      if (this.selectedSeat()?.id !== value) {
         this.selectedSeat.set({ id: value, price });
       }
+    } else {
+      this.selectedSeat.set(undefined);
     }
   }
 }
