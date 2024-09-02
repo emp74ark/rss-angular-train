@@ -6,15 +6,15 @@ Link to deploy: [Deploy](https://emp74ark.github.io/rss-angular-train/)
 
 ## Technologies:
 
-| **Category**   | **Name**    | **Version** |
-| -------------- | ----------- | ----------- |
-| Language       | TypeScript  | 5.4.2       |
-| Framework      | Angular     | 18.0.0      |
-| IDE            | VS Code     | 1.92.2      |
-| Bundler        | Angular CLI | 18.0.6      |
-| Preprocessor   | SASS        | ???         |
-| Linters        | ESLint      | 8.57.0      |
-| Code Formatter | Prettier    | 3.3.3       |
+| **Category**   | **Name**   | **Version** |
+| -------------- | ---------- | ----------- |
+| Language       | TypeScript | 5.4.2       |
+| Framework      | Angular    | 18.0.0      |
+| IDE            | VS Code    | 1.92.2      |
+| Bundler        | Vite       |             |
+| Preprocessor   | SASS       |             |
+| Linters        | ESLint     | 8.57.0      |
+| Code Formatter | Prettier   | 3.3.3       |
 
 ## Available Scripts
 
