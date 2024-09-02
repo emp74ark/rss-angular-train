@@ -3,15 +3,14 @@
   <table class="table">
     <thead class="title">
       <th>Time</th>
-      <th></th>
       <th>Station</th>
       <th>Stop</th>
     </thead>
     <tbody>
       @for (el of routePath; let i = $index; track i) {
         @if (stationsService.getStationById(el) | async; as station) {
-          <tr [ngClass]="{ highlightedRow: isHighlighted(i) }">
-            <td class="col1">
+          <tr class="row" [ngClass]="{ highlightedRow: isHighlighted(i) }">
+            <td class="col1" [ngClass]="{ first: isFirst(i), last: isLast(i) }">
               @if (i !== 0) {
                 <span>
                   {{ segments()?.[i - 1]?.time?.[1] | date: 'HH: mm' }}
@@ -23,7 +22,10 @@
                 </span>
               }
             </td>
-            <td class="col2">{{ station.city }}</td>
+            <td class="col2" [ngClass]="{ first: isFirst(i), last: isLast(i) }">
+              {{ station.city }}
+              <div class="point"></div>
+            </td>
             <td class="col3">
               @if (i === 0) {
                 First station

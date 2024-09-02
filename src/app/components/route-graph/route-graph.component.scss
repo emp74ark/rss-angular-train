@@ -14,13 +14,101 @@
 }
 
 .col1 {
+  padding: 0.5rem 0;
   display: flex;
   flex-direction: column;
   font-size: small;
 }
 
+.row {
+  padding: 2rem 0;
+}
+
+.row,
+.col1.first *:first-child,
+.col1.last *:last-child {
+  color: $color-neutral-70;
+
+  & .point {
+    border-color: $color-neutral-80;
+  }
+}
+
+.row.highlightedRow,
+.col1.first *:only-child,
+.col1.last *:only-child {
+  color: $color-neutral-10;
+  & .point {
+    border-color: $color-ter-60;
+  }
+}
+
+.col1.first *:last-child,
+.col1.last *:first-child {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.col2.first,
+.col2.last {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
 .col2 {
   font-size: large;
+  position: relative;
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 50%;
+    width: 2px;
+    background-color: $color-neutral-80;
+    left: -1px;
+    position: absolute;
+  }
+
+  &::before {
+    top: 0;
+  }
+  &::after {
+    bottom: 0;
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.highlightedRow .col2::before,
+.highlightedRow .col2::after {
+  background-color: $color-ter-60;
+}
+
+.highlightedRow .col2.first::before,
+.highlightedRow .col2.last::after {
+  background-color: $color-neutral-80;
+}
+
+.row:first-child .col2::before {
+  display: none;
+}
+.row:last-child .col2::after {
+  display: none;
+}
+
+.point {
+  position: absolute;
+  top: calc(50% - 7px);
+  left: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: $color-pr-99;
+  border: 2px solid $color-neutral-80;
+  z-index: 1;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .col3 {
@@ -28,9 +116,7 @@
 }
 
 .highlightedRow {
-  background: $color-pr-90;
   animation: row-lighting 0.5s;
-  box-shadow: 1px 1px 1px #00000019;
 }
 
 @keyframes row-lighting {
