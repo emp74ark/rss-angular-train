@@ -3,12 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest, filter, map, of, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SearchService } from '../../services/search.service';
-import { CurrencyPipe, DatePipe, Location } from '@angular/common';
+import { CurrencyPipe, DatePipe, Location, NgClass } from '@angular/common';
 import { StationsService } from '../../services/stations.service';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatTab, MatTabContent, MatTabGroup, MatTabLabel } from '@angular/material/tabs';
 import { CarriageComponent } from '../../components/carriage/carriage.component';
-import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatCard, MatCardActions, MatCardContent, MatCardModule, MatCardTitle } from '@angular/material/card';
 import { ModalWindowComponent } from '../../components/modal-window/modal-window.component';
 import { RouteGraphComponent } from '../../components/route-graph/route-graph.component';
 import { parseInt } from 'lodash';
@@ -17,17 +17,22 @@ import { RideService } from '../../services/ride.service';
 import { DetailedRideInfo } from '../../models/train';
 import { OrderWidgetComponent } from '../../components/order-widget/order-widget.component';
 import { Seat } from '../../models/carriage';
+import { FilterByPipe } from '../../pipes/filterby.pipe';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-trip-page',
   standalone: true,
   imports: [
     DatePipe,
-    MatButton,
+    FilterByPipe,
+    MatButtonModule,
     MatTabGroup,
     MatTab,
     CarriageComponent,
     MatCard,
+    MatCardModule,
+    MatIconModule,
     ModalWindowComponent,
     RouteGraphComponent,
     MatCardTitle,
@@ -37,6 +42,7 @@ import { Seat } from '../../models/carriage';
     MatTabLabel,
     CurrencyPipe,
     OrderWidgetComponent,
+    NgClass,
   ],
   templateUrl: './trip-page.component.html',
   styleUrl: './trip-page.component.scss',
@@ -78,10 +84,16 @@ export class TripPageComponent implements OnInit {
           ]);
         }),
         switchMap(([base, route, stationFrom, stationTo]) => {
+          const {
+            schedule: { segments },
+            routeId: id,
+            path,
+            carriages,
+          } = route;
           const details = this.rideService.getDetailedInfo(
-            route,
+            { id, path, carriages },
             route.rideId,
-            route.schedule.segments,
+            segments,
             base.from,
             base.to,
           );
