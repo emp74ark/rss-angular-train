@@ -15,6 +15,8 @@ import { parseInt } from 'lodash';
 import { ExtendedRoute } from '../../models/route';
 import { RideService } from '../../services/ride.service';
 import { DetailedRideInfo } from '../../models/train';
+import { OrderWidgetComponent } from '../../components/order-widget/order-widget.component';
+import { Seat } from '../../models/carriage';
 
 @Component({
   selector: 'app-trip-page',
@@ -34,6 +36,7 @@ import { DetailedRideInfo } from '../../models/train';
     MatTabContent,
     MatTabLabel,
     CurrencyPipe,
+    OrderWidgetComponent,
   ],
   templateUrl: './trip-page.component.html',
   styleUrl: './trip-page.component.scss',
@@ -109,14 +112,15 @@ export class TripPageComponent implements OnInit {
     this.location.back();
   }
 
-  selectedSeats = signal<number[]>([]);
+  selectedSeat = signal<Seat | undefined>(undefined);
 
-  onSeatSelect(value: string) {
-    const seatNumber = parseInt(value);
-    if (this.selectedSeats().includes(seatNumber)) {
-      this.selectedSeats.set(this.selectedSeats().filter(el => el !== seatNumber));
-    } else {
-      this.selectedSeats.set([...this.selectedSeats(), seatNumber]);
+  onSeatSelect(value: number | undefined, price: number) {
+    if (value) {
+      if (this.selectedSeat()?.id === value) {
+        this.selectedSeat.set(undefined);
+      } else {
+        this.selectedSeat.set({ id: value, price });
+      }
     }
   }
 }

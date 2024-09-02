@@ -22,8 +22,9 @@ export class CarriageComponent implements OnChanges {
     return maxNum > 9999 ? 2 : maxNum > 999 ? 1 : 0;
   });
   occupiedSeats = input<number[]>([]);
+  selectedSeat = input<number>();
 
-  selectSeat = output<string>();
+  selectSeat = output<number | undefined>();
 
   seats: Record<'left' | 'right', SeatState[][]> = {
     left: [],
@@ -64,7 +65,13 @@ export class CarriageComponent implements OnChanges {
 
   onClick($event: Event) {
     const target = $event.target as HTMLInputElement;
-    this.selectSeat.emit(target.id);
+    const id = parseInt(target.id);
+    const checked = target.checked;
+    if (this.selectedSeat() && id === this.selectedSeat() && !checked) {
+      this.selectSeat.emit(undefined);
+    } else {
+      this.selectSeat.emit(id);
+    }
   }
 
   isDisabled(state: string) {
