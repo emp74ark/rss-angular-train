@@ -59,6 +59,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
   padding: 2rem;
 }
 
@@ -66,9 +68,18 @@
   max-width: 80vw;
 }
 
+.carriage-selector__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  & span:first-child {
+    font-weight: bold;
+  }
+}
+
 .order-details {
   width: 20rem;
-  position: absolute;
-  right: 2rem;
-  bottom: 2rem;
+  align-self: flex-end;
 }

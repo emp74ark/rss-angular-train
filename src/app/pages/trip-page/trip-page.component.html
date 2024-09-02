@@ -2,41 +2,56 @@
   <button mat-button (click)="onBack()">Back</button>
   <div class="trip-direction">
     <div class="trip-station">
-      <span>From: {{ stationFrom.cityName }}</span>
-      <span>Departure {{ departureDate | date: 'medium' }}</span>
+      <span>From: {{ stationFrom?.city }}</span>
+      <span>Departure {{ trainDetails?.startTime | date: 'medium' }}</span>
     </div>
     <div class="trip-station">
       <span>&darr;</span>
     </div>
     <div class="trip-station">
-      <span>To: {{ stationTo.cityName }}</span>
-      <span>Arrival: {{ arrivalDate | date: 'medium' }}</span>
+      <span>To: {{ stationTo?.city }}</span>
+      <span>Arrival: {{ trainDetails?.endTime | date: 'medium' }}</span>
     </div>
   </div>
   <div class="trip-number">
-    <span>Ride &numero;:{{ rideId }}</span>
+    <span>Ride &numero;:{{ trainDetails?.rideId }}</span>
     <button (click)="onModal()">Route details</button>
   </div>
 </div>
 <div class="trip-content">
   <mat-tab-group class="carriage-selector">
-    @for (c of carriages; let i = $index; track i) {
-      <mat-tab [label]="c.name">
-        <app-carriage
-          [rows]="c.rows"
-          [leftSeats]="c.leftSeats"
-          [rightSeats]="c.rightSeats"
-          [initialValue]="c.firstSeatNumber"
-          (selectSeat)="onSeatSelect($event, c.code)" />
+    @for (c of trainDetails?.trainInfo; let i = $index; track i) {
+      <mat-tab>
+        <ng-template matTabLabel>
+          <div class="carriage-selector__tab">
+            <span>{{ c.name }}</span>
+            <span>{{ trainDetails.userSegments[0].price[c.code] | currency: 'USD' }}</span>
+          </div>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-carriage
+            [rows]="c.rows"
+            [leftSeats]="c.leftSeats"
+            [rightSeats]="c.rightSeats"
+            [occupiedSeats]="c.seatsOccupied"
+            [initialValue]="c.firstSeat"
+            [selectedSeat]="selectedSeat()?.id"
+            (selectSeat)="onSeatSelect($event, trainDetails.userSegments[0].price[c.code])" />
+        </ng-template>
       </mat-tab>
     }
   </mat-tab-group>
 
-  <app-order-widget class="order-details" [selectedSeat]="selectedSeat()" />
+  <app-order-widget
+    class="order-details"
+    [selectedSeat]="selectedSeat()"
+    [rideId]="trainDetails?.rideId"
+    [stationStart]="stationFrom?.id"
+    [stationEnd]="stationTo?.id" />
 </div>
 
 @if (modal()) {
-  <app-modal-window [title]="'Route' + ' ' + rideId" (toggleVisibility)="onModal()">
-    <app-route-graph [route]="tripRoute" [startStation]="stationFrom.stationId" [lastStation]="stationTo.stationId" />
+  <app-modal-window [title]="'Route' + ' ' + trainDetails?.routeId" (toggleVisibility)="onModal()">
+    <app-route-graph [route]="tripRoute" [startStation]="stationFrom?.id" [lastStation]="stationTo.id" />
   </app-modal-window>
 }
