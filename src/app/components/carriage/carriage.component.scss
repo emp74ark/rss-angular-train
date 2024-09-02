@@ -77,6 +77,9 @@ $carriage-border: 2px solid $color-secondary;
     &.thinner {
       letter-spacing: -2px;
     }
+    &.booked {
+      background: #dab566;
+    }
   }
 
   .indicator:hover {
@@ -97,6 +100,11 @@ $carriage-border: 2px solid $color-secondary;
   & input[type='checkbox']:disabled + .indicator {
     background: $color-disabled;
     color: #fff;
+    font-weight: bold;
+
+    &.booked {
+      background: #dab566;
+    }
   }
 
   & label {

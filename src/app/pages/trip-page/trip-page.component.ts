@@ -90,6 +90,7 @@ export class TripPageComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(result => {
+        console.log('RESULT', result);
         this.tripRoute = result.route;
         this.stationFrom = result.stationFrom;
         this.stationTo = result.stationTo;
