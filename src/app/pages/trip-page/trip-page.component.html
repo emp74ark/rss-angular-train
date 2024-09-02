@@ -78,7 +78,11 @@
 </div>
 
 @if (modal()) {
-  <app-modal-window [title]="'Route' + ' ' + trainDetails.routeId" (toggleVisibility)="onModal()">
-    <app-route-graph [route]="tripRoute" [startStation]="stationFrom?.id" [lastStation]="stationTo.id" />
+  <app-modal-window [title]="'Route' + ' ' + trainDetails?.routeId" (toggleVisibility)="onModal()">
+    <app-route-graph
+      [path]="trainDetails?.path"
+      [segments]="trainDetails?.segments"
+      [startStation]="stationFrom?.id"
+      [lastStation]="stationTo.id" />
   </app-modal-window>
 }

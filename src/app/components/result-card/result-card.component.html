@@ -25,7 +25,7 @@
           <mat-icon>east</mat-icon>
           <span class="name">{{ trip.routeEndCityName }}</span>
         </span>
-        <button class="route-button" mat-button color="primary">
+        <button class="route-button" mat-button color="primary" (click)="openGraph($event)">
           <mat-icon>route</mat-icon>
           Route
         </button>
@@ -43,3 +43,13 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+@if (modal()) {
+  <app-modal-window [title]="'Route' + ' ' + trip.routeId" (toggleVisibility)="onModal()">
+    <app-route-graph
+      [path]="trip.path"
+      [segments]="trip.segments"
+      [startStation]="trip.from.stationId"
+      [lastStation]="trip.to.stationId" />
+  </app-modal-window>
+}
