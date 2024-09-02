@@ -1,0 +1,10 @@
+<mat-card class="order-card">
+  <mat-card-title class="order-card__title">
+    <span> Order ID: {{ order()?.id }} </span>
+    <span> Status: {{ order()?.status }} </span>
+  </mat-card-title>
+  <mat-card-content class="order-card__content"> Seat number: {{ order()?.userId }} </mat-card-content>
+  <mat-card-actions>
+    <button mat-button [disabled]="order()?.status === 'canceled'" (click)="onCancel()">Cancel order</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, output, OnChanges, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, OnChanges, output, Signal } from '@angular/core';
 
 type SeatState = { id: number; state: 'free' | 'booked' | 'disabled' };
 
@@ -31,6 +31,16 @@ export class CarriageComponent implements OnChanges {
     right: [],
   };
 
+  getSeatState(id: number) {
+    if (!this.editable()) {
+      return 'disabled';
+    }
+    if (this.occupiedSeats().includes(id)) {
+      return 'booked';
+    }
+    return 'free';
+  }
+
   ngOnChanges() {
     this.seats = {
       left: [],
@@ -44,7 +54,7 @@ export class CarriageComponent implements OnChanges {
       for (let l = 0; l < this.rightSeats(); l++) {
         rightSeatLine[l] = {
           id: seatCounter,
-          state: this.editable() ? 'free' : 'disabled',
+          state: this.getSeatState(seatCounter),
         };
         seatCounter++;
       }
@@ -55,7 +65,7 @@ export class CarriageComponent implements OnChanges {
       for (let l = 0; l < this.leftSeats(); l++) {
         leftSeatLine[l] = {
           id: seatCounter,
-          state: this.editable() ? 'booked' : 'disabled',
+          state: this.getSeatState(seatCounter),
         };
         seatCounter++;
       }
@@ -75,6 +85,6 @@ export class CarriageComponent implements OnChanges {
   }
 
   isDisabled(state: string) {
-    return state === 'disabled';
+    return state !== 'free';
   }
 }
