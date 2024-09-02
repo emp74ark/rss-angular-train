@@ -78,10 +78,16 @@ export class TripPageComponent implements OnInit {
           ]);
         }),
         switchMap(([base, route, stationFrom, stationTo]) => {
+          const {
+            schedule: { segments },
+            routeId: id,
+            path,
+            carriages,
+          } = route;
           const details = this.rideService.getDetailedInfo(
-            route,
+            { id, path, carriages },
             route.rideId,
-            route.schedule.segments,
+            segments,
             base.from,
             base.to,
           );

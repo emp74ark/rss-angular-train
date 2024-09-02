@@ -2,25 +2,25 @@
   <button mat-button (click)="onBack()">Back</button>
   <div class="trip-direction">
     <div class="trip-station">
-      <span>From: {{ stationFrom?.city }}</span>
-      <span>Departure {{ trainDetails?.startTime | date: 'medium' }}</span>
+      <span>From: {{ stationFrom.city }}</span>
+      <span>Departure {{ trainDetails.startTime | date: 'medium' }}</span>
     </div>
     <div class="trip-station">
       <span>&darr;</span>
     </div>
     <div class="trip-station">
-      <span>To: {{ stationTo?.city }}</span>
-      <span>Arrival: {{ trainDetails?.endTime | date: 'medium' }}</span>
+      <span>To: {{ stationTo.city }}</span>
+      <span>Arrival: {{ trainDetails.endTime | date: 'medium' }}</span>
     </div>
   </div>
   <div class="trip-number">
-    <span>Ride &numero;:{{ trainDetails?.rideId }}</span>
+    <span>Ride &numero;:{{ trainDetails.rideId }}</span>
     <button (click)="onModal()">Route details</button>
   </div>
 </div>
 <div class="trip-content">
   <mat-tab-group class="carriage-selector">
-    @for (c of trainDetails?.trainInfo; let i = $index; track i) {
+    @for (c of trainDetails.trainInfo; let i = $index; track i) {
       <mat-tab>
         <ng-template matTabLabel>
           <div class="carriage-selector__tab">
@@ -45,13 +45,13 @@
   <app-order-widget
     class="order-details"
     [selectedSeat]="selectedSeat()"
-    [rideId]="trainDetails?.rideId"
-    [stationStart]="stationFrom?.id"
-    [stationEnd]="stationTo?.id" />
+    [rideId]="trainDetails.rideId"
+    [stationStart]="stationFrom.id"
+    [stationEnd]="stationTo.id" />
 </div>
 
 @if (modal()) {
-  <app-modal-window [title]="'Route' + ' ' + trainDetails?.routeId" (toggleVisibility)="onModal()">
-    <app-route-graph [route]="tripRoute" [startStation]="stationFrom?.id" [lastStation]="stationTo.id" />
+  <app-modal-window [title]="'Route' + ' ' + trainDetails.routeId" (toggleVisibility)="onModal()">
+    <app-route-graph [route]="tripRoute" [startStation]="stationFrom.id" [lastStation]="stationTo.id" />
   </app-modal-window>
 }
