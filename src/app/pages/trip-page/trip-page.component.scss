@@ -1,5 +1,6 @@
 @import 'theme';
 @import 'palette-color';
+@import 'common';
 
 :host {
   display: flex;
@@ -8,8 +9,11 @@
   position: relative;
 }
 
-.trip-header {
+.trip-header-container {
   background: $color-neutral-90;
+}
+
+.trip-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -65,7 +69,7 @@
 }
 
 .carriage-selector {
-  max-width: 80vw;
+  width: 80vw;
 }
 
 .carriage-selector__tab {
@@ -74,9 +78,36 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  & span:first-child {
+  & span:nth-child(2) {
     font-weight: bold;
+    text-transform: capitalize;
   }
+}
+
+.carriage-selector___content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card {
+  background-color: $color-neutral-variant-100;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  gap: 1rem;
+}
+
+.seat-info {
+  height: 30px;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 1rem;
+  border: 1px solid $color-neutral-80;
 }
 
 .order-details {
