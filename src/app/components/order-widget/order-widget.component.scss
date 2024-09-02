@@ -1,6 +1,13 @@
-.wrapper {
-  padding: 1rem 2rem;
-  & ul {
-    padding: 0 1rem;
-  }
+@import 'theme';
+@import 'palette-color';
+
+.card {
+  background-color: $color-neutral-100;
+  overflow: hidden;
+}
+.card-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  grid-template-rows: 1fr;
+  align-items: baseline;
 }
