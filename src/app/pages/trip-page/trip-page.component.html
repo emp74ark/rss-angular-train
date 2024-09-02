@@ -65,7 +65,7 @@
                       [occupiedSeats]="car.seatsOccupied"
                       [initialValue]="car.firstSeat"
                       [selectedSeat]="selectedSeat()?.id"
-                      (selectSeat)="onSeatSelect($event, trainDetails.userSegments[0].price[car.code])"
+                      (selectSeat)="onSeatSelect($event, type.price)"
                   /></mat-card-content>
                 </mat-card>
               }
