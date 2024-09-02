@@ -1,8 +1,8 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { StationsService } from '../../services/stations.service';
 import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
-import { ExtendedRoute } from '../../models/route';
 import { DurationPipe } from '../../pipes/duration.pipe';
+import { RideSegment, Segment } from '../../models/common';
 
 @Component({
   selector: 'app-route-graph',
@@ -12,18 +12,19 @@ import { DurationPipe } from '../../pipes/duration.pipe';
   styleUrl: './route-graph.component.scss',
 })
 export class RouteGraphComponent {
-  route = input<ExtendedRoute>();
+  path = input<Array<number>>();
+  segments = input<Array<RideSegment | Segment>>();
   startStation = input<number>();
   startStationIndex = computed(() => {
-    return this.route()?.path?.findIndex(id => id === this.startStation());
+    return this.path()?.findIndex(id => id === this.startStation());
   });
   lastStation = input<number>();
   lastStationIndex = computed(() => {
-    return this.route()?.path?.findIndex(id => id === this.lastStation());
+    return this.path()?.findIndex(id => id === this.lastStation());
   });
 
   stepsAmount = computed(() => {
-    const length = this.route()?.path?.length;
+    const length = this.path()?.length;
     if (length) {
       return length - 1;
     }
