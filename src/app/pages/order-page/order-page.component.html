@@ -1,1 +1,5 @@
-<p>order-page works!</p>
+<div class="order-page">
+  @for (o of orders; track o.id) {
+    <app-order-details [order]="o" (orderCancelled)="onOrderListChanged()" />
+  }
+</div>
