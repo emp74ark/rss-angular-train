@@ -36,7 +36,7 @@ export class RouteGraphComponent {
   isHighlighted(index: number): boolean {
     const start = this.startStationIndex();
     const end = this.lastStationIndex();
-    if (!start || !end) return false;
+    if (start === undefined || end === undefined) return false;
     return index >= start && index <= end;
   }
 }
