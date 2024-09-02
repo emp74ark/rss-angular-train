@@ -5,7 +5,7 @@
     <th>Stop</th>
   </thead>
   <tbody>
-    @for (el of route()?.path; let i = $index; track i) {
+    @for (el of path(); let i = $index; track i) {
       @if (stationsService.getStationById(el) | async; as station) {
         <tr
           [ngClass]="{
@@ -15,14 +15,14 @@
             <!--  remove first statioin date -->
             @if (i === stepsAmount()) {
               <span>
-                {{ route()?.schedule?.segments?.[i - 1]?.time?.[1] | date: 'shortTime' }}
+                {{ segments()?.[i - 1]?.time?.[1] | date: 'shortTime' }}
               </span>
             }
             <span>
-              {{ route()?.schedule?.segments?.[i]?.time?.[0] | date: 'shortTime' }}
+              {{ segments()?.[i]?.time?.[0] | date: 'shortTime' }}
             </span>
             <span>
-              {{ route()?.schedule?.segments?.[i]?.time?.[1] | date: 'shortTime' }}
+              {{ segments()?.[i]?.time?.[1] | date: 'shortTime' }}
             </span>
           </td>
           <td class="col2">{{ station.city }}</td>
@@ -32,9 +32,7 @@
             } @else if (i === stepsAmount()) {
               Last station
             }
-            {{
-              route()?.schedule?.segments?.[i - 1]?.time?.[1] | duration: route()?.schedule?.segments?.[i]?.time?.[0]
-            }}
+            {{ segments()?.[i - 1]?.time?.[1] | duration: segments()?.[i]?.time?.[0] }}
           </td>
         </tr>
       }
