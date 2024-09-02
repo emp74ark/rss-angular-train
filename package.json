@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production --base-href=/rss-angular-train",
+    "build": "ng build --configuration production --base-href /rss-angular-train/",
     "build-kramatera": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "format:check": "prettier --check .",
