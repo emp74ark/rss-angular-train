@@ -124,6 +124,13 @@ export class TripPageComponent implements OnInit {
     this.location.back();
   }
 
+  onOrderFinished(value: boolean | undefined) {
+    if (value) {
+      this.selectedSeat.set(undefined);
+      this.getData();
+    }
+  }
+
   selectedSeat = signal<Seat | undefined>(undefined);
 
   onSeatSelect(value: number | undefined, price: number) {
