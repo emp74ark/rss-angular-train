@@ -42,7 +42,12 @@
     }
   </mat-tab-group>
 
-  <app-order-widget class="order-details" [selectedSeat]="selectedSeat()" />
+  <app-order-widget
+    class="order-details"
+    [selectedSeat]="selectedSeat()"
+    [rideId]="trainDetails?.rideId"
+    [stationStart]="stationFrom?.id"
+    [stationEnd]="stationTo?.id" />
 </div>
 
 @if (modal()) {
