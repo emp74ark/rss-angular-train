@@ -29,6 +29,9 @@ export class GeocodingService {
         input: searchExp,
         types: 'geocode',
       },
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     });
   }
 }
