@@ -18,7 +18,12 @@
                       [name]="seat.id"
                       [id]="seat.id" />
                     <span
-                      [ngClass]="{ indicator: true, thin: compressionLevel() === 1, thinner: compressionLevel() === 2 }"
+                      [ngClass]="{
+                        indicator: true,
+                        thin: compressionLevel() === 1,
+                        thinner: compressionLevel() === 2,
+                        booked: seat.state === 'booked',
+                      }"
                       >{{ seat.id }}</span
                     >
                   </label>
@@ -48,6 +53,7 @@
                         indicator: true,
                         thin: compressionLevel() === 1,
                         thinner: compressionLevel() === 2,
+                        booked: seat.state === 'booked',
                       }">
                       {{ seat.id }}
                     </span>
@@ -61,5 +67,19 @@
     </div>
 
     <div class="appendix"></div>
+  </div>
+  <div class="map">
+    <div>
+      <div class="map__item free"></div>
+      <span>free</span>
+    </div>
+    <div>
+      <div class="map__item booked"></div>
+      <span>booked</span>
+    </div>
+    <div>
+      <div class="map__item selected"></div>
+      <span>selected</span>
+    </div>
   </div>
 </div>

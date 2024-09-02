@@ -33,9 +33,11 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
+
   & span:first-child {
     font-weight: bold;
   }
+
   & span:last-child {
     font-size: small;
   }
@@ -79,6 +81,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+
   & span:nth-child(2) {
     font-weight: bold;
     text-transform: capitalize;
@@ -114,10 +117,10 @@
 
 .order-details {
   position: sticky;
-  top: 0;
+  top: 1rem;
   z-index: 2;
   align-self: flex-end;
-  margin-bottom: 2rem;
+  margin: 2rem;
   overflow: hidden;
   width: 30rem;
 

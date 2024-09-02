@@ -102,6 +102,7 @@ export class TripPageComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(result => {
+        console.log('RESULT', result);
         this.tripRoute = result.route;
         this.stationFrom = result.stationFrom;
         this.stationTo = result.stationTo;
@@ -121,6 +122,13 @@ export class TripPageComponent implements OnInit {
 
   onBack() {
     this.location.back();
+  }
+
+  onOrderFinished(value: boolean | undefined) {
+    if (value) {
+      this.selectedSeat.set(undefined);
+      this.getData();
+    }
   }
 
   selectedSeat = signal<Seat | undefined>(undefined);
