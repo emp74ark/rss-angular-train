@@ -1,12 +1,18 @@
-<mat-card>
+<mat-card class="wrapper">
   <mat-card-title>Order</mat-card-title>
   <mat-card-content>
     <ul>
       <li>Selected: {{ selectedSeat()?.id }}</li>
-      <li>Price: {{ selectedSeat()?.price }}</li>
+      <li>Price: {{ selectedSeat()?.price | currency: 'USD' }}</li>
     </ul>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>Book the trip</button>
+    <button mat-button (click)="onOrder()" [disabled]="!selectedSeat()?.id">Book the trip</button>
   </mat-card-actions>
 </mat-card>
+
+@if (modal()) {
+  <app-modal-window title="Order" (toggleVisibility)="onModal()">
+    <p>{{ modalMessage() }}</p>
+  </app-modal-window>
+}
