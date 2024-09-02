@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { Seat } from '../../models/carriage';
 import { CurrencyPipe } from '@angular/common';
 import { OrderService } from '../../services/order.service';
@@ -12,16 +12,7 @@ import { RouteGraphComponent } from '../route-graph/route-graph.component';
 @Component({
   selector: 'app-order-widget',
   standalone: true,
-  imports: [
-    MatButton,
-    MatCard,
-    MatCardActions,
-    MatCardContent,
-    MatCardTitle,
-    CurrencyPipe,
-    ModalWindowComponent,
-    RouteGraphComponent,
-  ],
+  imports: [MatButton, MatCardModule, CurrencyPipe, ModalWindowComponent, RouteGraphComponent],
   templateUrl: './order-widget.component.html',
   styleUrl: './order-widget.component.scss',
 })
