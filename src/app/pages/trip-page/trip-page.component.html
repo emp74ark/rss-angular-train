@@ -6,19 +6,19 @@
       </button>
       <div class="trip-direction">
         <div class="trip-station">
-          <span>From: {{ stationFrom.city }}</span>
-          <span>Departure {{ trainDetails.startTime | date: 'medium' }}</span>
+          <span>From: {{ stationFrom?.city }}</span>
+          <span>Departure {{ trainDetails?.startTime | date: 'medium' }}</span>
         </div>
         <div class="trip-station">
           <span>&darr;</span>
         </div>
         <div class="trip-station">
-          <span>To: {{ stationTo.city }}</span>
-          <span>Arrival: {{ trainDetails.endTime | date: 'medium' }}</span>
+          <span>To: {{ stationTo?.city }}</span>
+          <span>Arrival: {{ trainDetails?.endTime | date: 'medium' }}</span>
         </div>
       </div>
       <div class="trip-number">
-        <span>Ride &numero;:{{ trainDetails.rideId }}</span>
+        <span>Ride &numero;:{{ trainDetails?.rideId }}</span>
         <button class="route-button" mat-fab extended color="primary" (click)="onModal()">
           <mat-icon>route</mat-icon>
           Route
@@ -32,11 +32,11 @@
     <app-order-widget
       class="order-details"
       [selectedSeat]="selectedSeat()"
-      [rideId]="trainDetails.rideId"
-      [stationStart]="stationFrom.id"
-      [stationEnd]="stationTo.id" />
+      [rideId]="trainDetails?.rideId"
+      [stationStart]="stationFrom?.id"
+      [stationEnd]="stationTo?.id" />
     <mat-tab-group class="carriage-selector">
-      @for (type of trainDetails.price; let i = $index; track i) {
+      @for (type of trainDetails?.price; let i = $index; track i) {
         <mat-tab>
           <ng-template matTabLabel>
             <div class="carriage-selector__tab">
@@ -49,7 +49,7 @@
           </ng-template>
           <ng-template matTabContent>
             <div class="carriage-selector___content">
-              @for (car of trainDetails.trainInfo | filterBy: 'code' : type.type; track car) {
+              @for (car of trainDetails.trainInfo | filterBy: 'code' : type.type; track car.number) {
                 <mat-card class="card">
                   <mat-card-header>
                     <div class="card-header">
@@ -79,6 +79,6 @@
 
 @if (modal()) {
   <app-modal-window [title]="'Route' + ' ' + trainDetails.routeId" (toggleVisibility)="onModal()">
-    <app-route-graph [route]="tripRoute" [startStation]="stationFrom.id" [lastStation]="stationTo.id" />
+    <app-route-graph [route]="tripRoute" [startStation]="stationFrom?.id" [lastStation]="stationTo.id" />
   </app-modal-window>
 }
