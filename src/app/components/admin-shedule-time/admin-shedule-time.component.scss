@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  width: 100%;
+
+  ::ng-deep {
+    .mdc-text-field__input::-webkit-calendar-picker-indicator {
+      display: block !important;
+    }
+  }
+
+  .row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
