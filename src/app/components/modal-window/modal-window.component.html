@@ -1,5 +1,5 @@
-<div class="wrapper">
-  <div class="frame">
+<div class="wrapper" (click)="onClose()" aria-hidden="true">
+  <div class="frame" (click)="$event.stopPropagation()">
     <div class="header">
       <span>{{ title() }}</span>
       <button (click)="onClose()">&times;</button>
