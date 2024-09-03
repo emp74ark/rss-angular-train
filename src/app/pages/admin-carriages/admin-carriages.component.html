@@ -1,4 +1,17 @@
 @let isMobile = ($pageWidth | async)?.isMobile;
+
+<h5 class="devider">Carriages</h5>
+
+<button
+  mat-flat-button
+  color="primary"
+  class="full-width createButton"
+  type="submit"
+  [disabled]="createFormDisabled"
+  (click)="createNewForm()">
+  Create
+</button>
+
 @if (form) {
   <form [formGroup]="form" class="registerForm" (ngSubmit)="onSubmit()">
     <mat-card class="matCard" appearance="outlined">
@@ -97,18 +110,6 @@
     </mat-card>
   </form>
 }
-
-<button
-  mat-flat-button
-  color="primary"
-  class="full-width createButton"
-  type="submit"
-  [disabled]="createFormDisabled"
-  (click)="createNewForm()">
-  Create
-</button>
-
-<h5 class="devider">Cariages</h5>
 
 @let carriages = carriagesSig();
 @for (carriage of carriages; track carriage.code) {
