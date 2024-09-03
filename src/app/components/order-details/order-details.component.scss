@@ -1,0 +1,16 @@
+.order-card {
+  padding: 1rem 2rem;
+}
+
+.order-card__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  & span:last-child {
+    font-size: x-small;
+  }
+}
+
+.order-card__content {
+  padding: 1rem 0;
+}

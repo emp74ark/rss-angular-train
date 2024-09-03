@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production --base-href https://emp74ark.github.io/rss-angular-train/",
+    "build": "ng build --configuration production --base-href /rss-angular-train/",
     "build-kramatera": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "format:check": "prettier --check .",
@@ -25,7 +25,7 @@
     "@angular/platform-browser": "^18.1.0",
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
-    "@planess/train-a-backend": "^0.0.10",
+    "@planess/train-a-backend": "^0.0.11",
     "husky": "^9.0.11",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
