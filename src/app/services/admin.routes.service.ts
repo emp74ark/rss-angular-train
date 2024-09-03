@@ -19,7 +19,9 @@ export const ADMIN_ROUTES_API = '/api/route';
 export class AdminRoutesService {
   combinedSignal: Signal<ICombinedRoutes[]>;
   stationsObjSig: Signal<Record<number, StationConnections>>;
+  carriagesObjSig: Signal<Record<string, CarriageData>>;
   carriagesSig: Signal<CarriageData[]>;
+  stationsSig: Signal<StationConnections[]>;
 
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
@@ -32,20 +34,20 @@ export class AdminRoutesService {
   constructor() {
     this.getAllRoutes().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     const routesSig = toSignal(this.$$routes, { initialValue: [] });
-    const stationsSig = toSignal(this.stationsService.$stations, { initialValue: [] });
+    this.stationsSig = toSignal(this.stationsService.$stations, { initialValue: [] });
     this.carriagesSig = toSignal(this.carriageService.$carriages, { initialValue: [] });
 
     this.stationsObjSig = computed(() => {
-      return stationsSig().reduce((acc, c) => ({ ...acc, [c.id]: c }), {} as Record<number, StationConnections>);
+      return this.stationsSig().reduce((acc, c) => ({ ...acc, [c.id]: c }), {} as Record<number, StationConnections>);
     });
-    const carriagesObjSig = computed(() => {
+    this.carriagesObjSig = computed(() => {
       return this.carriagesSig().reduce((acc, s) => ({ ...acc, [s.code]: s }), {} as Record<string, CarriageData>);
     });
 
     this.combinedSignal = computed(() => {
       const routes = routesSig();
       const stationsObj = this.stationsObjSig();
-      const carriagesObj = carriagesObjSig();
+      const carriagesObj = this.carriagesObjSig();
 
       return routes.map(route => {
         return {
