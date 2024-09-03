@@ -20,6 +20,31 @@ export interface Order {
   userId: number;
   status: OrderStatus;
   path: number[];
+  stationStart: number;
+  stationEnd: number;
+  carriages: string[];
+  schedule: OrderSchedule;
+}
+
+export interface OrderCard {
+  id: number;
+  rideId: number;
+  routeId: number;
+  userId: number;
+  userName: string;
+  status: OrderStatus;
+  path: number[];
+  startStationName: string;
+  startStationId: number;
+  startTripTime: string;
+  endStationName: string;
+  endStationId: number;
+  endTripTime: string;
+  tripDuration: string;
+  currentCarriageType: string;
+  seatId: number;
+  currentCarriageNumber: number;
+  totalPrice: number;
   carriages: string[];
   schedule: OrderSchedule;
 }

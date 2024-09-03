@@ -1,0 +1,38 @@
+<mat-card class="order-card" [style]="{ margin: '16px' }">
+  <mat-card-header>
+    <mat-card-title>{{ order().startStationName }} - {{ order().endStationName }}</mat-card-title>
+    <mat-card-subtitle
+      >{{ order().startTripTime | date: 'MMMM dd hh:mm' }} -
+      {{ order().endTripTime | date: 'MMMM dd hh:mm' }}</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <p>Trip Duration: {{ order().tripDuration }}</p>
+    <p>Carriage Type: {{ order().currentCarriageType }}</p>
+    <p>Seat Number: {{ order().seatId }}</p>
+    <p>Carriage Number: {{ order().currentCarriageNumber }}</p>
+    <p>Price: {{ order().totalPrice | currency: 'USD' }}</p>
+    <p>Status: {{ order().status }}</p>
+    @if (isManager()) {
+      <p>User Name: {{ order().userName }}</p>
+    }
+    <button class="route-button" mat-button color="primary" (click)="onModal()">
+      <mat-icon>route</mat-icon>
+      Route
+    </button>
+    @if (modal()) {
+      <app-modal-window [title]="'Route' + ' ' + order().routeId" (toggleVisibility)="onModal()">
+        <app-route-graph
+          [path]="order().path"
+          [segments]="order().schedule.segments"
+          [startStation]="order().startStationId"
+          [lastStation]="order().endStationId" />
+      </app-modal-window>
+    }
+  </mat-card-content>
+  @if (isCancelable()) {
+    <mat-card-actions>
+      <button mat-button color="warn" (click)="onCancelOrder()">Cancel Order</button>
+    </mat-card-actions>
+  }
+</mat-card>
