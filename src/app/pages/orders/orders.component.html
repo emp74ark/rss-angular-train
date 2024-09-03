@@ -1,0 +1,18 @@
+<div class="orders">
+  <mat-tab-group>
+    @let myCards = orderCards$ | async;
+    <mat-tab label="My Orders">
+      @if (myCards) {
+        @for (order of myCards; track $index) {
+          <app-order-card [order]="order" (cancelOrder)="cancelOrder($event)" [isManager]="isManager"></app-order-card>
+        }
+      }
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+@if (modal()) {
+  <app-modal-window [title]="'Success!'" (toggleVisibility)="onModal()">
+    <p>OK!</p>
+  </app-modal-window>
+}
