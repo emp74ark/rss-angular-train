@@ -20,6 +20,9 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.5rem 1rem;
+  @media #{$media-mobile} {
+    flex-direction: column;
+  }
 }
 
 .trip-direction {
@@ -40,6 +43,10 @@
 
   & span:last-child {
     font-size: small;
+  }
+
+  @media #{$media-mobile} {
+    flex-direction: column;
   }
 }
 
@@ -118,7 +125,7 @@
 .order-details {
   position: sticky;
   top: 1rem;
-  z-index: 2;
+  z-index: 3;
   align-self: flex-end;
   margin: 2rem;
   overflow: hidden;
@@ -126,5 +133,6 @@
 
   @media #{$media-mobile} {
     width: 100%;
+    align-self: center;
   }
 }
