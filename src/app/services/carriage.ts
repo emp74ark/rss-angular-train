@@ -24,7 +24,8 @@ export class CarriageService {
     return this.http.get<Array<CarriageData>>(CARRIAGE_API).pipe(
       switchMap(data => {
         this.$$carriages.next(data);
-        return of({ status: CarriageResponseStatus.ERROR, data });
+        //TODO: need to check and change to error:null
+        return of({ status: CarriageResponseStatus.OK, data });
       }),
       catchError(({ error }: HttpErrorResponse) => {
         return of({ status: CarriageResponseStatus.ERROR, error });
@@ -63,7 +64,7 @@ export class CarriageService {
         return of({ status: CarriageResponseStatus.OK, error: null });
       }),
       catchError(({ error }: HttpErrorResponse) => {
-        this.$$carriages.next([...this.$$carriages.getValue().filter(x => x.code !== code)]);
+        this.$$carriages.next([...this.$$carriages.getValue()]);
         return of({ status: CarriageResponseStatus.ERROR, error });
       }),
     );
