@@ -103,7 +103,7 @@ export class RideService {
     }));
   }
 
-  private getPrice(userSegments: (RideSegment | Segment)[]): PriceList {
+  getPrice(userSegments: (RideSegment | Segment)[]): PriceList {
     return userSegments.reduce((acc, el) => {
       for (const key in el.price) {
         acc[key] = acc[key] ? acc[key] + el.price[key] : el.price[key];
