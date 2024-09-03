@@ -28,6 +28,10 @@ import {
 } from '../../validators/uniqueCarriageNameValidator';
 import { FastErrorStateMatcher } from '../../validators/error.state.matchers';
 import { carriageCodeDuplicateValidator } from '../../validators/carriageCodeDuplicate.validator';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
+import { AuthService } from '../../services/auth.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-admin-carriages',
@@ -55,6 +59,8 @@ export class AdminCarriagesComponent {
   isSubmitting = signal(false);
   isDeleting = signal(false);
   matcher = inject(FastErrorStateMatcher);
+  private readonly dialog = inject(MatDialog);
+  private authService = inject(AuthService);
   protected untrackedErrorMessage = signal('');
   protected form: FormGroup<{
     code: FormControl<string>;
@@ -167,14 +173,28 @@ export class AdminCarriagesComponent {
     }
   }
 
-  deleteCarriage(code: string) {
+  deleteCarriageModal(code: string, name: string) {
     if (!this.form || this.form.controls.code.value !== code) {
-      this.isDeleting.set(true);
-      this.carriageService
-        .delete(code)
+      const dialogRef = this.dialog.open(ConfirmModalComponent, {
+        width: '320px',
+        enterAnimationDuration: '500ms',
+        exitAnimationDuration: '250ms',
+        data: {
+          title: `Delete Carriage ${name}?`,
+          cancelText: `No`,
+          cancelColor: 'primary',
+          confirmText: 'Delete',
+          confirmColor: 'warn',
+        },
+      });
+
+      dialogRef
+        .afterClosed()
         .pipe(
-          tap(() => {
-            this.isDeleting.set(false);
+          tap(result => {
+            if (result) {
+              this.deleteCarriage(code, name);
+            }
           }),
           takeUntilDestroyed(this.destroyRef),
         )
@@ -182,8 +202,89 @@ export class AdminCarriagesComponent {
     }
   }
 
+  deleteCarriage(code: string, name: string) {
+    this.isDeleting.set(true);
+    this.carriageService
+      .delete(code)
+      .pipe(
+        tap(data => {
+          this.isDeleting.set(false);
+          if (data.status === CarriageResponseStatus.OK) {
+            this.dialog.open(ConfirmModalComponent, {
+              width: '320px',
+              enterAnimationDuration: '500ms',
+              exitAnimationDuration: '250ms',
+              data: {
+                title: `Carriage ${name} deleted.`,
+                showCancel: false,
+                showOkIcon: true,
+                confirmText: 'Ok',
+                confirmColor: 'accent',
+              },
+            });
+          } else {
+            this.handleHttpError(data.error?.reason ?? '', data.error?.message ?? 'Something went wrong', name);
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
+  }
+
   onCanselForm() {
     this.form = null;
+  }
+
+  private handleHttpError(reason: string, message: string, name: string, ignoreReload: boolean = false) {
+    let title = '';
+    if (reason === 'invalidAccessToken') {
+      this.authService.logOut();
+      title = 'Invalid Access Token';
+    } else if (reason === 'recordNotFound') {
+      if (!ignoreReload) {
+        this.loadCarriages(name);
+      }
+      title = 'Carriage not found, Carriages Reloaded';
+    } else if (reason === 'recordInUse') {
+      title = `Carriage  ${name} is already used.`;
+    } else if (reason === 'invalidData') {
+      title = message;
+    } else {
+      title = message;
+    }
+
+    this.dialog.open(ConfirmModalComponent, {
+      width: '320px',
+      enterAnimationDuration: '500ms',
+      exitAnimationDuration: '250ms',
+      data: {
+        title,
+        showCancel: false,
+        confirmText: 'Ok',
+        confirmColor: 'accent',
+      },
+    });
+  }
+
+  private loadCarriages(name: string) {
+    this.isDeleting.set(true);
+    this.carriageService
+      .get()
+      .pipe(
+        tap(data => {
+          this.isDeleting.set(false);
+          if (data.status === CarriageResponseStatus.ERROR) {
+            this.handleHttpError(
+              get(data, 'error.reason', ''),
+              get(data, 'error.message', 'Something went wrong'),
+              name,
+              true,
+            );
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   private createForm({ code, leftSeats, name, rightSeats, rows }: CarriageData) {

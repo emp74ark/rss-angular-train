@@ -37,7 +37,8 @@ export class AuthService {
   signUp(body: AuthRequest) {
     return this.httpClient.post<AuthResponse>(AuthRoutes.Signup, body).pipe(
       switchMap(() => {
-        return this.signIn(body);
+        this.$$authStatus.next({ token: null, success: true, error: null, role: null });
+        return of({ status: AuthResponseStatus.OK, error: null });
       }),
       catchError(({ error }: HttpErrorResponse) => {
         this.$$authStatus.next({ token: null, success: false, error: error.message, role: null });

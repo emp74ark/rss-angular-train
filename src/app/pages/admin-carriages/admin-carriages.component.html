@@ -148,7 +148,7 @@
           class="full-width deleteButton"
           type="submit"
           [disabled]="isDeleteDisabled || carriage.code === formCodeControlValue"
-          (click)="deleteCarriage(carriage.code)">
+          (click)="deleteCarriageModal(carriage.code, carriage.name)">
           Delete
         </button>
       } @else {
@@ -167,7 +167,7 @@
           class="full-width deleteButton"
           type="submit"
           [disabled]="isDeleteDisabled || carriage.code === formCodeControlValue"
-          (click)="deleteCarriage(carriage.code)">
+          (click)="deleteCarriageModal(carriage.code, carriage.name)">
           Delete
         </button>
       }
