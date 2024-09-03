@@ -2,7 +2,7 @@
 
 This project is a train journey management platform developed as a final assignment of RSSchool Angular 2024Q3. It serves as an online platform for buying, booking and selling train tickets. It aims to provide a user-friendly and intuitive interface for users to view routes and add them to a booking.
 
-Link to deploy: [Deploy](https://emp74ark.github.io/rss-angular-train/)
+Link to deploy: [Deploy](http://5.180.181.88:4200/)
 
 ## Technologies:
 
