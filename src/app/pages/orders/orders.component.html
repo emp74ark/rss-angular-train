@@ -1,13 +1,39 @@
 <div class="orders">
   <mat-tab-group>
     @let myCards = orderCards$ | async;
-    <mat-tab label="My Orders">
-      @if (myCards) {
-        @for (order of myCards; track $index) {
-          <app-order-card [order]="order" (cancelOrder)="cancelOrder($event)" [isManager]="isManager"></app-order-card>
+    @if (isManager) {
+      <mat-tab label="My Orders">
+        @if (myCards) {
+          @for (order of myCards | filterBy: 'userName' : 'Admin'; track $index) {
+            <app-order-card
+              [order]="order"
+              (cancelOrder)="cancelOrder($event)"
+              [isManager]="isManager"></app-order-card>
+          }
         }
-      }
-    </mat-tab>
+      </mat-tab>
+      <mat-tab label="All Orders">
+        @if (myCards) {
+          @for (order of myCards | filterBy: 'userName' : 'Admin' : true; track $index) {
+            <app-order-card
+              [order]="order"
+              (cancelOrder)="cancelOrder($event)"
+              [isManager]="isManager"></app-order-card>
+          }
+        }
+      </mat-tab>
+    } @else {
+      <mat-tab label="My Orders">
+        @if (myCards) {
+          @for (order of myCards; track $index) {
+            <app-order-card
+              [order]="order"
+              (cancelOrder)="cancelOrder($event)"
+              [isManager]="isManager"></app-order-card>
+          }
+        }
+      </mat-tab>
+    }
   </mat-tab-group>
 </div>
 
