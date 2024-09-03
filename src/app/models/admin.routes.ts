@@ -27,6 +27,12 @@ export interface IAdminRoutesStationListValidatorParams {
   stationsRecord: Signal<TStationsRecord> | null;
 }
 
+export interface IAdminRIdeTimeValidatorParams {
+  that: object;
+  previousTime: Signal<string>;
+  nextTime: Signal<string>;
+}
+
 export const enum AdminRoutesResponseStatus {
   OK,
   ERROR,

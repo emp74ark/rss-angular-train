@@ -49,11 +49,34 @@
           ) {
             <div [ngClass]="{ stationsBlock: true, first: segmentFirst, last: segmentLast }">
               <span class="cityName">{{ segment.stationFrom.city }}</span>
+              <div class="devider"></div>
+
               <span class="cityName">{{ segment.stationTo.city }}</span>
             </div>
             <div [ngClass]="{ timeBlock: true, first: segmentFirst, last: segmentLast }">
-              <span class="time">Defarture: {{ segment.formattedTimeFrom }}</span>
-              <span class="time">Arrival: {{ segment.formattedTimeTo }}</span>
+              @let previousTime = ride.filledSegments[segmentIndex - 1]?.timeTo ?? firstTime;
+              @let nextTime = ride.filledSegments[segmentIndex + 1]?.timeFrom ?? lastTime;
+
+              <app-admin-shedule-time
+                direction="from"
+                [isDisabled]="isEditPriceDisable"
+                [rideId]="ride.rideId"
+                [segment]="segment"
+                [previousTime]="previousTime"
+                [nextTime]="segment.timeTo"
+                [segmentIndex]="segmentIndex"
+                (changeTime)="changeTime($event)" />
+              <app-admin-shedule-time
+                direction="to"
+                [isDisabled]="isEditPriceDisable"
+                [rideId]="ride.rideId"
+                [segment]="segment"
+                [previousTime]="segment.timeFrom"
+                [nextTime]="nextTime"
+                [segmentIndex]="segmentIndex"
+                (changeTime)="changeTime($event)" />
+              <!-- <span class="time">Defarture: {{ segment.formattedTimeFrom }}</span>
+              <span class="time">Arrival: {{ segment.formattedTimeTo }}</span> -->
             </div>
 
             @if (priceEditForm && ride.rideId === editPriceData.rideId && segmentIndex === editPriceData.segmentIndex) {
