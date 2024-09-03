@@ -1,0 +1,45 @@
+@let currSegment = segment();
+@let isActionDisabled = isDisabled();
+@let currDirection = direction();
+@let action = currDirection === 'from' ? 'Defarture' : 'Arrival';
+@let time = currDirection === 'from' ? currSegment.formattedTimeFrom : currSegment.formattedTimeTo;
+@if (form) {
+  <form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field class="carriagesField" [subscriptSizing]="'dynamic'">
+      <mat-label>{{ action }}</mat-label>
+      <input
+        matInput
+        formControlName="time"
+        [errorStateMatcher]="matcher"
+        type="datetime-local"
+        placeholder="Enter segment price"
+        class="priceInput" />
+      <mat-error><app-array-control-error-message formControlName="time" /></mat-error>
+    </mat-form-field>
+    <div class="controls">
+      <button mat-icon-button type="button" matSuffix (click)="destroyForm()">
+        <mat-icon aria-hidden="false" aria-label="icon" fontIcon="cancel" color="accent"></mat-icon>
+      </button>
+      <button mat-icon-button type="submit" matSuffix [disabled]="isActionDisabled || isSubmitDisabled">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="icon"
+          fontIcon="save"
+          [color]="isActionDisabled || isSubmitDisabled ? '' : 'primary'"></mat-icon>
+      </button>
+    </div>
+  </form>
+} @else {
+  <div class="row">
+    <span class="time">{{ action }}: {{ time }}</span>
+    <div class="controls">
+      <button mat-icon-button matSuffix [disabled]="isActionDisabled" (click)="createTimeForm()">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="icon"
+          fontIcon="edit_square"
+          [color]="isActionDisabled ? '' : 'primary'"></mat-icon>
+      </button>
+    </div>
+  </div>
+}

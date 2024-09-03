@@ -42,6 +42,7 @@ import { FastErrorStateMatcher } from '../../validators/error.state.matchers';
 import { ArrayControlErrorMessageComponent } from '../../components/array-control-error-message/array-control-error-message';
 import { ARRAY_CONTROL_CUSTOM_ERRORS } from '../../constants/customTokens';
 import { adminRidesFormErrorMessages } from '../../constants/adminRidesFormErrorMessages';
+import { AdminSheduleTimeComponent } from '../../components/admin-shedule-time/admin-shedule-time.component';
 
 @Component({
   selector: 'app-admin-routes-ride',
@@ -52,10 +53,11 @@ import { adminRidesFormErrorMessages } from '../../constants/adminRidesFormError
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatPaginatorModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
     FormErrorMessageComponent,
     ArrayControlErrorMessageComponent,
+    AdminSheduleTimeComponent,
     NgClass,
     CurrencyPipe,
   ],
@@ -72,6 +74,9 @@ export class AdminRoutesRideComponent {
   private destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
   private authService = inject(AuthService);
+  protected firstTime = '0001-01-01T01:01:01.000Z';
+  protected lastTime = '3001-01-01T01:01:01.000Z';
+
   matcher = inject(FastErrorStateMatcher);
   routeId: string;
   routeNotFound: WritableSignal<string> = signal('');
@@ -313,6 +318,44 @@ export class AdminRoutesRideComponent {
             .subscribe();
         }
       }
+    }
+  }
+
+  changeTime(v: { rideId: number; segmentIndex: number; time: string[] }) {
+    const route = this.routeSig();
+    const ride = route?.schedule.find(x => x.rideId === v.rideId);
+    if (ride) {
+      const newSegments: Segment[] = ride.segments.map((x, i) => {
+        const segment: Segment = x;
+        if (i === v.segmentIndex) {
+          segment.time = v.time;
+        }
+        return { ...segment };
+      });
+
+      const body = {
+        segments: newSegments,
+      };
+      this.isSubmitting.set(true);
+
+      this.adminRidesService
+        .updateRide({ routeId: this.routeId, rideId: ride.rideId }, body)
+        .pipe(
+          tap(data => {
+            this.isSubmitting.set(false);
+            if (data.status === AdminRoutesResponseStatus.OK) {
+              this.destroyPriceForm();
+            } else {
+              this.handleHttpError(
+                data.error?.reason ?? '',
+                data.error?.message ?? 'Something went wrong',
+                ride.rideId,
+              );
+            }
+          }),
+          takeUntilDestroyed(this.destroyRef),
+        )
+        .subscribe();
     }
   }
 
