@@ -2,6 +2,14 @@
 @import 'palette-color';
 @import 'variables';
 
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
 .routes {
   display: flex;
   flex-direction: column;
@@ -11,6 +19,10 @@
   background-color: $color-neutral-95;
 }
 
+.createButton {
+  align-self: flex-end;
+}
+
 .routeForm {
   display: flex;
   flex-direction: column;
@@ -18,8 +30,8 @@
   gap: 10px;
   margin-bottom: 15px;
 
-  .matCard {
-    background-color: $color-neutral-95;
+  & .matCard {
+    background-color: $color-pr-98;
   }
 
   input::placeholder {

@@ -1,3 +1,15 @@
+<h5 class="devider">Routes</h5>
+
+<button
+  mat-flat-button
+  color="primary"
+  class="full-width createButton"
+  type="submit"
+  [disabled]="createFormDisabled"
+  (click)="createNewForm()">
+  Create
+</button>
+
 @if (form) {
   <form [formGroup]="form" class="routeForm" (ngSubmit)="handleSubmit()">
     <mat-card class="matCard" appearance="outlined">
@@ -121,17 +133,6 @@
     </mat-card>
   </form>
 }
-<button
-  mat-flat-button
-  color="primary"
-  class="full-width createButton"
-  type="submit"
-  [disabled]="createFormDisabled"
-  (click)="createNewForm()">
-  Create
-</button>
-
-<h5 class="devider">Routes</h5>
 
 @let routes = combinedSignal();
 <div class="routes">
