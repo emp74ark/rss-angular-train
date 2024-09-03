@@ -14,6 +14,9 @@ import { StationsService } from '../../services/stations.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { AuthService } from '../../services/auth.service';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-stations-list',
@@ -37,6 +40,8 @@ export class StationsListComponent implements OnInit {
   stationService = inject(StationsService);
   destroyRef = inject(DestroyRef);
   stations = signal<StationConnections[]>([]);
+  private authService = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
 
   pageLimit = 5;
   currentPage = signal<number>(0);
@@ -65,7 +70,51 @@ export class StationsListComponent implements OnInit {
   }
 
   removeStation(id: number) {
-    this.stationService.deleteStation(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    const cityName = this.getCity(id);
+    this.stationService
+      .deleteStation(id)
+      .pipe(
+        tap(data => {
+          let dataObj = {};
+
+          if (data) {
+            const reason = data.error?.reason ?? '';
+            const message = data.error?.message ?? 'Something went wrong';
+            let title = '';
+            if (reason === 'invalidAccessToken') {
+              this.authService.logOut();
+              title = 'Invalid Access Token';
+            } else if (reason === 'recordInUse') {
+              title = `${cityName} is already used.`;
+            } else {
+              title = message;
+            }
+            dataObj = {
+              title,
+              showCancel: false,
+              confirmText: 'Ok',
+              confirmColor: 'accent',
+            };
+          } else {
+            dataObj = {
+              title: `Station ${cityName} deleted.`,
+              showCancel: false,
+              showOkIcon: true,
+              confirmText: 'Ok',
+              confirmColor: 'accent',
+            };
+          }
+
+          this.dialog.open(ConfirmModalComponent, {
+            width: '320px',
+            enterAnimationDuration: '500ms',
+            exitAnimationDuration: '250ms',
+            data: dataObj,
+          });
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   onPaginator($event: PageEvent) {
