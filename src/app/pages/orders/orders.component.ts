@@ -14,11 +14,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { combineLatest, map, Observable, switchMap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { ModalWindowComponent } from '../../components/modal-window/modal-window.component';
+import { FilterByPipe } from '../../pipes/filterby.pipe';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [MatTabsModule, OrderCardComponent, AsyncPipe, ModalWindowComponent],
+  imports: [MatTabsModule, OrderCardComponent, AsyncPipe, ModalWindowComponent, FilterByPipe],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',
 })
