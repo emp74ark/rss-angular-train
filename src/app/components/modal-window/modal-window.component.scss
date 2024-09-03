@@ -1,5 +1,6 @@
 @import 'theme';
 @import 'palette-color';
+@import 'variables';
 
 .wrapper {
   position: fixed;
@@ -22,6 +23,9 @@
   border-radius: 0.5rem;
   z-index: 2;
   overflow: hidden;
+  @media #{$media-mobile} {
+    width: 80%;
+  }
 }
 
 .header {
