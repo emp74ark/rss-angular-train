@@ -28,9 +28,14 @@ export class SearchService {
     time?: string;
   }) {
     console.log('search');
+    const newParams = {
+      ...searchParams,
+      ...(searchParams.time ? { time: new Date(searchParams.time).getTime() } : {}),
+    };
+
     return this.httpClient
       .get<SearchResult>('/api/search', {
-        params: searchParams,
+        params: newParams,
       })
       .pipe(
         tap(result => {
