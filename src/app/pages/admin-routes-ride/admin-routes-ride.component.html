@@ -1,2 +1,144 @@
-<p>admin-routes-ride works!</p>
-<h2>Route id {{ routeId }}</h2>
+<header class="pageHeader">
+  <button mat-mini-fab class="backButton" color="primary" (click)="backClick()" type="button">
+    <mat-icon aria-hidden="false" aria-label="icon" fontIcon="arrow_back" color="neutral"></mat-icon>
+  </button>
+  <h5>Route {{ routeId }}</h5>
+</header>
+
+@let notFoundText = routeNotFound();
+@let filledRoute = routeSchedulesFilled();
+
+@if (notFoundText) {
+  <h4>Route not found</h4>
+} @else if (filledRoute) {
+  <button
+    mat-flat-button
+    color="primary"
+    class="full-width createButton"
+    type="submit"
+    [disabled]="createFormDisabled"
+    (click)="createNewForm()">
+    Create ride
+  </button>
+
+  @let editPriceData = editPriceSig();
+  @for (ride of filledRoute.filledShedule; track ride.rideId; let first = $first, last = $last, rideIndex =  $index) {
+    <mat-card class="matCard createdCard" appearance="outlined">
+      <mat-card-header class="cardHeader">
+        <div class="headerContainer">
+          <mat-card-title class="cardTitle">Ride {{ ride.rideId }}</mat-card-title>
+          <mat-card-subtitle class="cardSubtitle">
+            <button
+              mat-mini-fab
+              class="deleteRow"
+              color="warn"
+              (click)="deleteRideModal(ride.rideId)"
+              type="button"
+              [disabled]="isDeleteRideDisable">
+              <mat-icon aria-hidden="false" aria-label="icon" fontIcon="delete" color="warn"></mat-icon>
+            </button>
+          </mat-card-subtitle>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="cardContent">
+        <div class="dataContainer">
+          @for (
+            segment of ride.filledSegments;
+            track segmentIndex;
+            let segmentFirst = $first, segmentLast = $last, segmentIndex = $index
+          ) {
+            <div [ngClass]="{ stationsBlock: true, first: segmentFirst, last: segmentLast }">
+              <span class="cityName">{{ segment.stationFrom.city }}</span>
+              <span class="cityName">{{ segment.stationTo.city }}</span>
+            </div>
+            <div [ngClass]="{ timeBlock: true, first: segmentFirst, last: segmentLast }">
+              <span class="time">Defarture: {{ segment.formattedTimeFrom }}</span>
+              <span class="time">Arrival: {{ segment.formattedTimeTo }}</span>
+            </div>
+
+            @if (priceEditForm && ride.rideId === editPriceData.rideId && segmentIndex === editPriceData.segmentIndex) {
+              <form [formGroup]="priceEditForm" class="priceEditForm" (ngSubmit)="handlePriceEditFormSubmit()">
+                <mat-card class="matCard" appearance="outlined">
+                  <mat-card-header class="cardHeader">
+                    <mat-card-title>Price</mat-card-title>
+                    <mat-card-subtitle>
+                      <button mat-icon-button type="button" matSuffix (click)="destroyPriceForm()">
+                        <mat-icon aria-hidden="false" aria-label="icon" fontIcon="cancel" color="accent"></mat-icon>
+                      </button>
+                      <button mat-icon-button type="submit" matSuffix [disabled]="isEditPriceSubmitDisable">
+                        <mat-icon
+                          aria-hidden="false"
+                          aria-label="icon"
+                          fontIcon="save"
+                          [color]="isEditPriceSubmitDisable ? '' : 'primary'"></mat-icon>
+                      </button>
+                    </mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content class="cardContent">
+                    <div class="formContent">
+                      <div class="carriages" formArrayName="priceArray">
+                        @for (
+                          priceControl of priceEditForm.controls.priceArray.controls;
+                          let i = $index;
+                          track $index
+                        ) {
+                          <div class="carriagesRow">
+                            <mat-form-field class="carriagesField" [subscriptSizing]="'dynamic'">
+                              <mat-label>{{ segment.filledPrice[i].carriageName }}</mat-label>
+                              <input
+                                matInput
+                                [errorStateMatcher]="matcher"
+                                type="number"
+                                min="0"
+                                placeholder="Enter segment price"
+                                formControlName="{{ i }}"
+                                class="priceInput" />
+
+                              <mat-error><app-array-control-error-message formControlName="{{ i }}" /></mat-error>
+                            </mat-form-field>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </mat-card-content>
+                  <mat-card-actions class="cardControls"></mat-card-actions>
+                  <mat-card-footer class="cardFooter"> </mat-card-footer>
+                </mat-card>
+              </form>
+            } @else {
+              <div [ngClass]="{ priceBlock: true, first: segmentFirst, last: segmentLast }">
+                <div class="priceRow">
+                  <span class="priceTitle">Price:</span>
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    [disabled]="isEditPriceDisable"
+                    (click)="createPriceForm(ride.rideId, rideIndex, segment, segmentIndex)">
+                    <mat-icon
+                      aria-hidden="false"
+                      aria-label="icon"
+                      fontIcon="edit_square"
+                      [color]="isEditPriceDisable ? '' : 'primary'"></mat-icon>
+                  </button>
+                </div>
+                @for (
+                  filledCarriage of segment.filledPrice;
+                  let carrIndex = $index;
+                  track filledCarriage.carriageCode
+                ) {
+                  <div class="priceRow">
+                    <span class="carriageName">{{ filledCarriage.carriageName }}</span>
+                    <span class="price">-</span>
+                    <span class="price">{{ filledCarriage.carriagePrice | currency }}</span>
+                  </div>
+                }
+              </div>
+            }
+          }
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="cardControls"> </mat-card-actions>
+      <mat-card-footer class="cardFooter"> </mat-card-footer>
+    </mat-card>
+  }
+}
