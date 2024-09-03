@@ -34,5 +34,10 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/admin/admin-routes').then(routes => routes.AdminRoutes),
     canMatch: [adminGuard],
   },
+  {
+    path: 'orders',
+    loadComponent: () => import('./pages/order-page/order-page.component').then(m => m.OrderPageComponent),
+    canMatch: [authGuard],
+  },
   { path: '**', component: NotFoundPageComponent },
 ];

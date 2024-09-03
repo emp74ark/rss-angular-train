@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, output, OnChanges, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, OnChanges, output, Signal } from '@angular/core';
 
 type SeatState = { id: number; state: 'free' | 'booked' | 'disabled' };
 
@@ -21,14 +21,25 @@ export class CarriageComponent implements OnChanges {
     const maxNum = this.initialValue() + this.rows() * (this.leftSeats() + this.rightSeats());
     return maxNum > 9999 ? 2 : maxNum > 999 ? 1 : 0;
   });
-  occupiedSeat = input<number[]>([]);
+  occupiedSeats = input<number[]>([]);
+  selectedSeat = input<number>();
 
-  selectSeat = output<string>();
+  selectSeat = output<number | undefined>();
 
   seats: Record<'left' | 'right', SeatState[][]> = {
     left: [],
     right: [],
   };
+
+  getSeatState(id: number) {
+    if (!this.editable()) {
+      return 'disabled';
+    }
+    if (this.occupiedSeats().includes(id)) {
+      return 'booked';
+    }
+    return 'free';
+  }
 
   ngOnChanges() {
     this.seats = {
@@ -43,7 +54,7 @@ export class CarriageComponent implements OnChanges {
       for (let l = 0; l < this.rightSeats(); l++) {
         rightSeatLine[l] = {
           id: seatCounter,
-          state: this.editable() ? 'free' : 'disabled',
+          state: this.getSeatState(seatCounter),
         };
         seatCounter++;
       }
@@ -54,7 +65,7 @@ export class CarriageComponent implements OnChanges {
       for (let l = 0; l < this.leftSeats(); l++) {
         leftSeatLine[l] = {
           id: seatCounter,
-          state: this.editable() ? 'booked' : 'disabled',
+          state: this.getSeatState(seatCounter),
         };
         seatCounter++;
       }
@@ -64,10 +75,16 @@ export class CarriageComponent implements OnChanges {
 
   onClick($event: Event) {
     const target = $event.target as HTMLInputElement;
-    this.selectSeat.emit(target.id);
+    const id = parseInt(target.id);
+    const checked = target.checked;
+    if (this.selectedSeat() && id === this.selectedSeat() && !checked) {
+      this.selectSeat.emit(undefined);
+    } else {
+      this.selectSeat.emit(id);
+    }
   }
 
   isDisabled(state: string) {
-    return state === 'disabled';
+    return state !== 'free';
   }
 }
