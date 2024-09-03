@@ -1,0 +1,9 @@
+@let title = data.title;
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+  <p>Are you sure you want to cancel this order?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="cancelOrder()">Yes</button>
+  <button mat-button mat-dialog-close (click)="closeModal()">Cancel</button>
+</mat-dialog-actions>
