@@ -1,0 +1,109 @@
+@import 'theme';
+@import 'palette-color';
+@import 'variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+
+  .pageHeader {
+    display: flex;
+    gap: 10px;
+  }
+
+  .matCard {
+    background-color: $color-neutral-95;
+  }
+
+  .createdCard.matCard {
+    width: 100%;
+    .headerContainer {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      gap: 10px;
+
+      .cardTitle {
+        font-size: 30px;
+        font-weight: 700;
+      }
+    }
+
+    .cardContent {
+      padding-top: 20px 0 0;
+      .dataContainer {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: repeat(auto-fill);
+        .stationsBlock,
+        .timeBlock,
+        .priceBlock {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding: 0px 16px;
+
+          &.first {
+            padding-top: 16px;
+          }
+          &.last {
+            padding-bottom: 16px;
+          }
+
+          .cityName {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1em;
+          }
+
+          &:not(.first) {
+            .cityName:first-child {
+              opacity: 0;
+            }
+          }
+          &:not(.last) {
+            .cityName:last-child {
+              position: relative;
+              top: 0.5em;
+            }
+          }
+        }
+
+        .stationsBlock {
+          background-color: $color-neutral-90;
+          &.first {
+            border-top-left-radius: 10px;
+          }
+
+          &.last {
+            border-bottom-left-radius: 10px;
+          }
+        }
+
+        .priceBlock {
+          justify-content: center;
+          padding: 40px 10px;
+
+          .priceTitle {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1em;
+          }
+
+          .priceRow {
+            display: flex;
+            gap: 10px;
+            align-items: baseline;
+            &:first-child {
+              justify-content: space-between;
+              gap: 5px 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
