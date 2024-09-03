@@ -3,7 +3,7 @@
   <mat-card-content class="card-content">
     <div>Seat: {{ selectedSeat()?.id }}</div>
     <div>Price: {{ selectedSeat()?.price | currency: 'USD' }}</div>
-    <button mat-flat-button (click)="onOrder()" [disabled]="!selectedSeat()?.id">Book the trip</button>
+    <button class="btn" mat-flat-button (click)="onOrder()" [disabled]="!selectedSeat()?.id">Book the trip</button>
   </mat-card-content>
 </mat-card>
 
