@@ -84,7 +84,7 @@ export class RegisterFormComponent {
         tap(data => {
           this.isRegistering.set(false);
           if (data.status === AuthResponseStatus.OK) {
-            this.router.navigate(['/']);
+            this.router.navigate(['/signin']);
           } else {
             if (data.error?.reason === 'invalidUniqueKey') {
               this.previousFormEmail.email = email;
