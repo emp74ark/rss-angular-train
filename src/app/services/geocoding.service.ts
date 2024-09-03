@@ -10,22 +10,19 @@ export class GeocodingService {
   constructor(private httpClient: HttpClient) {}
 
   getCoordinatesByName(searchExp: string) {
-    const url = `${environment.geo_api_url}/maps/api/geocode/json`;
+    const url = `${environment.geo_api_url}/coordinates`;
     return this.httpClient.get<{ results: MapsApiCoordinates[] }>(url, {
       params: {
-        key: environment.geo_api_key,
-        address: searchExp,
+        input: searchExp,
       },
     });
   }
 
   getAutoCompleteSuggestions(searchExp: string) {
-    const url = `${environment.geo_api_url}/maps/api/place/autocomplete/json`;
+    const url = `${environment.geo_api_url}/autocomplete`;
     return this.httpClient.get<MapsApiSuggestions>(url, {
       params: {
-        key: environment.geo_api_key,
         input: searchExp,
-        types: 'geocode',
       },
     });
   }
