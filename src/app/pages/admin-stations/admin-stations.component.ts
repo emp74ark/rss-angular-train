@@ -13,6 +13,9 @@ import { StationConnections } from '../../models/stations';
 import { MapComponent } from '../../components/map/map.component';
 import { GeoLocation } from '../../models/geo';
 import { StationsListComponent } from '../../components/stations-list/stations-list.component';
+import { AuthService } from '../../services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-admin-stations',
@@ -39,6 +42,8 @@ export class AdminStationsComponent implements OnInit {
   stationService = inject(StationsService);
   geoService = inject(GeocodingService);
   destroyRef = inject(DestroyRef);
+  private authService = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
 
   form: FormGroup;
 
@@ -175,6 +180,42 @@ export class AdminStationsComponent implements OnInit {
               latitude: results[0].geometry.location.lat,
               longitude: results[0].geometry.location.lng,
               relations: relationIds,
+            });
+          }),
+          tap(data => {
+            let dataObj = {};
+
+            if (data) {
+              const reason = data.error?.reason ?? '';
+              const message = data.error?.message ?? 'Something went wrong';
+              let title = '';
+              if (reason === 'invalidAccessToken') {
+                this.authService.logOut();
+                title = 'Invalid Access Token';
+              } else {
+                title = message;
+              }
+              dataObj = {
+                title,
+                showCancel: false,
+                confirmText: 'Ok',
+                confirmColor: 'accent',
+              };
+            } else {
+              dataObj = {
+                title: `Station ${cityName} created.`,
+                showCancel: false,
+                showOkIcon: true,
+                confirmText: 'Ok',
+                confirmColor: 'accent',
+              };
+            }
+
+            this.dialog.open(ConfirmModalComponent, {
+              width: '320px',
+              enterAnimationDuration: '500ms',
+              exitAnimationDuration: '250ms',
+              data: dataObj,
             });
           }),
           takeUntilDestroyed(this.destroyRef),
