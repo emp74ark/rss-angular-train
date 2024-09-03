@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
-import { ApiStatus, RideAdminRoute, Route } from '../models/common';
-import { RouteSchedule } from '../models/route';
+import { ApiStatus, Route } from '../models/common';
+import { ExtendedRoute, RouteSchedule } from '../models/route';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -79,7 +79,7 @@ export class RoutesService {
   }
 
   retrieveRouteInfo(id: number) {
-    return this.httpClient.get<RideAdminRoute[]>(`/api/route/${id}`).pipe(
+    return this.httpClient.get<ExtendedRoute[]>(`/api/route/${id}`).pipe(
       tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
       }),

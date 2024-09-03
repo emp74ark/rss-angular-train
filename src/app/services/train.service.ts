@@ -17,6 +17,7 @@ export class TrainService {
   }
 
   getInfoBySeat(seat: number, carriages: string[]): BareCarriageInfo | undefined {
+    // number (in train) and code (carriage type)
     const trainConfig = this.createTrainConfig(carriages);
     return trainConfig.find(carriage => seat >= carriage.firstSeat && seat <= carriage.lastSeat);
   }
