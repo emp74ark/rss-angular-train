@@ -51,13 +51,13 @@ export class OrderService {
     );
   }
 
-  cancelOrder(orderId: number) {
+  cancelOrder(orderId: number, all: boolean = false) {
     return this.httpClient.delete<void>(`/api/order/${orderId}`).pipe(
       tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
       }),
       switchMap(() => {
-        return this.getOrders();
+        return this.getOrders(all);
       }),
       catchError(({ error }: HttpErrorResponse) => {
         this.$$apiStatus.next({ success: false, error: error.message });
@@ -67,7 +67,7 @@ export class OrderService {
   }
 
   createOrder(order: OrderBody) {
-    return this.httpClient.post<{ orderId: number }>('/api/order', order).pipe(
+    return this.httpClient.post<{ orderId: string }>('/api/order', order).pipe(
       tap(() => {
         this.$$apiStatus.next({ success: true, error: null });
       }),
