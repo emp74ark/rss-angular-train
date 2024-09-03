@@ -12,10 +12,10 @@ $media-desktop-large: 'screen and (min-width: 1920px)';
     padding: 0 76px;
   }
   @media #{$media-tablets} {
-    padding: 0 20px;
+    padding: 0 28px;
   }
 
   @media #{$media-mobile} {
-    padding: 0 10px;
+    padding: 0 14px;
   }
 }
