@@ -13,6 +13,10 @@
     gap: 10px;
   }
 
+  .createButton {
+    align-self: flex-end;
+  }
+
   .matCard {
     background-color: $color-neutral-95;
   }
@@ -37,6 +41,7 @@
         display: grid;
         grid-template-columns: 1fr 2fr 1fr;
         grid-template-rows: repeat(auto-fill);
+
         .stationsBlock,
         .timeBlock,
         .priceBlock {
@@ -45,6 +50,13 @@
           justify-content: space-between;
           align-items: flex-start;
           padding: 0px 16px;
+          .devider {
+            width: 2em;
+            height: 3px;
+            border-radius: 2px;
+            background-color: $color-neutral-30;
+            opacity: 0;
+          }
 
           &.first {
             padding-top: 16px;
@@ -100,6 +112,36 @@
             &:first-child {
               justify-content: space-between;
               gap: 5px 40px;
+            }
+          }
+        }
+
+        @media (max-width: 899px) {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(auto-fill);
+          .stationsBlock,
+          .timeBlock,
+          .priceBlock {
+            padding: 8px !important;
+            .cityName {
+              opacity: 1 !important;
+              position: static !important;
+              line-height: 1.5em;
+            }
+          }
+          .stationsBlock {
+            border-radius: 20px 20px 0px 0px;
+            background-color: $color-neutral-70;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: 3px;
+            .devider {
+              opacity: 1;
+
+              height: 3px;
+              border-radius: 2px;
+              background-color: $color-neutral-30;
             }
           }
         }

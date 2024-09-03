@@ -36,7 +36,7 @@ export const routes: Routes = [
   },
   {
     path: 'orders',
-    loadComponent: () => import('./pages/order-page/order-page.component').then(m => m.OrderPageComponent),
+    loadComponent: () => import('./pages/orders/orders.component').then(routes => routes.OrdersComponent),
     canMatch: [authGuard],
   },
   { path: '**', component: NotFoundPageComponent },

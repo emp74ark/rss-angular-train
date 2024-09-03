@@ -60,9 +60,13 @@ export class StationsService {
       switchMap(() => {
         return this.getStations();
       }),
-      catchError(({ error }: HttpErrorResponse) => {
+      switchMap(() => {
+        return of(null);
+      }),
+      catchError((httpError: HttpErrorResponse) => {
+        const { error } = httpError;
         this.$$apiStatus.next({ success: false, error: error.message });
-        return of(error);
+        return of(httpError);
       }),
     );
   }
@@ -75,9 +79,13 @@ export class StationsService {
       switchMap(() => {
         return this.getStations();
       }),
-      catchError(({ error }: HttpErrorResponse) => {
+      switchMap(() => {
+        return of(null);
+      }),
+      catchError((httpError: HttpErrorResponse) => {
+        const { error } = httpError;
         this.$$apiStatus.next({ success: false, error: error.message });
-        return of(error);
+        return of(httpError);
       }),
     );
   }

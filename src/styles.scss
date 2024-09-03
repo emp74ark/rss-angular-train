@@ -11,6 +11,7 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   font-size: 16px;
   background-color: var(--mat-app-background-color);
+  overflow-x: hidden;
 }
 
 * {

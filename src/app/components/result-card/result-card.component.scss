@@ -29,6 +29,18 @@
   }
 }
 
+.title {
+  @media #{$media-mobile} {
+    font-size: 18px;
+  }
+}
+
+.subtitle {
+  @media #{$media-mobile} {
+    font-size: 16px;
+  }
+}
+
 .information {
   padding-right: 1rem;
   @media #{$media-desktop} {
@@ -85,6 +97,9 @@
   color: $color-ter-40;
   padding: 0 1rem;
   z-index: 1;
+  @media #{$media-mobile} {
+    font-size: 12px;
+  }
 }
 
 .name {
@@ -96,6 +111,9 @@
   gap: 1rem;
   align-items: center;
   padding-top: 1rem;
+  @media #{$media-mobile} {
+    flex-direction: column;
+  }
 }
 
 .route-info {

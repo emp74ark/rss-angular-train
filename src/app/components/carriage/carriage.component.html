@@ -68,18 +68,20 @@
 
     <div class="appendix"></div>
   </div>
-  <div class="map">
-    <div>
-      <div class="map__item free"></div>
-      <span>free</span>
+  @if (editable()) {
+    <div class="map">
+      <div>
+        <div class="map__item free"></div>
+        <span>free</span>
+      </div>
+      <div>
+        <div class="map__item booked"></div>
+        <span>booked</span>
+      </div>
+      <div>
+        <div class="map__item selected"></div>
+        <span>selected</span>
+      </div>
     </div>
-    <div>
-      <div class="map__item booked"></div>
-      <span>booked</span>
-    </div>
-    <div>
-      <div class="map__item selected"></div>
-      <span>selected</span>
-    </div>
-  </div>
+  }
 </div>
